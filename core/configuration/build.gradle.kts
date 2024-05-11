@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.prography.usm_sample"
+    namespace = "com.prography.configuration"
     kotlinOptions {
         jvmTarget = "1.8"
     }
 }
 dependencies {
-    implementation(project(":core:usm"))
-    implementation(project(":core:configuration"))
     implementation(project(":core:domain"))
+    implementation(libs.kotlin.coroutines)
+    implementation(libs.androidx.compose.viewModel)
 }

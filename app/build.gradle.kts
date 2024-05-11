@@ -20,6 +20,8 @@ android {
 dependencies {
     implementation(project(":feature:usm_sample"))
     implementation(project(":core:domain"))
+    implementation(project(":core:configuration"))
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

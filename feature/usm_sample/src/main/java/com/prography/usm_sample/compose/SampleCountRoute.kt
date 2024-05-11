@@ -7,6 +7,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import com.prography.configuration.toColor
+import com.prography.configuration.ui.GwasuwonConfigurationManager
 import com.prography.usm_sample.SampleCountIntent
 import com.prography.usm_sample.SampleCountUiState
 import com.prography.usm_sample.SampleCountViewModel
@@ -44,7 +46,8 @@ private fun SampleCountScreen(
             modifier = Modifier.clickable {
                 intentInvoker(SampleCountIntent.ClickAddBtn)
             },
-            text = uiState.count
+            text = uiState.count,
+            color = GwasuwonConfigurationManager.colors.textColor.toColor()
         )
     }
 }
