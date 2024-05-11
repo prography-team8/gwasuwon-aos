@@ -18,8 +18,12 @@ android {
 }
 
 dependencies {
+    implementation(project(":feature:usm_sample"))
+    implementation(project(":core:domain"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.viewModel)
     testImplementation(libs.junit)
 }

@@ -9,3 +9,7 @@ android {
         jvmTarget = "1.8"
     }
 }
+dependencies {
+    implementation(project(":core:usm"))
+    implementation(project(":core:domain"))
+}
