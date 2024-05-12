@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
@@ -20,7 +21,7 @@ import kotlinx.coroutines.flow.transform
  * Created by MyeongKi.
  */
 class SampleCountUiMachine(
-    coroutineScope: CoroutineScope,
+    private val coroutineScope: CoroutineScope,
     navigateFlow: MutableSharedFlow<NavigationEvent>,
     saveCurrentCountUseCase: SaveCurrentCountUseCase,
     loadLastCountUseCase: LoadLastCountUseCase,
@@ -72,6 +73,12 @@ class SampleCountUiMachine(
             navigateFlow.emit(NavigationEvent.NavigateSample2(machineInternalState.count))
         }
 
+    init {
+        subscribeOuterNotifyScenarioActionFlow()
+    }
+
     override fun mergeStateChangeScenarioActionsFlow(): Flow<SampleCountMachineState> = merge(addCountActionFlow, refreshActionFlow)
-    override fun mergeOuterNotifyScenarioActionFlow(): Flow<Any> = merge(navigateDetailFlow)
+    override fun subscribeOuterNotifyScenarioActionFlow() {
+        merge(navigateDetailFlow).launchIn(coroutineScope)
+    }
 }
