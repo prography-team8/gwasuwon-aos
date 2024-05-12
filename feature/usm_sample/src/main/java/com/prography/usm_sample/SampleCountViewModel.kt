@@ -21,9 +21,7 @@ class SampleCountViewModel(
         navigateFlow,
         saveCurrentCountUseCase,
         loadLastCountUseCase
-    ).also {
-        it.initMachine()
-    }
+    )
 
     companion object {
         fun provideFactory(
