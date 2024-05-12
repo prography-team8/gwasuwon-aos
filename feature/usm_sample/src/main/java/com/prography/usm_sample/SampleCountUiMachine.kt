@@ -1,5 +1,6 @@
 package com.prography.usm_sample
 
+import com.prography.domain.usecase.LoadLastCountUseCase
 import com.prography.domain.usecase.SaveCurrentCountUseCase
 import com.prography.usm.holder.UiStateMachine
 import com.prography.usm.result.Result
@@ -18,8 +19,29 @@ import kotlinx.coroutines.flow.transform
 class SampleCountUiMachine(
     coroutineScope: CoroutineScope,
     saveCurrentCountUseCase: SaveCurrentCountUseCase,
+    loadLastCountUseCase: LoadLastCountUseCase,
 ) : UiStateMachine<SampleCountUiState, SampleCountMachineState, SampleCountActionEvent, SampleCountIntent>(coroutineScope) {
     override var machineInternalState: SampleCountMachineState = SampleCountMachineState(isLoading = false, count = 0)
+    private val refreshActionFlow = actionFlow
+        .filterIsInstance<SampleCountActionEvent.Refresh>()
+        .transform {
+            emitAll(loadLastCountUseCase().asResult())
+        }
+        .map {
+            when (it) {
+                is Result.Error -> {
+                    machineInternalState.copy(isLoading = false, count = 0)
+                }
+
+                is Result.Loading -> {
+                    machineInternalState.copy(isLoading = true)
+                }
+
+                is Result.Success<Int> -> {
+                    machineInternalState.copy(isLoading = false, count = it.data)
+                }
+            }
+        }
     private val addCountActionFlow = actionFlow
         .filterIsInstance<SampleCountActionEvent.AddCount>()
         .transform {
@@ -35,11 +57,11 @@ class SampleCountUiMachine(
                     machineInternalState.copy(isLoading = true)
                 }
 
-                is Result.Success -> {
+                is Result.Success<Int> -> {
                     machineInternalState.copy(isLoading = false, count = it.data)
                 }
             }
         }
 
-    override fun mergeScenarioActionsFlow(): Flow<SampleCountMachineState> = merge(addCountActionFlow)
+    override fun mergeScenarioActionsFlow(): Flow<SampleCountMachineState> = merge(addCountActionFlow, refreshActionFlow)
 }

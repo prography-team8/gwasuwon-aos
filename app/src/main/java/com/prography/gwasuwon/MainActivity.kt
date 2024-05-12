@@ -25,7 +25,8 @@ class MainActivity : ComponentActivity() {
                 SampleCountRoute(
                     viewModel = viewModel(
                         factory = SampleCountViewModel.provideFactory(
-                            saveCurrentCountUseCase = AppContainer.sampleCountUseCase
+                            saveCurrentCountUseCase = AppContainer.sampleCountUseCase,
+                            loadLastCountUseCase = AppContainer.sampleLoadUseCase
                         )
                     )
                 )
