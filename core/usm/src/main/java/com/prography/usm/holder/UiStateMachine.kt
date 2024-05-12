@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
@@ -47,7 +48,7 @@ abstract class UiStateMachine<
     }
 
     val uiState: StateFlow<UiState> by lazy {
-        mergeScenarioActionsFlow()
+        mergeStateChangeScenarioActionsFlow()
             .onEach { machineInternalState = it }
             .map { it.toUiState() }
             .stateIn(
@@ -57,5 +58,9 @@ abstract class UiStateMachine<
             )
     }
 
-    protected abstract fun mergeScenarioActionsFlow(): Flow<MachineInternalState>
+    protected abstract fun mergeStateChangeScenarioActionsFlow(): Flow<MachineInternalState>
+    protected open fun mergeOuterNotifyScenarioActionFlow(): Flow<Any>? = null
+    fun initMachine() {
+        mergeOuterNotifyScenarioActionFlow()?.launchIn(scope)
+    }
 }

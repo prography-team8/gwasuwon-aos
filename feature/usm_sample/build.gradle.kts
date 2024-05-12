@@ -13,4 +13,5 @@ dependencies {
     implementation(project(":core:usm"))
     implementation(project(":core:configuration"))
     implementation(project(":core:domain"))
+    implementation(project(":core:navigation"))
 }

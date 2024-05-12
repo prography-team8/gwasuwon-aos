@@ -1,5 +1,6 @@
 package com.prography.gwasuwon
 
+import NavigationEvent
 import com.prography.domain.configuration.ConfigurationEvent
 import com.prography.domain.preference.ThemePreferenceImpl
 import com.prography.domain.usecase.LoadLastCountUseCase
@@ -12,8 +13,8 @@ import kotlinx.coroutines.flow.SharedFlow
  * Created by MyeongKi.
  */
 object AppContainer {
-    val configurationEvent: SharedFlow<ConfigurationEvent> = MutableSharedFlow()
-
+    val configurationEvent: MutableSharedFlow<ConfigurationEvent> = MutableSharedFlow()
+    val navigateEventFlow: MutableSharedFlow<NavigationEvent> = MutableSharedFlow()
     val sampleCryptoHelper by lazy {
         SampleCryptoHelper(
             GwasuwonApplication.currentApplication
