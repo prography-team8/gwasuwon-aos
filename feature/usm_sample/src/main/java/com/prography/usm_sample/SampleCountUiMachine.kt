@@ -1,5 +1,6 @@
 package com.prography.usm_sample
 
+import NavigationEvent
 import com.prography.domain.usecase.LoadLastCountUseCase
 import com.prography.domain.usecase.SaveCurrentCountUseCase
 import com.prography.usm.holder.UiStateMachine
@@ -7,10 +8,12 @@ import com.prography.usm.result.Result
 import com.prography.usm.result.asResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.transform
 
 /**
@@ -18,6 +21,7 @@ import kotlinx.coroutines.flow.transform
  */
 class SampleCountUiMachine(
     coroutineScope: CoroutineScope,
+    navigateFlow: MutableSharedFlow<NavigationEvent>,
     saveCurrentCountUseCase: SaveCurrentCountUseCase,
     loadLastCountUseCase: LoadLastCountUseCase,
 ) : UiStateMachine<SampleCountUiState, SampleCountMachineState, SampleCountActionEvent, SampleCountIntent>(coroutineScope) {
@@ -62,6 +66,12 @@ class SampleCountUiMachine(
                 }
             }
         }
+    private val navigateDetailFlow = actionFlow
+        .filterIsInstance<SampleCountActionEvent.NavigateDetail>()
+        .onEach {
+            navigateFlow.emit(NavigationEvent.NavigateSample2(machineInternalState.count))
+        }
 
-    override fun mergeScenarioActionsFlow(): Flow<SampleCountMachineState> = merge(addCountActionFlow, refreshActionFlow)
+    override fun mergeStateChangeScenarioActionsFlow(): Flow<SampleCountMachineState> = merge(addCountActionFlow, refreshActionFlow)
+    override fun mergeOuterNotifyScenarioActionFlow(): Flow<Any> = merge(navigateDetailFlow)
 }

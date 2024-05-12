@@ -9,3 +9,8 @@ android {
         jvmTarget = "1.8"
     }
 }
+
+dependencies {
+    implementation(libs.androidx.navigation)
+    implementation(libs.kotlin.coroutines)
+}

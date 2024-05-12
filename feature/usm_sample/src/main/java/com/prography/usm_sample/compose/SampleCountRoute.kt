@@ -2,6 +2,7 @@ package com.prography.usm_sample.compose
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,12 +48,21 @@ private fun SampleCountScreen(
     intentInvoker: (SampleCountIntent) -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-        Text(
-            modifier = Modifier.clickable {
-                intentInvoker(SampleCountIntent.ClickAddBtn)
-            },
-            text = uiState.count,
-            color = GwasuwonConfigurationManager.colors.textColor.toColor()
-        )
+        Column {
+            Text(
+                modifier = Modifier.clickable {
+                    intentInvoker(SampleCountIntent.ClickAddBtn)
+                },
+                text = uiState.count,
+                color = GwasuwonConfigurationManager.colors.textColor.toColor()
+            )
+            Text(
+                modifier = Modifier.clickable {
+                    intentInvoker(SampleCountIntent.ClickDetailBtn)
+                },
+                text = "go detail",
+                color = GwasuwonConfigurationManager.colors.textColor.toColor()
+            )
+        }
     }
 }
