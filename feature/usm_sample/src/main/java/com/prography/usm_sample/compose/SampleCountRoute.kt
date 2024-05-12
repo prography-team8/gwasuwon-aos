@@ -5,10 +5,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.prography.configuration.toColor
 import com.prography.configuration.ui.GwasuwonConfigurationManager
+import com.prography.usm_sample.SampleCountActionEvent
 import com.prography.usm_sample.SampleCountIntent
 import com.prography.usm_sample.SampleCountUiState
 import com.prography.usm_sample.SampleCountViewModel
@@ -22,6 +24,9 @@ fun SampleCountRoute(
 ) {
     val uiState = viewModel.machine.uiState.collectAsState().value
     val intentInvoker = viewModel.machine.intentInvoker
+    LaunchedEffect(Unit) {
+        viewModel.machine.eventInvoker(SampleCountActionEvent.Refresh)
+    }
     when (uiState) {
         is SampleCountUiState.Loading -> {
             Text(text = "Loading")

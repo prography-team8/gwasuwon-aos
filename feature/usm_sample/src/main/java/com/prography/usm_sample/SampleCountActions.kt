@@ -9,6 +9,7 @@ import com.prography.usm.action.Intent
 
 sealed interface SampleCountActionEvent : ActionEvent {
     data object AddCount : SampleCountActionEvent
+    data object Refresh : SampleCountActionEvent
 }
 
 sealed interface SampleCountIntent : Intent<SampleCountActionEvent> {

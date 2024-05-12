@@ -8,17 +8,12 @@ import kotlinx.coroutines.flow.flow
 /**
  * Created by MyeongKi.
  */
-class SaveCurrentCountUseCase(
+class LoadLastCountUseCase(
     private val cryptoHelper: CryptoHelper
 ) {
-    operator fun invoke(count: Int): Flow<Int> = flow {
-        if (count < 0) {
-            throw InvalidCount()
-        }
-        cryptoHelper.encryptContentsAndStore(count.toString())
+    operator fun invoke(): Flow<Int> = flow {
+        val lastCount = cryptoHelper.decryptContents()?.toInt()
         delay(1000L)
-        emit(count)
+        emit(lastCount!!)
     }
-
-    class InvalidCount : Exception()
 }

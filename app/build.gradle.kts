@@ -21,6 +21,7 @@ dependencies {
     implementation(project(":feature:usm_sample"))
     implementation(project(":core:domain"))
     implementation(project(":core:configuration"))
+    implementation(project(":core:utils"))
 
 
     implementation(libs.androidx.core.ktx)
