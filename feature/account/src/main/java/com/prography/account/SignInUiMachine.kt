@@ -2,6 +2,7 @@ package com.prography.account
 
 import NavigationEvent
 import com.prography.domain.account.SocialLoginEvent
+import com.prography.domain.account.exception.NotFoundAccountException
 import com.prography.domain.account.usecase.SignInUseCase
 import com.prography.usm.holder.UiStateMachine
 import com.prography.usm.result.Result
@@ -26,22 +27,9 @@ class SignInUiMachine(
     socialLoginFlow: MutableSharedFlow<SocialLoginEvent>,
     signInUseCase: SignInUseCase,
 ) : UiStateMachine<SignInUiState, SignInMachineState, SignInActionEvent, SignInIntent>(
-    coroutineScope
+    coroutineScope,
+    merge(socialLoginFlow.toSignUpAction())
 ) {
-    private val accountOuterToActionFlow = socialLoginFlow.mapNotNull {
-        when (it) {
-            is SocialLoginEvent.GetOnSuccessSocialLoginAccessKey -> {
-                SignInActionEvent.RequestSignIn(type = it.type, accessKey = it.accessKey)
-            }
-
-            is SocialLoginEvent.GetOnFailSocialLoginAccessKey -> {
-                SignInActionEvent.ShowFailSocialLoginFail(type = it.type)
-            }
-
-            else -> null
-        }
-    }
-    override val fromOutsideActionFlowMerged: Flow<SignInActionEvent> = merge(accountOuterToActionFlow)
 
     override var machineInternalState: SignInMachineState = SignInMachineState(
         isLoading = false
@@ -55,10 +43,12 @@ class SignInUiMachine(
         .onEach {
             when (it) {
                 is Result.Error -> {
-                    //FIXME error code에 따라서 signUp page로 바로 랜딩할지 또는 회원가입 확인 다이얼로그를 노출하고 랜딩으로 이동할지 결정이 필요.
+                    if (it.exception is NotFoundAccountException) {
+                        eventInvoker(SignInActionEvent.NavigateSignUpRoute)
+                    }
                 }
 
-                is Result.Success<Unit> -> {
+                is Result.Success -> {
                     eventInvoker(SignInActionEvent.NavigateLessonRoute)
                 }
 
@@ -75,7 +65,7 @@ class SignInUiMachine(
                     machineInternalState.copy(isLoading = true)
                 }
 
-                is Result.Success<Unit> -> {
+                is Result.Success -> {
                     machineInternalState.copy(isLoading = false)
                 }
             }
@@ -115,5 +105,19 @@ class SignInUiMachine(
             requestSignInFlow,
             showFailSocialLoginFailFlow
         )
+    }
+}
+
+private fun MutableSharedFlow<SocialLoginEvent>.toSignUpAction(): Flow<SignInActionEvent> = this.mapNotNull {
+    when (it) {
+        is SocialLoginEvent.GetOnSuccessSocialLoginAccessKey -> {
+            SignInActionEvent.RequestSignIn(type = it.type, accessKey = it.accessKey)
+        }
+
+        is SocialLoginEvent.GetOnFailSocialLoginAccessKey -> {
+            SignInActionEvent.ShowFailSocialLoginFail(type = it.type)
+        }
+
+        else -> null
     }
 }

@@ -7,7 +7,7 @@ import com.prography.account.RootSocialLoginManager
 /**
  * Created by MyeongKi.
  */
-class GwasuwonApplication:Application() {
+class GwasuwonApplication : Application() {
     init {
         this.also { instance = it }
     }
@@ -16,6 +16,7 @@ class GwasuwonApplication:Application() {
         super.onCreate()
         RootSocialLoginManager.intialManager(this, AppContainer.socialLoginEventFlow)
     }
+
     companion object {
         private var instance: GwasuwonApplication? = null
         val currentApplication

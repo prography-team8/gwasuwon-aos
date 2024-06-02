@@ -32,7 +32,7 @@ fun MutableSharedFlow<NavigationEvent>.subscribeNavigationEvent(
                 }
 
                 is NavigationEvent.NavigateSignUpRoute -> {
-                    navActions.navigateSignInRoute()
+                    navActions.navigateSignUpRoute()
 
                 }
 

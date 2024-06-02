@@ -46,7 +46,7 @@ fun GwasuwonNavGraph(
                         factory = SignInViewModel.provideFactory(
                             navigateFlow = AppContainer.navigateEventFlow,
                             signInUseCase = AppContainer.signInUseCase,
-                            accountOuterFlow = AppContainer.socialLoginEventFlow
+                            socialLoginFlow = AppContainer.socialLoginEventFlow
                         )
                     )
                 )
