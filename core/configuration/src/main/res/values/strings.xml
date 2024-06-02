@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="sample_title">Sample Title</string>
+    <string name="kakao_login">카카오 로그인</string>
+    <string name="sign_in_title">Gwasuwon</string>
+    <string name="sign_in_desc">과외 수업을 원하는 사람들</string>
+
 </resources>

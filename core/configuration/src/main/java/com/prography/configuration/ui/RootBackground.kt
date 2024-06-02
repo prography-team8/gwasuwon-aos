@@ -7,6 +7,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.prography.configuration.ColorsTheme
 import com.prography.configuration.toColor
 
@@ -21,10 +22,15 @@ val LocalColors = staticCompositionLocalOf {
 fun RootBackground(viewModel: ConfigurationStateViewModel, content: @Composable () -> Unit) {
     val state = viewModel.configurationState.collectAsState().value
     GwasuwonConfiguration(configurationState = state) {
+        val systemUiController = rememberSystemUiController()
+        systemUiController.setSystemBarsColor(
+            color = GwasuwonConfigurationManager.colors.semanticBackgroundNormalNormal.toColor()
+        )
+
         Surface(
             modifier = Modifier
                 .fillMaxSize(),
-            color = GwasuwonConfigurationManager.colors.backgroundColor.toColor()
+            color = GwasuwonConfigurationManager.colors.semanticBackgroundNormalNormal.toColor()
         ) {
             content()
         }

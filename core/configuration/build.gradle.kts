@@ -13,4 +13,6 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(libs.kotlin.coroutines)
     implementation(libs.androidx.compose.viewModel)
+    implementation(libs.android.systemuicontroller)
+
 }
