@@ -1,5 +1,4 @@
 import androidx.navigation.NamedNavArgument
-import androidx.navigation.navArgument
 
 /**
  * Created by MyeongKi.
@@ -32,18 +31,18 @@ sealed interface GwasuwonPath {
 
     }
 
-    data object Sample1Path : GwasuwonPath {
-        override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.SAMPLE_HOST
+    data object SingInPath : GwasuwonPath {
+        override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.SIGN_IN
         override val arguments: List<NamedNavArgument> = listOf()
     }
 
-    data class Sample2Path(val currentCount: Int) : GwasuwonPath {
-        override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.SAMPLE_HOST2
-        override val arguments: List<NamedNavArgument> =
-            listOf(navArgument(ArgumentName.CURRENT_COUNT.name) { defaultValue = currentCount })
+    data object SingUpPath : GwasuwonPath {
+        override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.SIGN_UP
+        override val arguments: List<NamedNavArgument> = listOf()
+    }
 
-        enum class ArgumentName {
-            CURRENT_COUNT
-        }
+    data object LessonPath : GwasuwonPath {
+        override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.LESSON
+        override val arguments: List<NamedNavArgument> = listOf()
     }
 }

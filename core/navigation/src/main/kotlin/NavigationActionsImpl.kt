@@ -7,21 +7,31 @@ import androidx.navigation.NavHostController
 class NavigationActions(
     private val navController: NavHostController, private val onEmptyBackStack: () -> Unit
 ) {
-    fun navigateSample1() {
-        navController.navigate(GwasuwonPath.Sample1Path.getNavigation()) {
+    fun navigateSignUpRoute() {
+        navController.navigate(GwasuwonPath.SingUpPath.getNavigation()) {
             popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
                 saveState = true
             }
         }
     }
 
-    fun navigateSample2(currentCount: Int) {
-        navController.navigate(GwasuwonPath.Sample2Path(currentCount).getNavigation()) {
+    fun navigateSignInRoute() {
+        navController.navigate(GwasuwonPath.SingInPath.getNavigation()) {
             popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
                 saveState = true
             }
         }
     }
+
+    fun navigateLessounRoute() {
+        navController.navigate(GwasuwonPath.LessonPath.getNavigation()) {
+            popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+        }
+    }
+
+
     fun popBackStack() {
         if (!navController.popBackStack()) {
             onEmptyBackStack()

@@ -21,6 +21,7 @@ androidTargetSdk = "34"
 androidxJunit = "1.1.5"
 espressoCoreVersion = "3.5.1"
 security = "1.0.0"
+kakao-sdk = "2.20.1"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -39,7 +40,8 @@ security-crypto = {group = "androidx.security", name = "security-crypto", versio
 androidx-navigation = {group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation"}
 #kotlin
 kotlin-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
-
+#kakao
+kakao-login = {group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-sdk"}
 #gradle
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }

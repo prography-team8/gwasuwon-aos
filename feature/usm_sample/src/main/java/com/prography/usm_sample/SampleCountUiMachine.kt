@@ -70,15 +70,11 @@ class SampleCountUiMachine(
     private val navigateDetailFlow = actionFlow
         .filterIsInstance<SampleCountActionEvent.NavigateDetail>()
         .onEach {
-            navigateFlow.emit(NavigationEvent.NavigateSample2(machineInternalState.count))
         }
 
+    override val outerNotifyScenarioActionFlow = merge(navigateDetailFlow)
     init {
-        subscribeOuterNotifyScenarioActionFlow()
+        initMachine()
     }
-
     override fun mergeStateChangeScenarioActionsFlow(): Flow<SampleCountMachineState> = merge(addCountActionFlow, refreshActionFlow)
-    override fun subscribeOuterNotifyScenarioActionFlow() {
-        merge(navigateDetailFlow).launchIn(coroutineScope)
-    }
 }

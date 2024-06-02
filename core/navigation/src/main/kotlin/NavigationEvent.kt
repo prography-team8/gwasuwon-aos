@@ -8,11 +8,11 @@ import kotlinx.coroutines.flow.onEach
  * Created by MyeongKi.
  */
 sealed interface NavigationEvent {
-    data class NavigateSample2(
-        val currentCount: Int
-    ) : NavigationEvent
+    data object NavigateSignInRoute : NavigationEvent
+    data object NavigateSignUpRoute : NavigationEvent
 
-    data object popBack : NavigationEvent
+    data object NavigateLessonRoute : NavigationEvent
+    data object PopBack : NavigationEvent
 }
 
 fun MutableSharedFlow<NavigationEvent>.subscribeNavigationEvent(
@@ -22,11 +22,21 @@ fun MutableSharedFlow<NavigationEvent>.subscribeNavigationEvent(
     return this
         .onEach {
             when (it) {
-                is NavigationEvent.NavigateSample2 -> {
-                    navActions.navigateSample2(it.currentCount)
+                is NavigationEvent.NavigateSignInRoute -> {
+                    navActions.navigateSignInRoute()
                 }
 
-                is NavigationEvent.popBack -> {
+                is NavigationEvent.NavigateLessonRoute -> {
+                    navActions.navigateLessounRoute()
+
+                }
+
+                is NavigationEvent.NavigateSignUpRoute -> {
+                    navActions.navigateSignInRoute()
+
+                }
+
+                is NavigationEvent.PopBack -> {
                     navActions.popBackStack()
                 }
             }
