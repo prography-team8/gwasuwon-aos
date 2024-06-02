@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.prography.account.SignInViewModel
 import com.prography.account.compose.SignInRoute
+import com.prography.domain.account.model.SocialLoginType
 import com.prography.gwasuwon.AppContainer
 import subscribeNavigationEvent
 
@@ -52,9 +53,12 @@ fun GwasuwonNavGraph(
                 )
             }
         }
-        with(GwasuwonPath.SingUpPath) {
+        with(GwasuwonPath.SingUpPath()) {
             composable(getDestination(), arguments) {
-                Text(text = "hi im SingUpPath")
+                val socialLoginType: SocialLoginType =
+                    SocialLoginType.valueOf(it.arguments?.getString(GwasuwonPath.SingUpPath.ArgumentName.SOCIAL_LOGIN_TYPE.name) ?: "")
+                val jwt = it.arguments?.getString(GwasuwonPath.SingUpPath.ArgumentName.ACCESS_KEY.name) ?: ""
+                Text(text = "socialLoginType = ${socialLoginType}, jwt = ${jwt}")
 
             }
         }

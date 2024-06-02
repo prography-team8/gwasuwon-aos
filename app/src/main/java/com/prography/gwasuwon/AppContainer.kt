@@ -28,7 +28,10 @@ object AppContainer {
         object : AccountRepository {
             override fun signIn(requestOption: SignInRequestOption): Flow<AccountInfo> {
                 return flow {
-                    throw NotFoundAccountException()
+                    throw NotFoundAccountException(
+                        requestOption.type,
+                        requestOption.accessKey
+                    )
                 }
             }
 

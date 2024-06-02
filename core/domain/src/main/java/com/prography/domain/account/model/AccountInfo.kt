@@ -5,5 +5,6 @@ package com.prography.domain.account.model
  */
 data class AccountInfo(
     val userName: String,
+    val accountType: AccountType,
     val jwt: String,
 )

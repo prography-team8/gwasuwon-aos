@@ -3,6 +3,7 @@ package com.prography.network.account
 import com.prography.domain.account.AccountDataSource
 import com.prography.domain.account.exception.NotFoundAccountException
 import com.prography.domain.account.model.AccountInfo
+import com.prography.domain.account.model.AccountType
 import com.prography.domain.account.request.SignInRequestOption
 import com.prography.network.NOT_FOUND
 import io.ktor.client.plugins.ClientRequestException
@@ -23,13 +24,17 @@ class AccountRemoteDataSource(
             emit(
                 AccountInfo(
                     userName = result.userName,
-                    jwt = result.jwt
+                    jwt = result.jwt,
+                    accountType = AccountType.valueOf(result.accountType)
                 )
             )
         } catch (e: Exception) {
             if (e is ClientRequestException) {
                 if (e.response.status.value == NOT_FOUND) {
-                    throw NotFoundAccountException()
+                    throw NotFoundAccountException(
+                        type = requestOption.type,
+                        accessKey = requestOption.accessKey
+                    )
                 }
             }
             throw e

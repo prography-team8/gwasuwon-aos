@@ -43,8 +43,14 @@ class SignInUiMachine(
         .onEach {
             when (it) {
                 is Result.Error -> {
-                    if (it.exception is NotFoundAccountException) {
-                        eventInvoker(SignInActionEvent.NavigateSignUpRoute)
+                    val exception = it.exception
+                    if (exception is NotFoundAccountException) {
+                        eventInvoker(
+                            SignInActionEvent.NavigateSignUpRoute(
+                                type = exception.type,
+                                accessKey = exception.accessKey
+                            )
+                        )
                     }
                 }
 
@@ -83,7 +89,12 @@ class SignInUiMachine(
     private val navigateSignUpRouteFlow = actionFlow
         .filterIsInstance<SignInActionEvent.NavigateSignUpRoute>()
         .onEach {
-            navigateFlow.emit(NavigationEvent.NavigateSignUpRoute)
+            navigateFlow.emit(
+                NavigationEvent.NavigateSignUpRoute(
+                    socialLoginType = it.type.name,
+                    accessKey = it.accessKey
+                )
+            )
         }
     private val requestSocialLoginAccessKeyFlow = actionFlow
         .filterIsInstance<SignInActionEvent.RequestSocialLoginAccessKey>()

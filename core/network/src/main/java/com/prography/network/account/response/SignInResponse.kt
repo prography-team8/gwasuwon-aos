@@ -9,5 +9,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SignInResponse(
     val userName: String,
-    val jwt: String
+    val jwt: String,
+    val accountType: String
 )
