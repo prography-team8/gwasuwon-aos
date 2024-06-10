@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
@@ -22,8 +23,9 @@ abstract class UiStateMachine<
         Intent : com.prography.usm.action.Intent<ActionEvent>
         >(
     private val scope: CoroutineScope,
-    fromOutsideActionFlowMerged: Flow<ActionEvent>? = null
 ) {
+    protected open val fromOutsideActionFlowMerged: Flow<ActionEvent>? = null
+
     protected abstract var machineInternalState: MachineInternalState
     private val intentFlow: MutableSharedFlow<Intent> = MutableSharedFlow()
     val intentInvoker: (Intent) -> Unit = {
@@ -56,7 +58,12 @@ abstract class UiStateMachine<
                 machineInternalState.toUiState()
             )
     }
+    protected abstract val outerNotifyScenarioActionFlow: Flow<Any>?
+
+    fun initMachine() {
+        outerNotifyScenarioActionFlow?.launchIn(scope)
+    }
 
     protected abstract fun mergeStateChangeScenarioActionsFlow(): Flow<MachineInternalState>
-    protected abstract fun subscribeOuterNotifyScenarioActionFlow()
+
 }

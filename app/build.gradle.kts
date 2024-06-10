@@ -18,7 +18,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:usm_sample"))
+    implementation(project(":feature:account"))
     implementation(project(":core:domain"))
     implementation(project(":core:configuration"))
     implementation(project(":core:utils"))

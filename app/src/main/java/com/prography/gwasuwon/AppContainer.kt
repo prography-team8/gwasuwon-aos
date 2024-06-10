@@ -1,13 +1,15 @@
 package com.prography.gwasuwon
 
 import NavigationEvent
+import com.prography.domain.account.SocialLoginEvent
+import com.prography.domain.account.model.SocialLoginType
+import com.prography.domain.account.repository.AccountRepository
+import com.prography.domain.account.usecase.SignInUseCase
 import com.prography.domain.configuration.ConfigurationEvent
 import com.prography.domain.preference.ThemePreferenceImpl
-import com.prography.domain.usecase.LoadLastCountUseCase
-import com.prography.domain.usecase.SaveCurrentCountUseCase
-import com.prography.utils.security.SampleCryptoHelper
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.flow
 
 /**
  * Created by MyeongKi.
@@ -15,18 +17,20 @@ import kotlinx.coroutines.flow.SharedFlow
 object AppContainer {
     val configurationEvent: MutableSharedFlow<ConfigurationEvent> = MutableSharedFlow()
     val navigateEventFlow: MutableSharedFlow<NavigationEvent> = MutableSharedFlow()
-    val sampleCryptoHelper by lazy {
-        SampleCryptoHelper(
-            GwasuwonApplication.currentApplication
-        )
+    val socialLoginEventFlow: MutableSharedFlow<SocialLoginEvent> = MutableSharedFlow()
+
+    private val accountRepository by lazy {
+        object : AccountRepository{
+            override fun signIn(type: SocialLoginType, accessKey: String): Flow<Unit> {
+                return flow {  }
+            }
+
+        }
     }
     val themePreference by lazy {
         ThemePreferenceImpl(GwasuwonApplication.currentApplication)
     }
-    val sampleCountUseCase by lazy {
-        SaveCurrentCountUseCase(sampleCryptoHelper)
-    }
-    val sampleLoadUseCase by lazy {
-        LoadLastCountUseCase(sampleCryptoHelper)
+    val signInUseCase by lazy {
+        SignInUseCase(accountRepository)
     }
 }

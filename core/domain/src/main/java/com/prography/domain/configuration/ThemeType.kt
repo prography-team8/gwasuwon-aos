@@ -14,7 +14,7 @@ enum class ThemeType {
                     return it
                 }
             }
-            return DARK
+            return LIGHT
         }
     }
 }

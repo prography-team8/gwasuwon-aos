@@ -4,15 +4,16 @@ plugins {
 }
 
 android {
-    namespace = "com.prography.configuration"
+    namespace = "com.prography.login"
     kotlinOptions {
         jvmTarget = "1.8"
     }
 }
-dependencies {
-    implementation(project(":core:domain"))
-    implementation(libs.kotlin.coroutines)
-    implementation(libs.androidx.compose.viewModel)
-    implementation(libs.android.systemuicontroller)
 
+dependencies {
+    implementation(project(":core:usm"))
+    implementation(project(":core:configuration"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:navigation"))
+    implementation(libs.kakao.login)
 }

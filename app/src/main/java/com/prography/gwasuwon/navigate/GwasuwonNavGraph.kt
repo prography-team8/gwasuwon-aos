@@ -2,22 +2,18 @@ package com.prography.gwasuwon.navigate
 
 import GwasuwonPath
 import NavigationActions
-import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.prography.configuration.toColor
-import com.prography.configuration.ui.GwasuwonConfigurationManager
+import com.prography.account.SignInViewModel
+import com.prography.account.compose.SignInRoute
 import com.prography.gwasuwon.AppContainer
-import com.prography.usm_sample.SampleCountViewModel
-import com.prography.usm_sample.compose.SampleCountRoute
 import subscribeNavigationEvent
 
 /**
@@ -37,33 +33,34 @@ fun GwasuwonNavGraph(
             coroutineScope = this,
         )
     }
+    //FIXME startDestination 수정 필요.
     NavHost(
         navController = navController,
-        startDestination = GwasuwonPath.Sample1Path.getDestination(),
+        startDestination = GwasuwonPath.SingInPath.getDestination(),
         modifier = Modifier
     ) {
-        with(GwasuwonPath.Sample1Path) {
+        with(GwasuwonPath.SingInPath) {
             composable(getDestination(), arguments) {
-                SampleCountRoute(
+                SignInRoute(
                     viewModel = viewModel(
-                        factory = SampleCountViewModel.provideFactory(
+                        factory = SignInViewModel.provideFactory(
                             navigateFlow = AppContainer.navigateEventFlow,
-                            saveCurrentCountUseCase = AppContainer.sampleCountUseCase,
-                            loadLastCountUseCase = AppContainer.sampleLoadUseCase
+                            signInUseCase = AppContainer.signInUseCase,
+                            accountOuterFlow = AppContainer.socialLoginEventFlow
                         )
                     )
                 )
             }
         }
-        with(GwasuwonPath.Sample2Path(0)) {
+        with(GwasuwonPath.SingUpPath) {
             composable(getDestination(), arguments) {
-                val currentCount: Int? = it.arguments?.getInt(GwasuwonPath.Sample2Path.ArgumentName.CURRENT_COUNT.name)
-                Box {
-                    Text(
-                        fontSize = 40.sp,
-                        text = currentCount.toString(),
-                        color = GwasuwonConfigurationManager.colors.textColor.toColor())
-                }
+                Text(text = "hi im SingUpPath")
+
+            }
+        }
+        with(GwasuwonPath.LessonPath) {
+            composable(getDestination(), arguments) {
+                Text(text = "hi im lesson")
             }
         }
     }
