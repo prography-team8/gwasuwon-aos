@@ -3,9 +3,12 @@ package com.prography.account.compose
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,6 +17,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,6 +41,7 @@ import com.prography.configuration.ui.GwasuwonConfigurationManager
 fun SignInRoute(
     viewModel: SignInViewModel
 ) {
+    val uiState = viewModel.machine.uiState.collectAsState().value
     val intentInvoker = viewModel.machine.intentInvoker
     SignInScreen(intentInvoker)
 }
@@ -46,9 +51,7 @@ fun SignInScreen(
     intent: (SignInIntent) -> Unit
 ) {
     Box(modifier = Modifier.padding(dimensionResource(id = R.dimen.sign_in_horizontal_padding))) {
-        SignInLogo(
-            modifier = Modifier.align(Alignment.Center)
-        )
+        SignInLogo()
         KakaoLoginBtn(modifier = Modifier.align(Alignment.BottomCenter)) {
             intent(SignInIntent.ClickKakaoSignIn)
         }
@@ -57,10 +60,10 @@ fun SignInScreen(
 
 @Composable
 private fun SignInLogo(
-    modifier: Modifier,
 ) {
     Column(
-        modifier = modifier,
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
@@ -89,7 +92,7 @@ private fun SignInLogo(
 
 @Composable
 private fun KakaoLoginBtn(
-    modifier: Modifier,
+    modifier:Modifier,
     onClickBtn: () -> Unit
 ) {
     Box(

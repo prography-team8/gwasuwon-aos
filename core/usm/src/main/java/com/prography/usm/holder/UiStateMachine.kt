@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
@@ -23,9 +24,8 @@ abstract class UiStateMachine<
         Intent : com.prography.usm.action.Intent<ActionEvent>
         >(
     private val scope: CoroutineScope,
+    fromOutsideActionFlowMerged: Flow<ActionEvent>? = null
 ) {
-    protected open val fromOutsideActionFlowMerged: Flow<ActionEvent>? = null
-
     protected abstract var machineInternalState: MachineInternalState
     private val intentFlow: MutableSharedFlow<Intent> = MutableSharedFlow()
     val intentInvoker: (Intent) -> Unit = {
@@ -39,14 +39,12 @@ abstract class UiStateMachine<
             eventFlow.emit(it)
         }
     }
+
     protected val actionFlow = merge(
         intentFlow.map { it.toActionEvent() },
         eventFlow,
-    ).also {
-        fromOutsideActionFlowMerged?.let {
-            merge(it)
-        }
-    }
+        fromOutsideActionFlowMerged ?: flow { }
+    )
 
     val uiState: StateFlow<UiState> by lazy {
         mergeStateChangeScenarioActionsFlow()
