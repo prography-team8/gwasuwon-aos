@@ -24,13 +24,13 @@ fun RootBackground(viewModel: ConfigurationStateViewModel, content: @Composable 
     GwasuwonConfiguration(configurationState = state) {
         val systemUiController = rememberSystemUiController()
         systemUiController.setSystemBarsColor(
-            color = GwasuwonConfigurationManager.colors.semanticBackgroundNormalNormal.toColor()
+            color = GwasuwonConfigurationManager.colors.backgroundRegularNormal.toColor()
         )
 
         Surface(
             modifier = Modifier
                 .fillMaxSize(),
-            color = GwasuwonConfigurationManager.colors.semanticBackgroundNormalNormal.toColor()
+            color = GwasuwonConfigurationManager.colors.backgroundRegularNormal.toColor()
         ) {
             content()
         }
