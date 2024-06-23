@@ -12,5 +12,6 @@
     <dimen name="sign_up_role_btn_conner">8dp</dimen>
     <dimen name="sign_up_role_btn_icon">35dp</dimen>
     <dimen name="sign_up_role_btn_padding">12dp</dimen>
+    <dimen name="next_btn_padding">8dp</dimen>
 
 </resources>
