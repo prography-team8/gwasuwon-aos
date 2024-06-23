@@ -4,17 +4,22 @@ import NavigationEvent
 import com.prography.account.AccountInfoManagerImpl
 import com.prography.domain.account.AccountInfoManager
 import com.prography.domain.account.SocialLoginEvent
-import com.prography.domain.account.repository.AccountRepositoryImpl
+import com.prography.domain.account.model.AccountInfo
+import com.prography.domain.account.model.AccountStatus
+import com.prography.domain.account.repository.AccountRepository
+import com.prography.domain.account.request.SignInRequestOption
+import com.prography.domain.account.request.SignUpRequestOption
 import com.prography.domain.account.usecase.SignInUseCase
+import com.prography.domain.account.usecase.SignUpUseCase
 import com.prography.domain.configuration.ConfigurationEvent
 import com.prography.domain.preference.AccountPreferenceImpl
 import com.prography.domain.preference.ThemePreferenceImpl
 import com.prography.network.HttpClientFactory
-import com.prography.network.account.AccountHttpClient
-import com.prography.network.account.AccountRemoteDataSource
 import com.prography.utils.security.GwasuwonAccessTokenHelper
 import com.prography.utils.security.GwasuwonRefreshTokenHelper
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.flow
 
 /**
  * Created by MyeongKi.
@@ -44,20 +49,57 @@ object AppContainer {
     private val gwasuwonHttpClient by lazy {
         HttpClientFactory.createGwasuwonHttpClient(accountInfoManager)
     }
+
+    //    private val accountRepository by lazy {
+//        AccountRepositoryImpl(
+//            remoteDataSource = AccountRemoteDataSource(
+//                httpClient = AccountHttpClient(
+//                    httpClient = gwasuwonHttpClient
+//                )
+//            )
+//        )
+//    }
+    //FIXME
     private val accountRepository by lazy {
-        AccountRepositoryImpl(
-            remoteDataSource = AccountRemoteDataSource(
-                httpClient = AccountHttpClient(
-                    httpClient = gwasuwonHttpClient
-                )
-            )
-        )
+        object : AccountRepository {
+            override fun signIn(requestOption: SignInRequestOption): Flow<AccountInfo> {
+                return flow {
+                    emit(
+                        AccountInfo(
+                            status = AccountStatus.PENDING,
+                            refreshToken = "",
+                            accessToken = "",
+                        )
+                    )
+                }
+            }
+
+            override fun signUp(requestOption: SignUpRequestOption): Flow<AccountInfo> {
+                return flow {
+                    emit(
+                        AccountInfo(
+                            status = AccountStatus.ACTIVE,
+                            refreshToken = "",
+                            accessToken = "",
+                        )
+                    )
+                }
+            }
+
+        }
     }
+
     val themePreference by lazy {
         ThemePreferenceImpl(GwasuwonApplication.currentApplication)
     }
     val signInUseCase by lazy {
         SignInUseCase(
+            accountRepository,
+            accountInfoManager
+        )
+    }
+    val signUpUseCase by lazy {
+        SignUpUseCase(
             accountRepository,
             accountInfoManager
         )

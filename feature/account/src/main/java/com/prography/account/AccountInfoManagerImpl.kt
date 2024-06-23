@@ -14,6 +14,7 @@ object AccountInfoManagerImpl : AccountInfoManager {
     private var accountInfo: AtomicReference<AccountInfo?> = AtomicReference()
     private lateinit var accessTokenHelper: CryptoHelper
     private lateinit var refreshTokenHelper: CryptoHelper
+    private lateinit var accountPreference: AccountPreference
     override fun init(
         accessTokenHelper: CryptoHelper,
         refreshTokenHelper: CryptoHelper,
@@ -21,6 +22,7 @@ object AccountInfoManagerImpl : AccountInfoManager {
     ) {
         this.accessTokenHelper = accessTokenHelper
         this.refreshTokenHelper = refreshTokenHelper
+        this.accountPreference = accountPreference
         this.accountInfo.set(
             AccountInfo(
                 accessToken = accessTokenHelper.decryptContents() ?: "",
@@ -32,6 +34,9 @@ object AccountInfoManagerImpl : AccountInfoManager {
 
 
     override fun update(accountInfo: AccountInfo) {
+        accessTokenHelper.encryptContentsAndStore(accountInfo.accessToken)
+        refreshTokenHelper.encryptContentsAndStore(accountInfo.refreshToken)
+        accountPreference.setAccountStatus(accountInfo.status)
         this.accountInfo.set(accountInfo)
     }
 

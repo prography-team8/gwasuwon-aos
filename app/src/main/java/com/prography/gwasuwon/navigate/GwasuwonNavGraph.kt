@@ -12,7 +12,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.prography.account.SignInViewModel
+import com.prography.account.SignUpViewModel
 import com.prography.account.compose.SignInRoute
+import com.prography.account.compose.SignUpRoute
 import com.prography.domain.account.AccountInfoManager
 import com.prography.domain.account.model.AccountStatus
 import com.prography.gwasuwon.AppContainer
@@ -43,9 +45,6 @@ fun GwasuwonNavGraph(
                 //TODO 캐싱된 active 상태로 lesson 페이지로 랜딩을 유도하고, 해당 페이지에서 refresh token까지 로그인을 실패한 경우에 다시 로그인 페이지로 랜딩하게 수정이 필요.
                 GwasuwonPath.LessonPath.getDestination()
             }
-            AccountStatus.PENDING -> {
-                GwasuwonPath.SingUpPath.getDestination()
-            }
             else -> {
                 GwasuwonPath.SingInPath.getDestination()
             }
@@ -67,7 +66,14 @@ fun GwasuwonNavGraph(
         }
         with(GwasuwonPath.SingUpPath) {
             composable(getDestination(), arguments) {
-                Text(text = "hi im signup")
+                SignUpRoute(
+                    viewModel = viewModel(
+                        factory = SignUpViewModel.provideFactory(
+                            navigateFlow = AppContainer.navigateEventFlow,
+                            signUpUseCase = AppContainer.signUpUseCase,
+                        )
+                    )
+                )
             }
         }
         with(GwasuwonPath.LessonPath) {

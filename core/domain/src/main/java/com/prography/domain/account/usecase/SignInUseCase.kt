@@ -16,13 +16,9 @@ class SignInUseCase(
     private val accountInfoManager: AccountInfoManager
 ) {
     operator fun invoke(
-        type: SocialLoginType,
-        accessKey: String
+        requestOption: SignInRequestOption
     ): Flow<AccountInfo> = repository.signIn(
-        SignInRequestOption(
-            type = type,
-            accessKey = accessKey
-        )
+        requestOption
     ).onEach {
         accountInfoManager.update(it)
     }

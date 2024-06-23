@@ -3,6 +3,7 @@ package com.prography.account
 import NavigationEvent
 import com.prography.domain.account.SocialLoginEvent
 import com.prography.domain.account.model.AccountStatus
+import com.prography.domain.account.request.SignInRequestOption
 import com.prography.domain.account.usecase.SignInUseCase
 import com.prography.usm.holder.UiStateMachine
 import com.prography.usm.result.Result
@@ -38,7 +39,11 @@ class SignInUiMachine(
     private val requestSignInFlow = actionFlow
         .filterIsInstance<SignInActionEvent.RequestSignIn>()
         .transform {
-            emitAll(signInUseCase(it.type, it.accessKey).asResult())
+            emitAll(
+                signInUseCase(
+                    SignInRequestOption(it.type, it.accessKey)
+                ).asResult()
+            )
         }
         .onEach {
             when (it) {
@@ -48,9 +53,9 @@ class SignInUiMachine(
                 }
 
                 is Result.Success -> {
-                    if(it.data.status == AccountStatus.ACTIVE){
+                    if (it.data.status == AccountStatus.ACTIVE) {
                         eventInvoker(SignInActionEvent.NavigateLessonRoute)
-                    }else{
+                    } else {
                         eventInvoker(SignInActionEvent.NavigateSignUpRoute)
                     }
 
