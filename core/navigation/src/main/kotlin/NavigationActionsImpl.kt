@@ -7,14 +7,8 @@ import androidx.navigation.NavHostController
 class NavigationActions(
     private val navController: NavHostController, private val onEmptyBackStack: () -> Unit
 ) {
-    fun navigateSignUpRoute(
-        socialLoginType: String,
-        accessKey: String
-    ) {
-        navController.navigate(GwasuwonPath.SingUpPath(
-            socialLoginType = socialLoginType,
-            accessKey = accessKey
-        ).getNavigation()) {
+    fun navigateSignUpRoute() {
+        navController.navigate(GwasuwonPath.SingUpPath.getNavigation()) {
             popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
                 saveState = true
             }

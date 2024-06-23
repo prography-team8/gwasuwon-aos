@@ -1,12 +1,11 @@
 package com.prography.network.account
 
 import com.prography.domain.account.AccountDataSource
-import com.prography.domain.account.exception.NotFoundAccountException
 import com.prography.domain.account.model.AccountInfo
+import com.prography.domain.account.model.AccountStatus
 import com.prography.domain.account.model.AccountType
+import com.prography.domain.account.model.TokenType
 import com.prography.domain.account.request.SignInRequestOption
-import com.prography.network.NOT_FOUND
-import io.ktor.client.plugins.ClientRequestException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -17,27 +16,19 @@ class AccountRemoteDataSource(
     private val httpClient: AccountHttpClient
 ) : AccountDataSource {
     override fun signIn(requestOption: SignInRequestOption): Flow<AccountInfo> = flow {
-        try {
-            val result = httpClient.requestSignIn(
-                requestOption
+        val result = httpClient.requestSignIn(
+            requestOption
+        )
+        emit(
+            AccountInfo(
+                id = result.id,
+                accessToken = result.accessToken,
+                email = result.email,
+                refreshToken = result.refreshToken,
+                accountType = AccountType.valueOf(result.accountType),
+                status = AccountStatus.valueOf(result.status),
+                tokenType = TokenType.valueOf(result.tokenType)
             )
-            emit(
-                AccountInfo(
-                    userName = result.userName,
-                    jwt = result.jwt,
-                    accountType = AccountType.valueOf(result.accountType)
-                )
-            )
-        } catch (e: Exception) {
-            if (e is ClientRequestException) {
-                if (e.response.status.value == NOT_FOUND) {
-                    throw NotFoundAccountException(
-                        type = requestOption.type,
-                        accessKey = requestOption.accessKey
-                    )
-                }
-            }
-            throw e
-        }
+        )
     }
 }

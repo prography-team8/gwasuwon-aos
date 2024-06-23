@@ -5,10 +5,13 @@ import kotlinx.serialization.Serializable
 /**
  * Created by MyeongKi.
  */
-//FIXME
 @Serializable
 data class SignInResponse(
-    val userName: String,
-    val jwt: String,
-    val accountType: String
+    val id: Long,
+    val accessToken: String,
+    val tokenType: String,
+    val email: String,
+    val status: String,
+    val refreshToken: String,
+    val accountType: String,
 )

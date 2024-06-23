@@ -7,6 +7,5 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class SignInRequestBody(
-    val type: String,
-    val accessKey: String,
+    val accessToken: String,
 )

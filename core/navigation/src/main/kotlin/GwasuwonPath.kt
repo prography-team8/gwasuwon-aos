@@ -36,23 +36,9 @@ sealed interface GwasuwonPath {
         override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.SIGN_IN
         override val arguments: List<NamedNavArgument> = listOf()
     }
-
-    data class SingUpPath(
-        private val socialLoginType: String= "",
-        private val accessKey: String=""
-    ) : GwasuwonPath {
+    data object SingUpPath : GwasuwonPath {
         override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.SIGN_UP
-        override val arguments: List<NamedNavArgument> = listOf(
-            navArgument(ArgumentName.SOCIAL_LOGIN_TYPE.name) { defaultValue = socialLoginType },
-            navArgument(ArgumentName.ACCESS_KEY.name) { defaultValue = accessKey },
-        )
-
-        enum class ArgumentName {
-            SOCIAL_LOGIN_TYPE,
-            ACCESS_KEY,
-            ;
-
-        }
+        override val arguments: List<NamedNavArgument> = listOf()
     }
 
     data object LessonPath : GwasuwonPath {

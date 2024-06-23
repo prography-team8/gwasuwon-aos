@@ -30,5 +30,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.viewModel)
     implementation(libs.androidx.navigation)
+    implementation(libs.ktor.client.core)
+
     testImplementation(libs.junit)
 }

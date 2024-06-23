@@ -2,7 +2,7 @@ package com.prography.account
 
 import NavigationEvent
 import com.prography.domain.account.SocialLoginEvent
-import com.prography.domain.account.exception.NotFoundAccountException
+import com.prography.domain.account.model.AccountStatus
 import com.prography.domain.account.usecase.SignInUseCase
 import com.prography.usm.holder.UiStateMachine
 import com.prography.usm.result.Result
@@ -44,18 +44,16 @@ class SignInUiMachine(
             when (it) {
                 is Result.Error -> {
                     val exception = it.exception
-                    if (exception is NotFoundAccountException) {
-                        eventInvoker(
-                            SignInActionEvent.NavigateSignUpRoute(
-                                type = exception.type,
-                                accessKey = exception.accessKey
-                            )
-                        )
-                    }
+                    //TODO dialog error
                 }
 
                 is Result.Success -> {
-                    eventInvoker(SignInActionEvent.NavigateLessonRoute)
+                    if(it.data.status == AccountStatus.ACTIVE){
+                        eventInvoker(SignInActionEvent.NavigateLessonRoute)
+                    }else{
+                        eventInvoker(SignInActionEvent.NavigateSignUpRoute)
+                    }
+
                 }
 
                 else -> Unit
@@ -76,6 +74,7 @@ class SignInUiMachine(
                 }
             }
         }
+
     private val showFailSocialLoginFailFlow = actionFlow
         .filterIsInstance<SignInActionEvent.ShowFailSocialLoginFail>()
         .map {
@@ -89,12 +88,7 @@ class SignInUiMachine(
     private val navigateSignUpRouteFlow = actionFlow
         .filterIsInstance<SignInActionEvent.NavigateSignUpRoute>()
         .onEach {
-            navigateFlow.emit(
-                NavigationEvent.NavigateSignUpRoute(
-                    socialLoginType = it.type.name,
-                    accessKey = it.accessKey
-                )
-            )
+            navigateFlow.emit(NavigationEvent.NavigateSignUpRoute)
         }
     private val requestSocialLoginAccessKeyFlow = actionFlow
         .filterIsInstance<SignInActionEvent.RequestSocialLoginAccessKey>()

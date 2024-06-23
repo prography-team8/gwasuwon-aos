@@ -13,7 +13,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.prography.account.SignInViewModel
 import com.prography.account.compose.SignInRoute
-import com.prography.domain.account.model.SocialLoginType
+import com.prography.domain.account.AccountInfoManager
+import com.prography.domain.account.model.AccountStatus
 import com.prography.gwasuwon.AppContainer
 import subscribeNavigationEvent
 
@@ -22,7 +23,8 @@ import subscribeNavigationEvent
  */
 @Composable
 fun GwasuwonNavGraph(
-    onEmptyBackStack: () -> Unit
+    accountInfoManager: AccountInfoManager,
+    onEmptyBackStack: () -> Unit,
 ) {
     val navController = rememberNavController()
     val navigationActions = remember(navController) {
@@ -34,10 +36,20 @@ fun GwasuwonNavGraph(
             coroutineScope = this,
         )
     }
-    //FIXME startDestination 수정 필요.
     NavHost(
         navController = navController,
-        startDestination = GwasuwonPath.SingInPath.getDestination(),
+        startDestination = when (accountInfoManager.getAccountInfo()?.status) {
+            AccountStatus.ACTIVE -> {
+                //TODO 캐싱된 active 상태로 lesson 페이지로 랜딩을 유도하고, 해당 페이지에서 refresh token까지 로그인을 실패한 경우에 다시 로그인 페이지로 랜딩하게 수정이 필요.
+                GwasuwonPath.LessonPath.getDestination()
+            }
+            AccountStatus.PENDING -> {
+                GwasuwonPath.SingUpPath.getDestination()
+            }
+            else -> {
+                GwasuwonPath.SingInPath.getDestination()
+            }
+        },
         modifier = Modifier
     ) {
         with(GwasuwonPath.SingInPath) {
@@ -53,13 +65,9 @@ fun GwasuwonNavGraph(
                 )
             }
         }
-        with(GwasuwonPath.SingUpPath()) {
+        with(GwasuwonPath.SingUpPath) {
             composable(getDestination(), arguments) {
-                val socialLoginType: SocialLoginType =
-                    SocialLoginType.valueOf(it.arguments?.getString(GwasuwonPath.SingUpPath.ArgumentName.SOCIAL_LOGIN_TYPE.name) ?: "")
-                val jwt = it.arguments?.getString(GwasuwonPath.SingUpPath.ArgumentName.ACCESS_KEY.name) ?: ""
-                Text(text = "socialLoginType = ${socialLoginType}, jwt = ${jwt}")
-
+                Text(text = "hi im signup")
             }
         }
         with(GwasuwonPath.LessonPath) {
