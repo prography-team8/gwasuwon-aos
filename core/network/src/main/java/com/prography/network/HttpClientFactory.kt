@@ -1,6 +1,7 @@
 package com.prography.network
 
-import com.prography.utils.security.GwasuwonCryptoHelper
+import com.prography.domain.account.AccountInfoManager
+import com.prography.utils.security.GwasuwonAccessTokenHelper
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpResponseValidator
@@ -18,7 +19,7 @@ import kotlinx.serialization.json.Json
  */
 object HttpClientFactory {
     fun createGwasuwonHttpClient(
-        gwasuwonCryptoHelper: GwasuwonCryptoHelper
+        accountInfoManager: AccountInfoManager
     ): HttpClient = HttpClient {
         install(ContentNegotiation) {
             json(
@@ -33,7 +34,7 @@ object HttpClientFactory {
         }
         //FIXME
         defaultRequest {
-            header(HttpHeaders.Authorization, "${gwasuwonCryptoHelper.decryptContents()}")
+            header(HttpHeaders.Authorization, "${accountInfoManager.getAccountInfo()?.accessToken}")
         }
         HttpResponseValidator {
             validateResponse { response ->

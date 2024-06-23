@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
  * Created by MyeongKi.
  */
 @Serializable
-data class SignInRequestBody(
-    val accessToken: String,
+data class SignUpRequestBody(
+    val accountType: String,
 )

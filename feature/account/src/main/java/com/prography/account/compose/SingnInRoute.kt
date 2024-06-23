@@ -47,10 +47,10 @@ fun SignInRoute(
 }
 
 @Composable
-fun SignInScreen(
+private fun SignInScreen(
     intent: (SignInIntent) -> Unit
 ) {
-    Box(modifier = Modifier.padding(dimensionResource(id = R.dimen.sign_in_horizontal_padding))) {
+    Box {
         SignInLogo()
         KakaoLoginBtn(modifier = Modifier.align(Alignment.BottomCenter)) {
             intent(SignInIntent.ClickKakaoSignIn)
@@ -97,9 +97,9 @@ private fun KakaoLoginBtn(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.login_btn_conner)))
+            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.sign_up_next_btn_conner)))
             .background(GwasuwonConfigurationManager.colors.kakaoColor.toColor())
-            .padding(dimensionResource(id = R.dimen.login_btn_padding))
+            .padding(dimensionResource(id = R.dimen.default_btn_padding))
             .clickable(onClick = onClickBtn)
     ) {
         Image(
@@ -107,7 +107,7 @@ private fun KakaoLoginBtn(
             contentDescription = "logo",
             modifier = Modifier
                 .align(Alignment.CenterStart)
-                .size(dimensionResource(id = R.dimen.login_icon_size)),
+                .size(dimensionResource(id = R.dimen.default_btn_icon_size)),
         )
         Text(
             modifier = Modifier.align(Alignment.Center),

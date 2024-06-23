@@ -9,10 +9,7 @@ import kotlinx.coroutines.flow.onEach
  */
 sealed interface NavigationEvent {
     data object NavigateSignInRoute : NavigationEvent
-    data class NavigateSignUpRoute(
-        val socialLoginType: String,
-        val accessKey: String
-    ) : NavigationEvent
+    data object NavigateSignUpRoute : NavigationEvent
 
     data object NavigateLessonRoute : NavigationEvent
     data object PopBack : NavigationEvent
@@ -35,10 +32,7 @@ fun MutableSharedFlow<NavigationEvent>.subscribeNavigationEvent(
                 }
 
                 is NavigationEvent.NavigateSignUpRoute -> {
-                    navActions.navigateSignUpRoute(
-                        socialLoginType = it.socialLoginType,
-                        accessKey = it.accessKey
-                    )
+                    navActions.navigateSignUpRoute()
 
                 }
 

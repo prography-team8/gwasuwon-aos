@@ -14,5 +14,4 @@ dependencies {
     implementation(libs.kotlin.coroutines)
     implementation(libs.androidx.compose.viewModel)
     implementation(libs.android.systemuicontroller)
-
 }

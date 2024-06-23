@@ -16,5 +16,7 @@ dependencies {
     implementation(project(":core:configuration"))
     implementation(project(":core:domain"))
     implementation(project(":core:navigation"))
+    implementation(project(":core:utils"))
+
     implementation(libs.kakao.login)
 }

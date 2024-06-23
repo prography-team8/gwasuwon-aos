@@ -107,5 +107,7 @@
     <color name="inverseLabelDark">#171719</color>
 
     <color name="kakao">#FEE500</color>
+    <color name="neutral_95">#DCDCDC</color>
+    <color name="blue_90">#C9DEFE</color>
 
 </resources>

@@ -1,15 +1,22 @@
 package com.prography.gwasuwon
 
 import NavigationEvent
+import com.prography.account.AccountInfoManagerImpl
+import com.prography.domain.account.AccountInfoManager
 import com.prography.domain.account.SocialLoginEvent
-import com.prography.domain.account.exception.NotFoundAccountException
 import com.prography.domain.account.model.AccountInfo
+import com.prography.domain.account.model.AccountStatus
 import com.prography.domain.account.repository.AccountRepository
 import com.prography.domain.account.request.SignInRequestOption
+import com.prography.domain.account.request.SignUpRequestOption
 import com.prography.domain.account.usecase.SignInUseCase
+import com.prography.domain.account.usecase.SignUpUseCase
 import com.prography.domain.configuration.ConfigurationEvent
+import com.prography.domain.preference.AccountPreferenceImpl
 import com.prography.domain.preference.ThemePreferenceImpl
-import com.prography.utils.security.GwasuwonCryptoHelper
+import com.prography.network.HttpClientFactory
+import com.prography.utils.security.GwasuwonAccessTokenHelper
+import com.prography.utils.security.GwasuwonRefreshTokenHelper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
@@ -21,29 +28,80 @@ object AppContainer {
     val configurationEvent: MutableSharedFlow<ConfigurationEvent> = MutableSharedFlow()
     val navigateEventFlow: MutableSharedFlow<NavigationEvent> = MutableSharedFlow()
     val socialLoginEventFlow: MutableSharedFlow<SocialLoginEvent> = MutableSharedFlow()
-    private val gwasuwonCryptoHelper by lazy {
-        GwasuwonCryptoHelper(GwasuwonApplication.currentApplication)
+    private val gwasuwonAccessTokenHelper by lazy {
+        GwasuwonAccessTokenHelper(GwasuwonApplication.currentApplication)
     }
+    private val gwasuwonRefreshTokenHelper by lazy {
+        GwasuwonRefreshTokenHelper(GwasuwonApplication.currentApplication)
+    }
+    private val accountPreference by lazy {
+        AccountPreferenceImpl(GwasuwonApplication.currentApplication)
+    }
+    val accountInfoManager: AccountInfoManager by lazy {
+        AccountInfoManagerImpl.apply {
+            init(
+                accessTokenHelper = gwasuwonAccessTokenHelper,
+                refreshTokenHelper = gwasuwonRefreshTokenHelper,
+                accountPreference = accountPreference
+            )
+        }
+    }
+    private val gwasuwonHttpClient by lazy {
+        HttpClientFactory.createGwasuwonHttpClient(accountInfoManager)
+    }
+
+    //    private val accountRepository by lazy {
+//        AccountRepositoryImpl(
+//            remoteDataSource = AccountRemoteDataSource(
+//                httpClient = AccountHttpClient(
+//                    httpClient = gwasuwonHttpClient
+//                )
+//            )
+//        )
+//    }
+    //FIXME
     private val accountRepository by lazy {
         object : AccountRepository {
             override fun signIn(requestOption: SignInRequestOption): Flow<AccountInfo> {
                 return flow {
-                    throw NotFoundAccountException(
-                        requestOption.type,
-                        requestOption.accessKey
+                    emit(
+                        AccountInfo(
+                            status = AccountStatus.PENDING,
+                            refreshToken = "",
+                            accessToken = "",
+                        )
+                    )
+                }
+            }
+
+            override fun signUp(requestOption: SignUpRequestOption): Flow<AccountInfo> {
+                return flow {
+                    emit(
+                        AccountInfo(
+                            status = AccountStatus.ACTIVE,
+                            refreshToken = "",
+                            accessToken = "",
+                        )
                     )
                 }
             }
 
         }
     }
+
     val themePreference by lazy {
         ThemePreferenceImpl(GwasuwonApplication.currentApplication)
     }
     val signInUseCase by lazy {
         SignInUseCase(
             accountRepository,
-            gwasuwonCryptoHelper
+            accountInfoManager
+        )
+    }
+    val signUpUseCase by lazy {
+        SignUpUseCase(
+            accountRepository,
+            accountInfoManager
         )
     }
 }

@@ -26,7 +26,9 @@ class MainActivity : ComponentActivity() {
                 )
             )
             RootBackground(configurationViewModel) {
-                GwasuwonNavGraph {
+                GwasuwonNavGraph(
+                    accountInfoManager = AppContainer.accountInfoManager
+                ) {
                     moveTaskToBack(true)
                 }
             }
