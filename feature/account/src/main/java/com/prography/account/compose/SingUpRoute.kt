@@ -36,6 +36,7 @@ import com.prography.account.SignUpViewModel
 import com.prography.configuration.R
 import com.prography.configuration.toColor
 import com.prography.configuration.ui.GwasuwonConfigurationManager
+import com.prography.ui.CommonNextButton
 import com.prography.ui.GwasuwonTypography
 
 /**
@@ -123,7 +124,7 @@ private fun SignUpAgreementBottom(
         }
         Spacer(modifier = Modifier.height(16.dp))
 
-        SignUpNextButton(
+        CommonNextButton(
             isAvailable = uiState.isAvailableNextButton,
             onClickNext = {
                 intent(SignUpIntent.ClickNextButton)
@@ -309,40 +310,3 @@ private fun SignUpSelectRoleButton(
     }
 }
 
-
-@Composable
-private fun SignUpNextButton(
-    isAvailable: Boolean,
-    onClickNext: () -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.sign_up_next_btn_conner)))
-            .background(
-                if (isAvailable) {
-                    GwasuwonConfigurationManager.colors.primaryNormal.toColor()
-                } else {
-                    GwasuwonConfigurationManager.colors.interactionInactive.toColor()
-                }
-            )
-            .padding(dimensionResource(id = R.dimen.default_btn_padding))
-            .clickable(onClick = {
-                if (isAvailable) {
-                    onClickNext()
-                }
-            })
-    ) {
-        Text(
-            modifier = Modifier.align(Alignment.Center),
-            text = stringResource(id = R.string.next),
-            color = if (isAvailable) {
-                GwasuwonConfigurationManager.colors.staticWhite.toColor()
-            } else {
-                GwasuwonConfigurationManager.colors.labelDisable.toColor()
-            },
-            style = GwasuwonTypography.Body1NormalBold.textStyle
-        )
-    }
-}
