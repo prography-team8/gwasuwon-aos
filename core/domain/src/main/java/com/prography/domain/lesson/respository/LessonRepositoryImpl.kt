@@ -8,6 +8,7 @@ import com.prography.domain.lesson.LoadLessonComposePagingSource
 import com.prography.domain.lesson.PAGE_SIZE
 import com.prography.domain.lesson.model.Lesson
 import com.prography.domain.lesson.request.CreateLessonRequestOption
+import com.prography.domain.lesson.request.UpdateLessonRequestOption
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -33,7 +34,7 @@ class LessonRepositoryImpl(
         return remoteSource.loadLesson(lessonId)
     }
 
-    override fun updateLesson(requestOption: CreateLessonRequestOption): Flow<Lesson> {
+    override fun updateLesson(requestOption: UpdateLessonRequestOption): Flow<Lesson> {
         return remoteSource.updateLesson(requestOption)
     }
 }

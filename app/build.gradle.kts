@@ -19,6 +19,8 @@ android {
 
 dependencies {
     implementation(project(":feature:account"))
+    implementation(project(":feature:lesson"))
+
     implementation(project(":core:domain"))
     implementation(project(":core:configuration"))
     implementation(project(":core:utils"))

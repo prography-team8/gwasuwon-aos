@@ -18,6 +18,8 @@ import com.prography.account.compose.SignUpRoute
 import com.prography.domain.account.AccountInfoManager
 import com.prography.domain.account.model.AccountStatus
 import com.prography.gwasuwon.AppContainer
+import com.prography.lesson.LessonsViewModel
+import com.prography.lesson.compose.LessonsRoute
 import subscribeNavigationEvent
 
 /**
@@ -45,6 +47,7 @@ fun GwasuwonNavGraph(
                 //TODO 캐싱된 active 상태로 lesson 페이지로 랜딩을 유도하고, 해당 페이지에서 refresh token까지 로그인을 실패한 경우에 다시 로그인 페이지로 랜딩하게 수정이 필요.
                 GwasuwonPath.LessonsPath.getDestination()
             }
+
             else -> {
                 GwasuwonPath.SingInPath.getDestination()
             }
@@ -78,7 +81,14 @@ fun GwasuwonNavGraph(
         }
         with(GwasuwonPath.LessonsPath) {
             composable(getDestination(), arguments) {
-                Text(text = "hi im lesson")
+                LessonsRoute(
+                    viewModel = viewModel(
+                        factory = LessonsViewModel.provideFactory(
+                            navigateFlow = AppContainer.navigateEventFlow,
+                            loadLessonsUseCase = AppContainer.loadLessonsUseCase,
+                        )
+                    )
+                )
             }
         }
         with(GwasuwonPath.CrateLessonPath) {

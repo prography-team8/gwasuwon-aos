@@ -12,8 +12,11 @@ import com.prography.domain.account.request.SignUpRequestOption
 import com.prography.domain.account.usecase.SignInUseCase
 import com.prography.domain.account.usecase.SignUpUseCase
 import com.prography.domain.configuration.ConfigurationEvent
+import com.prography.domain.lesson.respository.LessonRepositoryImpl
+import com.prography.domain.lesson.usecase.LoadLessonsUseCase
 import com.prography.domain.preference.AccountPreferenceImpl
 import com.prography.domain.preference.ThemePreferenceImpl
+import com.prography.lesson.FakeLessonsDataSource
 import com.prography.network.HttpClientFactory
 import com.prography.utils.security.GwasuwonAccessTokenHelper
 import com.prography.utils.security.GwasuwonRefreshTokenHelper
@@ -89,6 +92,10 @@ object AppContainer {
         }
     }
 
+    private val lessonRepository = LessonRepositoryImpl(
+        FakeLessonsDataSource()
+    )
+
     val themePreference by lazy {
         ThemePreferenceImpl(GwasuwonApplication.currentApplication)
     }
@@ -102,6 +109,11 @@ object AppContainer {
         SignUpUseCase(
             accountRepository,
             accountInfoManager
+        )
+    }
+    val loadLessonsUseCase by lazy {
+        LoadLessonsUseCase(
+            lessonRepository
         )
     }
 }
