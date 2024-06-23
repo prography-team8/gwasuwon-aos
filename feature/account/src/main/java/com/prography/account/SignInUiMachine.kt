@@ -88,7 +88,7 @@ class SignInUiMachine(
     private val navigateLessonRouteFlow = actionFlow
         .filterIsInstance<SignInActionEvent.NavigateLessonRoute>()
         .onEach {
-            navigateFlow.emit(NavigationEvent.NavigateLessonRoute)
+            navigateFlow.emit(NavigationEvent.NavigateLessonsRoute)
         }
     private val navigateSignUpRouteFlow = actionFlow
         .filterIsInstance<SignInActionEvent.NavigateSignUpRoute>()

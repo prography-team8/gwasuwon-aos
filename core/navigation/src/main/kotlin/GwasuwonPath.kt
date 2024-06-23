@@ -36,13 +36,34 @@ sealed interface GwasuwonPath {
         override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.SIGN_IN
         override val arguments: List<NamedNavArgument> = listOf()
     }
+
     data object SingUpPath : GwasuwonPath {
         override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.SIGN_UP
         override val arguments: List<NamedNavArgument> = listOf()
     }
 
-    data object LessonPath : GwasuwonPath {
-        override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.LESSON
+    data object LessonsPath : GwasuwonPath {
+        override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.LESSONS
         override val arguments: List<NamedNavArgument> = listOf()
+    }
+
+    data object CrateLessonPath : GwasuwonPath {
+        override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.CREATE_LESSON
+        override val arguments: List<NamedNavArgument> = listOf()
+    }
+
+    data class LessonDetailPath(
+        private val lessonId: Long = -1
+    ) : GwasuwonPath {
+        override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.LESSON_DETAIL
+        override val arguments: List<NamedNavArgument> = listOf(
+            navArgument(ArgumentName.LESSON_ID.name) { defaultValue = lessonId },
+        )
+
+        enum class ArgumentName {
+            LESSON_ID,
+            ;
+        }
+
     }
 }

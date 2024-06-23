@@ -43,7 +43,7 @@ fun GwasuwonNavGraph(
         startDestination = when (accountInfoManager.getAccountInfo()?.status) {
             AccountStatus.ACTIVE -> {
                 //TODO 캐싱된 active 상태로 lesson 페이지로 랜딩을 유도하고, 해당 페이지에서 refresh token까지 로그인을 실패한 경우에 다시 로그인 페이지로 랜딩하게 수정이 필요.
-                GwasuwonPath.LessonPath.getDestination()
+                GwasuwonPath.LessonsPath.getDestination()
             }
             else -> {
                 GwasuwonPath.SingInPath.getDestination()
@@ -76,9 +76,20 @@ fun GwasuwonNavGraph(
                 )
             }
         }
-        with(GwasuwonPath.LessonPath) {
+        with(GwasuwonPath.LessonsPath) {
             composable(getDestination(), arguments) {
                 Text(text = "hi im lesson")
+            }
+        }
+        with(GwasuwonPath.CrateLessonPath) {
+            composable(getDestination(), arguments) {
+                Text(text = "hi im create lesson")
+            }
+        }
+        with(GwasuwonPath.LessonDetailPath()) {
+            composable(getDestination(), arguments) {
+                val lessonId = it.arguments?.getLong(GwasuwonPath.LessonDetailPath.ArgumentName.LESSON_ID.name) ?: ""
+                Text(text = "hi im lesson detail")
             }
         }
     }

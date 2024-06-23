@@ -10,8 +10,9 @@ import kotlinx.coroutines.flow.onEach
 sealed interface NavigationEvent {
     data object NavigateSignInRoute : NavigationEvent
     data object NavigateSignUpRoute : NavigationEvent
-
-    data object NavigateLessonRoute : NavigationEvent
+    data object NavigateLessonsRoute : NavigationEvent
+    data object NavigateCreateLessonRoute : NavigationEvent
+    data class NavigateLessonDetailRoute(val lessonId: Long) : NavigationEvent
     data object PopBack : NavigationEvent
 }
 
@@ -26,16 +27,23 @@ fun MutableSharedFlow<NavigationEvent>.subscribeNavigationEvent(
                     navActions.navigateSignInRoute()
                 }
 
-                is NavigationEvent.NavigateLessonRoute -> {
-                    navActions.navigateLessounRoute()
-
-                }
-
                 is NavigationEvent.NavigateSignUpRoute -> {
                     navActions.navigateSignUpRoute()
 
                 }
 
+                is NavigationEvent.NavigateLessonsRoute -> {
+                    navActions.navigateLessonsRoute()
+
+                }
+                is NavigationEvent.NavigateCreateLessonRoute -> {
+                    navActions.navigateCreateLessonRoute()
+
+                }
+                is NavigationEvent.NavigateLessonDetailRoute -> {
+                    navActions.navigateLessonDetailRoute(it.lessonId)
+
+                }
                 is NavigationEvent.PopBack -> {
                     navActions.popBackStack()
                 }

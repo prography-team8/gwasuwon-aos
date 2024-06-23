@@ -132,7 +132,7 @@ class SignUpUiMachine(
     private val navigateLessonRouteFlow = actionFlow
         .filterIsInstance<SignUpActionEvent.NavigateLessonRoute>()
         .onEach {
-            navigateFlow.emit(NavigationEvent.NavigateLessonRoute)
+            navigateFlow.emit(NavigationEvent.NavigateLessonsRoute)
         }
 
     override val outerNotifyScenarioActionFlow = merge(
