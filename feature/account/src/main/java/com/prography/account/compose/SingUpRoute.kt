@@ -36,7 +36,7 @@ import com.prography.account.SignUpViewModel
 import com.prography.configuration.R
 import com.prography.configuration.toColor
 import com.prography.configuration.ui.GwasuwonConfigurationManager
-import com.prography.ui.CommonNextButton
+import com.prography.ui.CommonButton
 import com.prography.ui.GwasuwonTypography
 
 /**
@@ -124,7 +124,8 @@ private fun SignUpAgreementBottom(
         }
         Spacer(modifier = Modifier.height(16.dp))
 
-        CommonNextButton(
+        CommonButton(
+            textResId = R.string.next,
             isAvailable = uiState.isAvailableNextButton,
             onClickNext = {
                 intent(SignUpIntent.ClickNextButton)

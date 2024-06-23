@@ -1,5 +1,6 @@
 package com.prography.ui
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -23,7 +24,8 @@ import com.prography.configuration.ui.GwasuwonConfigurationManager
  */
 
 @Composable
-fun CommonNextButton(
+fun CommonButton(
+    @StringRes textResId: Int,
     isAvailable: Boolean,
     onClickNext: () -> Unit
 ) {
@@ -48,7 +50,7 @@ fun CommonNextButton(
     ) {
         Text(
             modifier = Modifier.align(Alignment.Center),
-            text = stringResource(id = R.string.next),
+            text = stringResource(id = textResId),
             color = if (isAvailable) {
                 GwasuwonConfigurationManager.colors.staticWhite.toColor()
             } else {
