@@ -1,7 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary_normal">#0066FF</color>
-    <color name="white">#ffffff</color>
-    <color name="black">#ff000000</color>
+    <!-- Primary Colors -->
+    <color name="primaryNormalLight">#0066FF</color>
+    <color name="primaryNormalDark">#3385FF</color>
+    <color name="primaryStrongLight">#005EEB</color>
+    <color name="primaryStrongDark">#1A75FF</color>
+    <color name="primaryHeavyLight">#0054D1</color>
+    <color name="primaryHeavyDark">#0066FF</color>
+
+    <!-- Label Colors -->
+    <color name="labelNormalLight">#171719</color>
+    <color name="labelNormalDark">#F7F7F8</color>
+    <color name="labelStrongLight">#000000</color>
+    <color name="labelStrongDark">#FFFFFF</color>
+    <color name="labelNeutralLight">#2E2F33</color>
+    <color name="labelNeutralDark">#C2C4C8</color>
+    <color name="labelAlternativeLight">#37383C</color>
+    <color name="labelAlternativeDark">#AEB0B6</color>
+    <color name="labelAssistiveLight">#37383C</color>
+    <color name="labelAssistiveDark">#AEB0B6</color>
+    <color name="labelDisableLight">#37383C</color>
+    <color name="labelDisableDark">#989BA2</color>
+
+    <!-- Background Colors -->
+    <color name="backgroundRegularNormalLight">#FFFFFF</color>
+    <color name="backgroundRegularNormalDark">#1B1C1E</color>
+    <color name="backgroundRegularAlternativeLight">#F7F7F8</color>
+    <color name="backgroundRegularAlternativeDark">#0F0F10</color>
+    <color name="backgroundElevatedNormalLight">#FFFFFF</color>
+    <color name="backgroundElevatedNormalDark">#212225</color>
+    <color name="backgroundElevatedAlternativeLight">#F7F7F8</color>
+    <color name="backgroundElevatedAlternativeDark">#141415</color>
+
+    <!-- Interaction Colors -->
+    <color name="interactionInactiveLight">#989BA2</color>
+    <color name="interactionInactiveDark">#5A5C63</color>
+    <color name="interactionDisableLight">#F4F4F5</color>
+    <color name="interactionDisableDark">#2E2F33</color>
+
+    <!-- Line / Normal Colors -->
+    <color name="lineNormalLight">#70737C</color>
+    <color name="lineNormalDark">#70737C</color>
+    <color name="lineNeutralLight">#70737C</color>
+    <color name="lineNeutralDark">#70737C</color>
+    <color name="lineAlternativeLight">#70737C</color>
+    <color name="lineAlternativeDark">#70737C</color>
+    <color name="lineStrongLight">#70737C</color>
+    <color name="lineStrongDark">#C2C4C8</color>
+
+    <!-- Line / Solid Colors -->
+    <color name="lineSolidNormalLight">#E1E2E4</color>
+    <color name="lineSolidNormalDark">#37383C</color>
+    <color name="lineSolidNeutralLight">#EAEBEC</color>
+    <color name="lineSolidNeutralDark">#333438</color>
+    <color name="lineSolidAlternativeLight">#F4F4F5</color>
+    <color name="lineSolidAlternativeDark">#2E2F33</color>
+    <color name="lineSolidStrongLight">#AEB0B6</color>
+    <color name="lineSolidStrongDark">#70737C</color>
+
+    <!-- Fill Colors -->
+    <color name="fillNormalLight">#70737C</color>
+    <color name="fillNormalDark">#70737C</color>
+    <color name="fillStrongLight">#70737C</color>
+    <color name="fillStrongDark">#70737C</color>
+    <color name="fillAlternativeLight">#70737C</color>
+    <color name="fillAlternativeDark">#70737C</color>
+
+    <!-- Status Colors -->
+    <color name="statusPositiveLight">#00BF40</color>
+    <color name="statusPositiveDark">#1ED45A</color>
+    <color name="statusCautionaryLight">#FF9200</color>
+    <color name="statusCautionaryDark">#FFA938</color>
+    <color name="statusNegativeLight">#FF4242</color>
+    <color name="statusNegativeDark">#FF6363</color>
+
+    <!-- Static Colors -->
+    <color name="staticWhite">#FFFFFF</color>
+    <color name="staticBlack">#000000</color>
+
+    <!-- Accent Colors -->
+    <color name="accentLimeLight">#58CF04</color>
+    <color name="accentLimeDark">#6BE016</color>
+    <color name="accentCyanLight">#00BDDE</color>
+    <color name="accentCyanDark">#28D0ED</color>
+    <color name="accentLightBlueLight">#00AEFF</color>
+    <color name="accentLightBlueDark">#3DC2FF</color>
+    <color name="accentVioletLight">#6541F2</color>
+    <color name="accentVioletDark">#7D5EF7</color>
+    <color name="accentPinkLight">#F553DA</color>
+    <color name="accentPinkDark">#FA73E3</color>
+    <color name="accentRedOrangeLight">#FF5E00</color>
+    <color name="accentRedOrangeDark">#FF7B2E</color>
+    <color name="accentPurpleLight">#CB59FF</color>
+    <color name="accentPurpleDark">#D478FF</color>
+
+    <!-- Material Colors -->
+    <color name="materialDimmerLight">#171719</color>
+    <color name="materialDimmerDark">#171719</color>
+
+    <!-- Inverse Colors -->
+    <color name="inversePrimaryLight">#3385FF</color>
+    <color name="inversePrimaryDark">#0066FF</color>
+    <color name="inverseBackgroundLight">#1B1C1E</color>
+    <color name="inverseBackgroundDark">#FFFFFF</color>
+    <color name="inverseLabelLight">#F7F7F8</color>
+    <color name="inverseLabelDark">#171719</color>
+
     <color name="kakao">#FEE500</color>
+
 </resources>

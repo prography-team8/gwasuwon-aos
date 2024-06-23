@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -32,6 +31,7 @@ import com.prography.account.SignInViewModel
 import com.prography.configuration.R
 import com.prography.configuration.toColor
 import com.prography.configuration.ui.GwasuwonConfigurationManager
+import com.prography.ui.GwasuwonTypography
 
 /**
  * Created by MyeongKi.
@@ -75,24 +75,22 @@ private fun SignInLogo(
         Spacer(modifier = Modifier.height(24.dp))
         Text(
             text = stringResource(id = R.string.sign_in_title),
-            color = GwasuwonConfigurationManager.colors.semanticPrimaryNormal.toColor(),
-            fontWeight = FontWeight.Bold,
-            fontSize = dimensionResource(id = R.dimen.login_title_size).value.sp,
+            color = GwasuwonConfigurationManager.colors.primaryNormal.toColor(),
+            style = GwasuwonTypography.BrandMedium.textStyle
 
-            )
+        )
         Spacer(modifier = Modifier.height(24.dp))
         Text(
             text = stringResource(id = R.string.sign_in_desc),
-            color = GwasuwonConfigurationManager.colors.semanticPrimaryNormal.toColor(),
-            fontWeight = FontWeight.W400,
-            fontSize = dimensionResource(id = R.dimen.login_desc_size).value.sp,
+            color = GwasuwonConfigurationManager.colors.primaryNormal.toColor(),
+            style = GwasuwonTypography.Body1NormalMedium.textStyle
         )
     }
 }
 
 @Composable
 private fun KakaoLoginBtn(
-    modifier:Modifier,
+    modifier: Modifier,
     onClickBtn: () -> Unit
 ) {
     Box(
@@ -115,7 +113,7 @@ private fun KakaoLoginBtn(
             modifier = Modifier.align(Alignment.Center),
             text = stringResource(id = R.string.kakao_login),
             fontSize = dimensionResource(id = R.dimen.login_btn_text_size).value.sp,
-            color = GwasuwonConfigurationManager.colors.semanticStaticBlack.toColor(),
+            color = GwasuwonConfigurationManager.colors.staticBlack.toColor(),
             fontWeight = FontWeight.W500
         )
     }
