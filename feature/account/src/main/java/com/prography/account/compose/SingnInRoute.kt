@@ -97,7 +97,7 @@ private fun KakaoLoginBtn(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.sign_up_next_btn_conner)))
+            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.common_btn_conner)))
             .background(GwasuwonConfigurationManager.colors.kakaoColor.toColor())
             .padding(dimensionResource(id = R.dimen.default_btn_padding))
             .clickable(onClick = onClickBtn)

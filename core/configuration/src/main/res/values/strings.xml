@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="lesson_subject_math">수학</string>
+    <string name="lesson_subject_english">영어</string>
+    <string name="lesson_subject_korean">국어</string>
+    <string name="lesson_subject_science">과탐</string>
+    <string name="lesson_subject_society">사탐</string>
+    <string name="lesson_subject_others">기타</string>
+
+    <string name="lesson_duration_one_hour">1시간</string>
+    <string name="lesson_duration_one_and_half_hour">1시간 반</string>
+    <string name="lesson_duration_two_hour">2시간</string>
+    <string name="lesson_duration_two_and_half_hour">2시간 반</string>
+    <string name="lesson_duration_three_hour">3시간</string>
+    <string name="lesson_duration_three_hour_more">3시간 이상</string>
+
+    <string name="lesson_day_monday">월</string>
+    <string name="lesson_day_tuesday">화</string>
+    <string name="lesson_day_wednesday">수</string>
+    <string name="lesson_day_thursday">목</string>
+    <string name="lesson_day_friday">금</string>
+    <string name="lesson_day_saturday">토</string>
+    <string name="lesson_day_sunday">일</string>
+
     <string name="sample_title">Sample Title</string>
     <string name="kakao_login">카카오 로그인</string>
     <string name="sign_in_title">Gwasuwon</string>
@@ -14,4 +36,8 @@
     <string name="sign_up_select_role_desc">*학부모님은 가입이 필요없어요</string>
     <string name="sign_up_select_teacher">선생님이에요</string>
     <string name="sign_up_select_student">학생이에요</string>
+    <string name="lessons_title">수업 목록</string>
+    <string name="lessons_empty_desc">아직 개설된 수업이 없어요</string>
+    <string name="add_lesson">수업 추가하기</string>
+
 </resources>

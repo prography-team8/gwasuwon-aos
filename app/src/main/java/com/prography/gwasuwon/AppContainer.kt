@@ -14,6 +14,7 @@ import com.prography.domain.account.usecase.SignUpUseCase
 import com.prography.domain.configuration.ConfigurationEvent
 import com.prography.domain.lesson.respository.LessonRepositoryImpl
 import com.prography.domain.lesson.usecase.LoadLessonsUseCase
+import com.prography.domain.preference.AccountPreference
 import com.prography.domain.preference.AccountPreferenceImpl
 import com.prography.domain.preference.ThemePreferenceImpl
 import com.prography.lesson.FakeLessonsDataSource
@@ -37,8 +38,19 @@ object AppContainer {
     private val gwasuwonRefreshTokenHelper by lazy {
         GwasuwonRefreshTokenHelper(GwasuwonApplication.currentApplication)
     }
+//    private val accountPreference by lazy {
+//        AccountPreferenceImpl(GwasuwonApplication.currentApplication)
+//    }
     private val accountPreference by lazy {
-        AccountPreferenceImpl(GwasuwonApplication.currentApplication)
+        object : AccountPreference {
+            override fun getAccountStatus(): AccountStatus {
+                return AccountStatus.ACTIVE
+            }
+
+            override fun setAccountStatus(accountStatus: AccountStatus) {
+            }
+
+        }
     }
     val accountInfoManager: AccountInfoManager by lazy {
         AccountInfoManagerImpl.apply {

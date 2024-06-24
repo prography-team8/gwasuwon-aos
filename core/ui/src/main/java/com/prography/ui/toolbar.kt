@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
@@ -22,19 +23,19 @@ import com.prography.configuration.R
  */
 @Composable
 fun CommonToolbar(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     @StringRes titleRes: Int,
 ) {
     Text(
-        modifier = modifier,
+        modifier = modifier.padding(vertical = 8.dp),
         text = stringResource(id = titleRes),
         style = GwasuwonTypography.Heading1Bold.textStyle
-        )
+    )
 }
 
 @Composable
 fun CommonToolbar(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     @StringRes titleRes: Int,
     onClickBack: () -> Unit
 ) {

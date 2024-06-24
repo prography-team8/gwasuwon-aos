@@ -13,7 +13,7 @@ data class UpdateLessonRequestOption(
     val schoolYear: String,
     val memo: String,
     val lessonSubject: LessonSubject,
-    val lessonDay: Set<LessonDay>,
+    val lessonDay: List<LessonDay>,
     val lessonDuration: LessonDuration,
     val lessonNumberOfProgress: Int,
     val lessonStartDate: String,

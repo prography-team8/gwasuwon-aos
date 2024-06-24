@@ -33,7 +33,7 @@ fun CommonButton(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.sign_up_next_btn_conner)))
+            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.common_btn_conner)))
             .background(
                 if (isAvailable) {
                     GwasuwonConfigurationManager.colors.primaryNormal.toColor()
@@ -41,7 +41,7 @@ fun CommonButton(
                     GwasuwonConfigurationManager.colors.interactionInactive.toColor()
                 }
             )
-            .padding(dimensionResource(id = R.dimen.next_btn_padding))
+            .padding(dimensionResource(id = R.dimen.common_btn_padding))
             .clickable(onClick = {
                 if (isAvailable) {
                     onClickNext()

@@ -6,8 +6,14 @@ import com.prography.usm.state.UiState
 /**
  * Created by MyeongKi.
  */
-data object LessonsMachineState : MachineInternalState<LessonsUiState> {
-    override fun toUiState(): LessonsUiState = LessonsUiState
+data class LessonsMachineState(
+    val isRequestRefresh: Boolean = false
+) : MachineInternalState<LessonsUiState> {
+    override fun toUiState(): LessonsUiState {
+        return LessonsUiState(isRequestRefresh)
+    }
 }
 
-object LessonsUiState : UiState
+data class LessonsUiState(
+    val isRequestRefresh: Boolean = false
+) : UiState

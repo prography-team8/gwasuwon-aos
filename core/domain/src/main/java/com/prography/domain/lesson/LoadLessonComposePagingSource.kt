@@ -25,15 +25,11 @@ class LoadLessonComposePagingSource(
                     pageSize = PAGE_SIZE
                 )
             ).last()
-            return if (result.isNotEmpty()) {
-                LoadResult.Page(
-                    data = result,
-                    prevKey = if (currentPage == START_PAGE) null else currentPage.dec(),
-                    nextKey = currentPage.inc()
-                )
-            } else {
-                LoadResult.Invalid()
-            }
+            return LoadResult.Page(
+                data = result,
+                prevKey = if (currentPage == START_PAGE) null else currentPage.dec(),
+                nextKey = currentPage.inc()
+            )
         } catch (e: Exception) {
             return LoadResult.Error(e)
         }
