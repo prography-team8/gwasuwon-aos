@@ -46,5 +46,6 @@
     <string name="default_info_school_year_hint">ex) 고등학교 2학년</string>
     <string name="default_info_memo">한줄 메모</string>
     <string name="default_info_memo_hint">ex) 확통 특히 어려워 함</string>
+    <string name="additional_info">추가 정보</string>
 
 </resources>

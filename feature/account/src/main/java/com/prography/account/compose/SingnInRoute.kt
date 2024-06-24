@@ -98,7 +98,7 @@ private fun KakaoLoginBtn(
             .fillMaxWidth()
             .wrapContentHeight()
             .clip(RoundedCornerShape(dimensionResource(id = R.dimen.common_btn_conner)))
-            .background(GwasuwonConfigurationManager.colors.kakaoColor.toColor())
+            .background(GwasuwonConfigurationManager.colors.socialKakao.toColor())
             .padding(dimensionResource(id = R.dimen.default_btn_padding))
             .clickable(onClick = onClickBtn)
     ) {

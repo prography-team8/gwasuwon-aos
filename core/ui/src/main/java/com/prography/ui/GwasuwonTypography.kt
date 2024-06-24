@@ -8,7 +8,6 @@ import androidx.compose.ui.unit.sp
 /**
  * Created by MyeongKi.
  */
-//FIXME fontWeight 수정 필요.
 sealed interface GwasuwonTypography {
     val textStyle: TextStyle
 

@@ -1,20 +1,31 @@
 package com.prography.lesson.compose
 
+import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,6 +42,8 @@ import com.prography.lesson.CreateLessonViewModel
 import com.prography.ui.CommonButton
 import com.prography.ui.CommonToolbar
 import com.prography.ui.GwasuwonTypography
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 /**
  * Created by MyeongKi.
@@ -62,6 +75,9 @@ fun CreateLessonRoute(
             )
         }
     }
+    BackHandler {
+        viewModel.machine.intentInvoker(CreateLessonIntent.ClickBack)
+    }
 }
 
 @Composable
@@ -70,8 +86,11 @@ private fun DefaultInfoScreen(
     event: (CreateLessonActionEvent) -> Unit,
     intent: (CreateLessonIntent) -> Unit
 ) {
+    val scrollState = rememberScrollState()
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState)
     ) {
         CreateLessonHeader {
             intent(CreateLessonIntent.ClickBack)
@@ -134,7 +153,7 @@ private fun LessonInfoInput(
                     if (inputText.isNotEmpty()) {
                         Modifier.border(
                             width = 1.dp,
-                            color = GwasuwonConfigurationManager.colors.lineNormal.toColor(),
+                            color = GwasuwonConfigurationManager.colors.lineRegularNormal.toColor(),
                             shape = RoundedCornerShape(dimensionResource(id = R.dimen.sign_up_role_btn_conner))
                         )
                     } else {
@@ -171,13 +190,86 @@ private fun AdditionalInfoScreen(
     event: (CreateLessonActionEvent) -> Unit,
     intent: (CreateLessonIntent) -> Unit
 ) {
+    val scrollState = rememberScrollState()
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState)
     ) {
         CreateLessonHeader {
             intent(CreateLessonIntent.ClickBack)
         }
+        Spacer(modifier = Modifier.height(24.dp))
+        Text(
+            text = stringResource(id = R.string.additional_info),
+            color = GwasuwonConfigurationManager.colors.labelNormal.toColor(),
+            style = GwasuwonTypography.Headline1Bold.textStyle
+        )
+        Spacer(modifier = Modifier.height(32.dp))
+        var expanded by remember { mutableStateOf(false) }
 
+        DropdownMenuComponent(
+            expanded = expanded,
+            selectedOptionText = "test",
+            onDismissRequest = { expanded = false },
+            onOptionSelected = {expanded = false },
+            onExpandedChange = {expanded = !expanded },
+            options = persistentListOf("1", "2", "3")
+        )
+    }
+}
+
+@Composable
+fun DropdownMenuComponent(
+    expanded: Boolean,
+    selectedOptionText: String,
+    onDismissRequest: () -> Unit,
+    onOptionSelected: (Int) -> Unit,
+    onExpandedChange: () -> Unit,
+    options: ImmutableList<String>
+) {
+    Box {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(
+                    1.dp,
+                    GwasuwonConfigurationManager.colors.lineRegularNormal.toColor(),
+                    RoundedCornerShape(8.dp)
+                )
+                .padding(vertical = 12.dp, horizontal = 16.dp)
+                .clickable { onExpandedChange() }
+        ) {
+            Text(
+                text = selectedOptionText,
+                style = GwasuwonTypography.Body1NormalRegular.textStyle
+            )
+            Spacer(modifier = Modifier.weight(1f))
+
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { onDismissRequest() },
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(
+                    1.dp,
+                    GwasuwonConfigurationManager.colors.lineRegularNormal.toColor(),
+                    RoundedCornerShape(8.dp)
+                )
+        ) {
+            options.forEachIndexed { index, s ->
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            text = s,
+                            style = GwasuwonTypography.Body1NormalRegular.textStyle
+                        )
+                    },
+                    onClick = { onOptionSelected(index) }
+                )
+            }
+        }
     }
 }
 
