@@ -4,6 +4,7 @@ import NavigationEvent
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
+import com.prography.domain.lesson.CommonLessonEvent
 import com.prography.domain.lesson.usecase.LoadLessonsUseCase
 import com.prography.usm.holder.UiStateMachine
 import kotlinx.coroutines.CoroutineScope
@@ -20,10 +21,12 @@ import kotlinx.coroutines.flow.onEach
  */
 class LessonsUiMachine(
     coroutineScope: CoroutineScope,
+    commonLessonEvent: Flow<CommonLessonEvent>,
     navigateFlow: MutableSharedFlow<NavigationEvent>,
     loadLessonsUseCase: LoadLessonsUseCase,
 ) : UiStateMachine<LessonsUiState, LessonsMachineState, LessonsActionEvent, LessonsIntent>(
     coroutineScope,
+    commonLessonEvent.toActionFlow()
 ) {
     val lessonsPagingFlow: Flow<PagingData<LessonItemUiMachine>> = loadLessonsUseCase()
         .distinctUntilChanged()
@@ -74,5 +77,14 @@ class LessonsUiMachine(
             requestRefreshFlow,
             onStartRefreshFlow,
         )
+    }
+
+}
+
+private fun Flow<CommonLessonEvent>.toActionFlow(): Flow<LessonsActionEvent> {
+    return map {
+        when (it) {
+            is CommonLessonEvent.NotifyCreateLesson -> LessonsActionEvent.RequestRefresh
+        }
     }
 }

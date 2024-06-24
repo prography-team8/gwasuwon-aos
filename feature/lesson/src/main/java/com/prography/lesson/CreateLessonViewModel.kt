@@ -5,37 +5,36 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.prography.domain.lesson.CommonLessonEvent
-import com.prography.domain.lesson.usecase.LoadLessonsUseCase
-import kotlinx.coroutines.flow.Flow
+import com.prography.domain.lesson.usecase.CreateLessonUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 
 /**
  * Created by MyeongKi.
  */
-class LessonsViewModel(
+class CreateLessonViewModel(
     navigateFlow: MutableSharedFlow<NavigationEvent>,
-    commonLessonEvent: Flow<CommonLessonEvent>,
-    loadLessonsUseCase: LoadLessonsUseCase,
+    commonLessonEvent: MutableSharedFlow<CommonLessonEvent>,
+    createLessonUseCase: CreateLessonUseCase,
 ) : ViewModel() {
-    val machine = LessonsUiMachine(
+    val machine = CreateLessonUiMachine(
         commonLessonEvent = commonLessonEvent,
         coroutineScope = viewModelScope,
         navigateFlow = navigateFlow,
-        loadLessonsUseCase = loadLessonsUseCase,
+        createLessonUseCase = createLessonUseCase,
     )
 
     companion object {
         fun provideFactory(
             navigateFlow: MutableSharedFlow<NavigationEvent>,
-            commonLessonEvent: Flow<CommonLessonEvent>,
-            loadLessonsUseCase: LoadLessonsUseCase,
+            commonLessonEvent: MutableSharedFlow<CommonLessonEvent>,
+            createLessonUseCase: CreateLessonUseCase,
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return LessonsViewModel(
+                return CreateLessonViewModel(
                     navigateFlow,
                     commonLessonEvent,
-                    loadLessonsUseCase,
+                    createLessonUseCase,
                 ) as T
             }
         }

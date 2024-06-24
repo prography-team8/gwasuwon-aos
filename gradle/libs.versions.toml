@@ -2,6 +2,8 @@
 agp = "8.4.0"
 androidTools = "31.4.0"
 kotlin = "1.9.0"
+kotlinCollections = "0.3.5"
+
 kotlinCoroutines = "1.8.1"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -46,6 +48,7 @@ androidx-navigation = {group = "androidx.navigation", name = "navigation-compose
 android-systemuicontroller = {group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist-systemuicontroller"}
 #kotlin
 kotlin-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
+kotlin-collections = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinCollections" }
 #ktor
 ktor-client-core = {group ="io.ktor", name ="ktor-client-core", version.ref = "ktor"}
 ktor-client-okhttp = {group ="io.ktor", name ="ktor-client-okhttp", version.ref = "ktor"}

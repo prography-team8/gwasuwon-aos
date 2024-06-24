@@ -39,5 +39,12 @@
     <string name="lessons_title">수업 목록</string>
     <string name="lessons_empty_desc">아직 개설된 수업이 없어요</string>
     <string name="add_lesson">수업 추가하기</string>
+    <string name="default_info">기본 정보</string>
+    <string name="default_info_student_name">학생 이름</string>
+    <string name="default_info_student_name_hint">ex) 김철수</string>
+    <string name="default_info_school_year">학년</string>
+    <string name="default_info_school_year_hint">ex) 고등학교 2학년</string>
+    <string name="default_info_memo">한줄 메모</string>
+    <string name="default_info_memo_hint">ex) 확통 특히 어려워 함</string>
 
 </resources>

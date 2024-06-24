@@ -17,5 +17,5 @@ dependencies {
     implementation(project(":core:navigation"))
     implementation(project(":core:utils"))
     implementation(libs.androidx.compose.paging)
-
+    implementation(libs.kotlin.collections)
 }

@@ -18,7 +18,9 @@ import com.prography.account.compose.SignUpRoute
 import com.prography.domain.account.AccountInfoManager
 import com.prography.domain.account.model.AccountStatus
 import com.prography.gwasuwon.AppContainer
+import com.prography.lesson.CreateLessonViewModel
 import com.prography.lesson.LessonsViewModel
+import com.prography.lesson.compose.CreateLessonRoute
 import com.prography.lesson.compose.LessonsRoute
 import subscribeNavigationEvent
 
@@ -86,6 +88,7 @@ fun GwasuwonNavGraph(
                         factory = LessonsViewModel.provideFactory(
                             navigateFlow = AppContainer.navigateEventFlow,
                             loadLessonsUseCase = AppContainer.loadLessonsUseCase,
+                            commonLessonEvent = AppContainer.commonLessonEvent
                         )
                     )
                 )
@@ -93,7 +96,15 @@ fun GwasuwonNavGraph(
         }
         with(GwasuwonPath.CrateLessonPath) {
             composable(getDestination(), arguments) {
-                Text(text = "hi im create lesson")
+                CreateLessonRoute(
+                    viewModel = viewModel(
+                        factory = CreateLessonViewModel.provideFactory(
+                            navigateFlow = AppContainer.navigateEventFlow,
+                            createLessonUseCase = AppContainer.createLessonUseCase,
+                            commonLessonEvent = AppContainer.commonLessonEvent
+                        )
+                    )
+                )
             }
         }
         with(GwasuwonPath.LessonDetailPath()) {
