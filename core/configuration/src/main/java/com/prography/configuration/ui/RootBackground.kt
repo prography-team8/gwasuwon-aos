@@ -1,5 +1,6 @@
 package com.prography.configuration.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
@@ -32,6 +33,7 @@ fun RootBackground(viewModel: ConfigurationStateViewModel, content: @Composable 
 
         Surface(
             modifier = Modifier
+                .background(GwasuwonConfigurationManager.colors.backgroundRegularNormal.toColor())
                 .fillMaxSize()
                 .padding(
                     horizontal = dimensionResource(id = R.dimen.default_horizontal_padding)

@@ -47,5 +47,6 @@
     <string name="default_info_memo">한줄 메모</string>
     <string name="default_info_memo_hint">ex) 확통 특히 어려워 함</string>
     <string name="additional_info">추가 정보</string>
+    <string name="select_subject">과목 선택</string>
 
 </resources>
