@@ -7,10 +7,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -41,6 +39,7 @@ import com.prography.lesson.LessonsUiState
 import com.prography.lesson.LessonsViewModel
 import com.prography.ui.CommonToolbar
 import com.prography.ui.GwasuwonTypography
+import com.prography.ui.SpaceHeight
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -122,7 +121,7 @@ private fun LessonsEmpty(
             text = stringResource(id = R.string.lessons_empty_desc),
             style = GwasuwonTypography.Body1NormalRegular.textStyle
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        SpaceHeight(height = 8)
         EmptyCreateLessonButton {
             intent(LessonsIntent.ClickCreateLesson)
         }
@@ -171,7 +170,7 @@ private fun HasLessons(
                     machine = it
                 )
             }
-            Spacer(modifier = Modifier.height(16.dp))
+            SpaceHeight(height = 16)
         }
         item {
             HasCreateLessonButton {

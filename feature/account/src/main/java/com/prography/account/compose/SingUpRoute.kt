@@ -38,6 +38,8 @@ import com.prography.configuration.toColor
 import com.prography.configuration.ui.GwasuwonConfigurationManager
 import com.prography.ui.CommonButton
 import com.prography.ui.GwasuwonTypography
+import com.prography.ui.SpaceHeight
+import com.prography.ui.SpaceWidth
 
 /**
  * Created by MyeongKi.
@@ -168,7 +170,7 @@ private fun AllAgreementButton(
                 modifier = Modifier
                     .size(dimensionResource(id = R.dimen.common_icon_small_size)),
             )
-            Spacer(modifier = Modifier.width(12.dp))
+            SpaceWidth(width = 12)
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -211,7 +213,7 @@ private fun AgreementButton(
                 modifier = Modifier
                     .size(dimensionResource(id = R.dimen.common_icon_small_size)),
             )
-            Spacer(modifier = Modifier.width(12.dp))
+            SpaceWidth(width = 12)
             Text(
                 modifier = Modifier
                     .weight(1f),
@@ -246,20 +248,20 @@ private fun SignUpSelectRoleScreen(
             style = GwasuwonTypography.Title2Bold.textStyle
 
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        SpaceHeight(height = 8)
         Text(
             text = stringResource(id = R.string.sign_up_select_role_desc),
             color = GwasuwonConfigurationManager.colors.labelAlternative.toColor(),
             style = GwasuwonTypography.Label1NormalRegular.textStyle
         )
-        Spacer(modifier = Modifier.height((78.5).dp))
+        SpaceHeight(height = 78.5f)
         SignUpSelectRoleButton(
             textResId = R.string.sign_up_select_teacher,
             iconResId = R.drawable.teacher,
         ) {
             intent(SignUpIntent.ClickTeacher)
         }
-        Spacer(modifier = Modifier.height(8.dp))
+        SpaceHeight(height = 8)
         SignUpSelectRoleButton(
             textResId = R.string.sign_up_select_student,
             iconResId = R.drawable.student,

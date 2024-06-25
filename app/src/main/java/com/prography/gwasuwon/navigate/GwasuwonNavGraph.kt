@@ -20,7 +20,7 @@ import com.prography.domain.account.model.AccountStatus
 import com.prography.gwasuwon.AppContainer
 import com.prography.lesson.CreateLessonViewModel
 import com.prography.lesson.LessonsViewModel
-import com.prography.lesson.compose.CreateLessonRoute
+import com.prography.lesson.compose.create.CreateLessonRoute
 import com.prography.lesson.compose.LessonsRoute
 import subscribeNavigationEvent
 

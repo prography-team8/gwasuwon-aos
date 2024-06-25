@@ -48,5 +48,7 @@
     <string name="default_info_memo_hint">ex) 확통 특히 어려워 함</string>
     <string name="additional_info">추가 정보</string>
     <string name="select_subject">과목 선택</string>
+    <string name="lesson_schedule">수업 일정</string>
+    <string name="lesson_duration">진행 시간</string>
 
 </resources>
