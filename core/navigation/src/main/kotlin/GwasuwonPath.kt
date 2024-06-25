@@ -78,6 +78,46 @@ sealed interface GwasuwonPath {
             LESSON_ID,
             ;
         }
+    }
+    data class LessonInfoDetailPath(
+        private val lessonId: Long = -1
+    ) : GwasuwonPath {
+        override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.LESSON_INFO_DETAIL
+        override val arguments: List<NamedNavArgument> = listOf(
+            navArgument(ArgumentName.LESSON_ID.name) { defaultValue = lessonId },
+        )
 
+        enum class ArgumentName {
+            LESSON_ID,
+            ;
+        }
+    }
+
+    data class InviteStudentQrPath(
+        private val lessonId: Long = -1
+    ) : GwasuwonPath {
+        override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.INVITE_STUDENT_QR
+        override val arguments: List<NamedNavArgument> = listOf(
+            navArgument(ArgumentName.LESSON_ID.name) { defaultValue = lessonId },
+        )
+
+        enum class ArgumentName {
+            LESSON_ID,
+            ;
+        }
+    }
+
+    data class LessonContractQrPath(
+        private val lessonId: Long = -1
+    ) : GwasuwonPath {
+        override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.LESSON_CONTRACT_QR
+        override val arguments: List<NamedNavArgument> = listOf(
+            navArgument(ArgumentName.LESSON_ID.name) { defaultValue = lessonId },
+        )
+
+        enum class ArgumentName {
+            LESSON_ID,
+            ;
+        }
     }
 }

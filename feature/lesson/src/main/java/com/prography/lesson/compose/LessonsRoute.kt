@@ -40,6 +40,7 @@ import com.prography.lesson.LessonsViewModel
 import com.prography.ui.CommonToolbar
 import com.prography.ui.GwasuwonTypography
 import com.prography.ui.SpaceHeight
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -93,6 +94,7 @@ private fun LessonsBody(
     val lessonItemPagingData = lessonsPagingFlow.collectAsLazyPagingItems()
     LaunchedEffect(uiState.isRequestRefresh) {
         if (uiState.isRequestRefresh) {
+            delay(300)
             lessonItemPagingData.refresh()
             event(LessonsActionEvent.OnStartRefresh)
         }

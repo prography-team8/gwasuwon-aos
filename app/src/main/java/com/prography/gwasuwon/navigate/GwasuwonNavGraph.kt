@@ -122,6 +122,28 @@ fun GwasuwonNavGraph(
                 )
             }
         }
+
+        with(GwasuwonPath.LessonInfoDetailPath()) {
+            composable(getDestination(), arguments) {
+                val lessonId = it.arguments?.getLong(GwasuwonPath.LessonInfoDetailPath.ArgumentName.LESSON_ID.name) ?: 0L
+                Text(text = "hi im lesson info detail")
+            }
+        }
+
+        with(GwasuwonPath.InviteStudentQrPath()) {
+            composable(getDestination(), arguments) {
+                val lessonId = it.arguments?.getLong(GwasuwonPath.InviteStudentQrPath.ArgumentName.LESSON_ID.name) ?: 0L
+                Text(text = "hi im InviteStudentQrPath")
+            }
+        }
+
+        with(GwasuwonPath.LessonContractQrPath()) {
+            composable(getDestination(), arguments) {
+                val lessonId = it.arguments?.getLong(GwasuwonPath.LessonContractQrPath.ArgumentName.LESSON_ID.name) ?: 0L
+                Text(text = "hi im LessonContractQrPath")
+            }
+        }
+
         with(GwasuwonPath.LessonDetailPath()) {
             composable(getDestination(), arguments) {
                 val lessonId = it.arguments?.getLong(GwasuwonPath.LessonDetailPath.ArgumentName.LESSON_ID.name) ?: ""

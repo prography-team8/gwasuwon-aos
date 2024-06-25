@@ -49,7 +49,7 @@ class FakeLessonsDataSource : LessonDataSource {
                 lessonDuration = requestOption.lessonDuration,
                 lessonNumberOfProgress = requestOption.lessonNumberOfProgress,
                 lessonStartDate = requestOption.lessonStartDate,
-                restLesson = requestOption.lessonNumberOfProgress,
+                restLesson = 0,
                 lessonContractUrl = "test url"
             )
             lessons.add(lesson)

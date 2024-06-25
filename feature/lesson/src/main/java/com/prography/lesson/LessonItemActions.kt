@@ -12,12 +12,12 @@ sealed interface LessonItemIntent : Intent<LessonItemActionEvent> {
     override fun toActionEvent(): LessonItemActionEvent {
         return when (this) {
             is ClickLesson -> {
-                LessonItemActionEvent.NavigateLessonDetail
+                LessonItemActionEvent.NavigateManagingLesson
             }
         }
     }
 }
 
 sealed interface LessonItemActionEvent : ActionEvent {
-    data object NavigateLessonDetail : LessonItemActionEvent
+    data object NavigateManagingLesson : LessonItemActionEvent
 }

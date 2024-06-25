@@ -99,7 +99,7 @@ private fun LessonItemScreen(
                         pointColor = colorResource(id = R.color.green_50),
                         info = uiState.lesson.lessonDay.getLessonDayStringRes().map { stringResource(id = it) }.joinToString(separator = ",")
                     )
-                    Spacer(modifier = Modifier.width(1.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
                     LessonPointInfoItem(
                         pointColor = colorResource(id = R.color.orange_50),
                         info = stringResource(id = uiState.lesson.lessonDuration.getLessonDurationStringRes())

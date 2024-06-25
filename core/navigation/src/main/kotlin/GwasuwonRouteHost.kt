@@ -8,5 +8,8 @@ enum class GwasuwonRouteHost {
     CREATE_LESSON,
     LESSON_DETAIL,
     SUCCESS_CREATE_LESSON,
+    LESSON_INFO_DETAIL,
+    INVITE_STUDENT_QR,
+    LESSON_CONTRACT_QR,
     ;
 }

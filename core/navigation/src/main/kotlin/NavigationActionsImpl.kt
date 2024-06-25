@@ -25,7 +25,9 @@ class NavigationActions(
 
     fun navigateLessonsRoute() {
         navController.navigate(GwasuwonPath.LessonsPath.getNavigation()) {
+            launchSingleTop = true
             popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
+                inclusive = true
                 saveState = true
             }
         }
@@ -51,6 +53,30 @@ class NavigationActions(
         navController.navigate(GwasuwonPath.SuccessCreateLessonPath(lessonId).getNavigation()) {
             popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
                 inclusive = true
+                saveState = true
+            }
+        }
+    }
+
+    fun navigateLessonInfoDetailRoute(lessonId: Long) {
+        navController.navigate(GwasuwonPath.LessonInfoDetailPath(lessonId).getNavigation()) {
+            popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+        }
+    }
+
+    fun navigateInviteStudentQrRoute(lessonId: Long) {
+        navController.navigate(GwasuwonPath.InviteStudentQrPath(lessonId).getNavigation()) {
+            popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+        }
+    }
+
+    fun navigateLessonContractQrRoute(lessonId: Long) {
+        navController.navigate(GwasuwonPath.LessonContractQrPath(lessonId).getNavigation()) {
+            popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
                 saveState = true
             }
         }
