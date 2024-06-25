@@ -7,5 +7,6 @@ enum class GwasuwonRouteHost {
     LESSONS,
     CREATE_LESSON,
     LESSON_DETAIL,
+    SUCCESS_CREATE_LESSON,
     ;
 }

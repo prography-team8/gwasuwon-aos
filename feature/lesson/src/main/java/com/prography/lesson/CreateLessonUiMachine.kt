@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.transform
 
 /**
@@ -44,22 +43,6 @@ class CreateLessonUiMachine(
                 machineInternalState.copy(screenType = machineInternalState.screenType.prev() ?: machineInternalState.screenType)
             }
 
-        }
-
-    private val navigateLessonContractQrFlow = actionFlow
-        .filterIsInstance<CreateLessonActionEvent.NavigateLessonContractQr>()
-        .onEach {
-            //FIXME
-        }
-    private val navigateInviteStudentQrFlow = actionFlow
-        .filterIsInstance<CreateLessonActionEvent.NavigateInviteStudentQr>()
-        .onEach {
-            //FIXME
-        }
-    private val navigateHomeFlow = actionFlow
-        .filterIsInstance<CreateLessonActionEvent.NavigateHome>()
-        .onEach {
-            //FIXME
         }
 
     private val createLessonFlow = actionFlow
@@ -96,8 +79,8 @@ class CreateLessonUiMachine(
 
                 is Result.Success -> {
                     commonLessonEvent.emit(CommonLessonEvent.NotifyCreateLesson(it.data))
+                    navigateFlow.emit(NavigationEvent.NavigateSuccessCreateLessonRoute(it.data.lessonId))
                     machineInternalState.copy(
-                        screenType = CreateLessonScreenType.COMPLETE,
                         isLoading = false,
                         lessonContractUrl = it.data.lessonContractUrl
                     )
@@ -108,9 +91,14 @@ class CreateLessonUiMachine(
     private val goToNextPageFlow = actionFlow
         .filterIsInstance<CreateLessonActionEvent.GoToNextPage>()
         .map {
-            machineInternalState.copy(
-                screenType = machineInternalState.screenType.next() ?: machineInternalState.screenType
-            )
+            if (machineInternalState.screenType.isRequestCreateLessonPage()) {
+                eventInvoker(CreateLessonActionEvent.CreateLesson)
+                machineInternalState
+            } else {
+                machineInternalState.copy(
+                    screenType = machineInternalState.screenType.next() ?: machineInternalState.screenType
+                )
+            }
         }
 
     private val updateStudentNameFlow = actionFlow
@@ -184,11 +172,7 @@ class CreateLessonUiMachine(
                 lessonStartDate = it.lessonStartDate
             )
         }
-    override val outerNotifyScenarioActionFlow = merge(
-        navigateLessonContractQrFlow,
-        navigateInviteStudentQrFlow,
-        navigateHomeFlow,
-    )
+    override val outerNotifyScenarioActionFlow = null
 
     init {
         initMachine()

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="login_logo_size">88dp</dimen>
+    <dimen name="success_create_lesson_logo_size">64dp</dimen>
 
     <dimen name="common_icon_small_size">20dp</dimen>
     <dimen name="common_icon_large_size">35dp</dimen>

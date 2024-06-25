@@ -1,10 +1,7 @@
-package com.prography.lesson
+package com.prography.lesson.fake
 
 import com.prography.domain.lesson.LessonDataSource
 import com.prography.domain.lesson.model.Lesson
-import com.prography.domain.lesson.model.LessonDay
-import com.prography.domain.lesson.model.LessonDuration
-import com.prography.domain.lesson.model.LessonSubject
 import com.prography.domain.lesson.request.CreateLessonRequestOption
 import com.prography.domain.lesson.request.LoadLessonsRequestOption
 import com.prography.domain.lesson.request.UpdateLessonRequestOption

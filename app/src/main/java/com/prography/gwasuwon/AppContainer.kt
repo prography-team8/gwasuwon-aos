@@ -18,7 +18,7 @@ import com.prography.domain.lesson.usecase.CreateLessonUseCase
 import com.prography.domain.lesson.usecase.LoadLessonsUseCase
 import com.prography.domain.preference.AccountPreference
 import com.prography.domain.preference.ThemePreferenceImpl
-import com.prography.lesson.FakeLessonsDataSource
+import com.prography.lesson.fake.FakeLessonsDataSource
 import com.prography.network.HttpClientFactory
 import com.prography.utils.security.GwasuwonAccessTokenHelper
 import com.prography.utils.security.GwasuwonRefreshTokenHelper

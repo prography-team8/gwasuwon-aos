@@ -11,9 +11,6 @@ import com.prography.usm.action.Intent
  */
 sealed interface CreateLessonIntent : Intent<CreateLessonActionEvent> {
     data object ClickNext : CreateLessonIntent
-    data object ClickInviteStudent : CreateLessonIntent
-    data object ClickLessonContract : CreateLessonIntent
-    data object ClickHome : CreateLessonIntent
     data object ClickBack : CreateLessonIntent
     data class ClickLessonDay(val lessonDay: LessonDay) : CreateLessonIntent
     data class ClickLessonDuration(val lessonDuration: LessonDuration) : CreateLessonIntent
@@ -45,18 +42,6 @@ sealed interface CreateLessonIntent : Intent<CreateLessonActionEvent> {
             is ClickBack -> {
                 CreateLessonActionEvent.PopBack
             }
-
-            is ClickLessonContract -> {
-                CreateLessonActionEvent.NavigateLessonContractQr
-            }
-
-            is ClickInviteStudent -> {
-                CreateLessonActionEvent.NavigateInviteStudentQr
-            }
-
-            is ClickHome -> {
-                CreateLessonActionEvent.NavigateHome
-            }
         }
     }
 }
@@ -64,9 +49,6 @@ sealed interface CreateLessonIntent : Intent<CreateLessonActionEvent> {
 sealed interface CreateLessonActionEvent : ActionEvent {
     data object GoToNextPage : CreateLessonActionEvent
     data object PopBack : CreateLessonActionEvent
-    data object NavigateHome : CreateLessonActionEvent
-    data object NavigateLessonContractQr : CreateLessonActionEvent
-    data object NavigateInviteStudentQr : CreateLessonActionEvent
     data object CreateLesson : CreateLessonActionEvent
 
     data class UpdateStudentName(

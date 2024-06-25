@@ -54,5 +54,14 @@
     <string name="lesson_progress_time">진행 횟수</string>
     <string name="lesson_progress_time_hint">ex) 8</string>
     <string name="lesson_start_date">수업 시작일</string>
+    <string name="success_create_lesson_title">수업 생성이 완료되었어요!</string>
+    <string name="success_create_lesson_subtitle">수업 정보 보기</string>
+    <string name="success_create_lesson_desc_1">QR 코드를 통해 학생을 과수원 앱에 초대하세요.</string>
+    <string name="success_create_lesson_desc_2">학부모님과 같이 계시다면 QR 코드를 통해, 같이 계시지  않다면 링크 공유를 통해 과외 계약서를 전달하세요.</string>
+    <string name="success_create_lesson_desc_3">학생 초대, 계약 진행이 완료된 이후 수업을 진행하세요.</string>
+    <string name="navigate_home">홈으로</string>
+    <string name="invite_student_qr">학생 초대 QR</string>
+    <string name="lesson_contract">과외 계약서</string>
+
 
 </resources>

@@ -7,7 +7,6 @@ import com.prography.lesson.CreateLessonIntent
 import com.prography.lesson.CreateLessonUiState
 import com.prography.lesson.CreateLessonViewModel
 import com.prography.lesson.compose.create.screen.AdditionalInfoScreen
-import com.prography.lesson.compose.create.screen.CompleteScreen
 import com.prography.lesson.compose.create.screen.DefaultInfoScreen
 
 /**
@@ -30,12 +29,6 @@ fun CreateLessonRoute(
             AdditionalInfoScreen(
                 uiState,
                 viewModel.machine.eventInvoker,
-                viewModel.machine.intentInvoker
-            )
-        }
-
-        is CreateLessonUiState.Complete -> {
-            CompleteScreen(
                 viewModel.machine.intentInvoker
             )
         }

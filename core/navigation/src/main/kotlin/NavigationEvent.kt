@@ -13,6 +13,7 @@ sealed interface NavigationEvent {
     data object NavigateLessonsRoute : NavigationEvent
     data object NavigateCreateLessonRoute : NavigationEvent
     data class NavigateLessonDetailRoute(val lessonId: Long) : NavigationEvent
+    data class NavigateSuccessCreateLessonRoute(val lessonId: Long) : NavigationEvent
     data object PopBack : NavigationEvent
 }
 
@@ -42,7 +43,9 @@ fun MutableSharedFlow<NavigationEvent>.subscribeNavigationEvent(
                 }
                 is NavigationEvent.NavigateLessonDetailRoute -> {
                     navActions.navigateLessonDetailRoute(it.lessonId)
-
+                }
+                is NavigationEvent.NavigateSuccessCreateLessonRoute -> {
+                    navActions.navigateSuccessCreateLessonRoute(it.lessonId)
                 }
                 is NavigationEvent.PopBack -> {
                     navActions.popBackStack()

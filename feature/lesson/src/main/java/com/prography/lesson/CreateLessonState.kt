@@ -30,6 +30,7 @@ data class CreateLessonMachineState(
             && lessonDay.isNotEmpty()
             && lessonNumberOfProgress != null
             && lessonStartDate != null
+
     override fun toUiState(): CreateLessonUiState {
         return when (screenType) {
             CreateLessonScreenType.DEFAULT_INFO -> {
@@ -52,10 +53,6 @@ data class CreateLessonMachineState(
                     availableNextBtn = availableAdditionalInfo()
                 )
             }
-
-            CreateLessonScreenType.COMPLETE -> {
-                CreateLessonUiState.Complete
-            }
         }
     }
 }
@@ -77,20 +74,19 @@ sealed interface CreateLessonUiState : UiState {
         val availableNextBtn: Boolean,
         val isLoading: Boolean = false
     ) : CreateLessonUiState
-
-    data object Complete : CreateLessonUiState
 }
 
 enum class CreateLessonScreenType(val page: Int) {
     DEFAULT_INFO(1),
     ADDITIONAL_INFO(2),
-    COMPLETE(3)
     ;
 
     fun isFirstPage() = this.page == 1
+    fun isRequestCreateLessonPage() = this.page == entries.size
     fun next(): CreateLessonScreenType? {
         return entries.find { (this.page + 1) == it.page }
     }
+
     fun prev(): CreateLessonScreenType? {
         return entries.find { (this.page - 1) == it.page }
     }

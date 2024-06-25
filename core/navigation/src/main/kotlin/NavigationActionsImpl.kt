@@ -30,6 +30,7 @@ class NavigationActions(
             }
         }
     }
+
     fun navigateCreateLessonRoute() {
         navController.navigate(GwasuwonPath.CrateLessonPath.getNavigation()) {
             popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
@@ -37,9 +38,19 @@ class NavigationActions(
             }
         }
     }
-    fun navigateLessonDetailRoute(lessonId:Long) {
+
+    fun navigateLessonDetailRoute(lessonId: Long) {
         navController.navigate(GwasuwonPath.LessonDetailPath(lessonId).getNavigation()) {
             popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+        }
+    }
+
+    fun navigateSuccessCreateLessonRoute(lessonId: Long) {
+        navController.navigate(GwasuwonPath.SuccessCreateLessonPath(lessonId).getNavigation()) {
+            popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
+                inclusive = true
                 saveState = true
             }
         }
