@@ -37,17 +37,33 @@ import com.prography.configuration.R
 import com.prography.configuration.toColor
 import com.prography.configuration.ui.GwasuwonConfigurationManager
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 /**
  * Created by MyeongKi.
  */
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropdownMenuComponent(
     @StringRes defaultOptionTextResId: Int,
     @StringRes selectedOptionTextResId: Int?,
     optionResIds: ImmutableList<Int>,
+    onOptionSelected: (Int) -> Unit,
+) {
+    DropdownMenuComponent(
+        defaultOptionText = stringResource(id = defaultOptionTextResId),
+        selectedOptionText = selectedOptionTextResId?.let { stringResource(id = it) },
+        option = optionResIds.map { stringResource(id = it) }.toImmutableList(),
+        onOptionSelected = onOptionSelected
+
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DropdownMenuComponent(
+    defaultOptionText: String,
+    selectedOptionText: String?,
+    option: ImmutableList<String>,
     onOptionSelected: (Int) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -86,11 +102,11 @@ fun DropdownMenuComponent(
             BasicTextField(
                 modifier = Modifier
                     .weight(1f),
-                value = stringResource(id = selectedOptionTextResId ?: defaultOptionTextResId),
+                value = selectedOptionText ?: defaultOptionText,
                 onValueChange = {},
                 textStyle = GwasuwonTypography.Body1NormalRegular.textStyle
                     .copy(
-                        color = if (selectedOptionTextResId == null) {
+                        color = if (selectedOptionText == null) {
                             GwasuwonConfigurationManager.colors.labelAssistive.toColor()
                         } else {
                             GwasuwonConfigurationManager.colors.labelNormal.toColor()
@@ -122,20 +138,20 @@ fun DropdownMenuComponent(
             expanded = expanded,
             onDismissRequest = { expanded = false },
         ) {
-            optionResIds.forEachIndexed { index, resId ->
+            option.forEachIndexed { index, text ->
                 Column(
                     modifier = Modifier.clickable {
                         expanded = false
                         onOptionSelected(index)
                     }
                 ) {
-                    if (optionResIds.size > 1) {
+                    if (option.size > 1) {
                         when (index) {
                             0 -> {
                                 Spacer(modifier = Modifier.height(4.dp))
                                 Text(
                                     modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.common_large_padding)),
-                                    text = stringResource(id = resId),
+                                    text = text,
                                     style = GwasuwonTypography.Body1NormalRegular.textStyle
                                 )
                                 Spacer(modifier = Modifier.height(12.dp))
@@ -146,11 +162,11 @@ fun DropdownMenuComponent(
                                 )
                             }
 
-                            optionResIds.size - 1 -> {
+                            option.size - 1 -> {
                                 Spacer(modifier = Modifier.height(12.dp))
                                 Text(
                                     modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.common_large_padding)),
-                                    text = stringResource(id = resId),
+                                    text = text,
                                     style = GwasuwonTypography.Body1NormalRegular.textStyle
                                 )
                                 Spacer(modifier = Modifier.height(4.dp))
@@ -160,7 +176,7 @@ fun DropdownMenuComponent(
                                 Spacer(modifier = Modifier.height(12.dp))
                                 Text(
                                     modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.common_large_padding)),
-                                    text = stringResource(id = resId),
+                                    text = text,
                                     style = GwasuwonTypography.Body1NormalRegular.textStyle
                                 )
                                 Spacer(modifier = Modifier.height(12.dp))
@@ -175,7 +191,7 @@ fun DropdownMenuComponent(
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.common_large_padding)),
-                            text = stringResource(id = resId),
+                            text = text,
                             style = GwasuwonTypography.Body1NormalRegular.textStyle
                         )
                         Spacer(modifier = Modifier.height(4.dp))

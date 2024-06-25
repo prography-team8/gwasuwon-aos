@@ -61,7 +61,7 @@ internal fun DefaultInfoScreen(
         )
         Spacer(modifier = Modifier.weight(1f))
         CommonButton(textResId = R.string.next, isAvailable = uiState.availableNextBtn) {
-            event(CreateLessonActionEvent.GoToNextPage)
+            intent(CreateLessonIntent.ClickNext)
         }
     }
 }

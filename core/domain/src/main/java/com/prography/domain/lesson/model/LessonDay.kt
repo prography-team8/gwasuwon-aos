@@ -10,6 +10,6 @@ enum class LessonDay(val index: Int) {
     THURSDAY(4),
     FRIDAY(5),
     SATURDAY(6),
-    SUNDAY(0),
+    SUNDAY(7),
     ;
 }

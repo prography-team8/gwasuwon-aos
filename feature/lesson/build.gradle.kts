@@ -18,4 +18,6 @@ dependencies {
     implementation(project(":core:utils"))
     implementation(libs.androidx.compose.paging)
     implementation(libs.kotlin.collections)
+    implementation(libs.kotlin.date)
+
 }

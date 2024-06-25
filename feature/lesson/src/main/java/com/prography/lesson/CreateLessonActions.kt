@@ -15,9 +15,29 @@ sealed interface CreateLessonIntent : Intent<CreateLessonActionEvent> {
     data object ClickLessonContract : CreateLessonIntent
     data object ClickHome : CreateLessonIntent
     data object ClickBack : CreateLessonIntent
+    data class ClickLessonDay(val lessonDay: LessonDay) : CreateLessonIntent
+    data class ClickLessonDuration(val lessonDuration: LessonDuration) : CreateLessonIntent
+    data class ClickLessonSubject(val lessonSubject: LessonSubject) : CreateLessonIntent
+    data class ClickLessonDate(val lessonStartDate: String) : CreateLessonIntent
 
     override fun toActionEvent(): CreateLessonActionEvent {
         return when (this) {
+            is ClickLessonDate -> {
+                CreateLessonActionEvent.UpdateLessonStartDate(lessonStartDate)
+            }
+
+            is ClickLessonDuration -> {
+                CreateLessonActionEvent.UpdateLessonDuration(lessonDuration)
+            }
+
+            is ClickLessonSubject -> {
+                CreateLessonActionEvent.UpdateLessonSubject(lessonSubject)
+            }
+
+            is ClickLessonDay -> {
+                CreateLessonActionEvent.ToggleLessonDay(lessonDay)
+            }
+
             is ClickNext -> {
                 CreateLessonActionEvent.GoToNextPage
             }

@@ -50,5 +50,9 @@
     <string name="select_subject">과목 선택</string>
     <string name="lesson_schedule">수업 일정</string>
     <string name="lesson_duration">진행 시간</string>
+    <string name="lesson_schedule_day">수업 진행 요일</string>
+    <string name="lesson_progress_time">진행 횟수</string>
+    <string name="lesson_progress_time_hint">ex) 8</string>
+    <string name="lesson_start_date">수업 시작일</string>
 
 </resources>
