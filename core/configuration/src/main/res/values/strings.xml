@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="lesson_subject_math">수학</string>
+    <string name="lesson_subject_english">영어</string>
+    <string name="lesson_subject_korean">국어</string>
+    <string name="lesson_subject_science">과탐</string>
+    <string name="lesson_subject_society">사탐</string>
+    <string name="lesson_subject_others">기타</string>
+
+    <string name="lesson_duration_one_hour">1시간</string>
+    <string name="lesson_duration_one_and_half_hour">1시간 반</string>
+    <string name="lesson_duration_two_hour">2시간</string>
+    <string name="lesson_duration_two_and_half_hour">2시간 반</string>
+    <string name="lesson_duration_three_hour">3시간</string>
+    <string name="lesson_duration_three_hour_more">3시간 이상</string>
+
+    <string name="lesson_day_monday">월</string>
+    <string name="lesson_day_tuesday">화</string>
+    <string name="lesson_day_wednesday">수</string>
+    <string name="lesson_day_thursday">목</string>
+    <string name="lesson_day_friday">금</string>
+    <string name="lesson_day_saturday">토</string>
+    <string name="lesson_day_sunday">일</string>
+
     <string name="sample_title">Sample Title</string>
     <string name="kakao_login">카카오 로그인</string>
     <string name="sign_in_title">Gwasuwon</string>
@@ -14,4 +36,32 @@
     <string name="sign_up_select_role_desc">*학부모님은 가입이 필요없어요</string>
     <string name="sign_up_select_teacher">선생님이에요</string>
     <string name="sign_up_select_student">학생이에요</string>
+    <string name="lessons_title">수업 목록</string>
+    <string name="lessons_empty_desc">아직 개설된 수업이 없어요</string>
+    <string name="add_lesson">수업 추가하기</string>
+    <string name="default_info">기본 정보</string>
+    <string name="default_info_student_name">학생 이름</string>
+    <string name="default_info_student_name_hint">ex) 김철수</string>
+    <string name="default_info_school_year">학년</string>
+    <string name="default_info_school_year_hint">ex) 고등학교 2학년</string>
+    <string name="default_info_memo">한줄 메모</string>
+    <string name="default_info_memo_hint">ex) 확통 특히 어려워 함</string>
+    <string name="additional_info">추가 정보</string>
+    <string name="select_subject">과목 선택</string>
+    <string name="lesson_schedule">수업 일정</string>
+    <string name="lesson_duration">진행 시간</string>
+    <string name="lesson_schedule_day">수업 진행 요일</string>
+    <string name="lesson_progress_time">진행 횟수</string>
+    <string name="lesson_progress_time_hint">ex) 8</string>
+    <string name="lesson_start_date">수업 시작일</string>
+    <string name="success_create_lesson_title">수업 생성이 완료되었어요!</string>
+    <string name="success_create_lesson_subtitle">수업 정보 보기</string>
+    <string name="success_create_lesson_desc_1">QR 코드를 통해 학생을 과수원 앱에 초대하세요.</string>
+    <string name="success_create_lesson_desc_2">학부모님과 같이 계시다면 QR 코드를 통해, 같이 계시지  않다면 링크 공유를 통해 과외 계약서를 전달하세요.</string>
+    <string name="success_create_lesson_desc_3">학생 초대, 계약 진행이 완료된 이후 수업을 진행하세요.</string>
+    <string name="navigate_home">홈으로</string>
+    <string name="invite_student_qr">학생 초대 QR</string>
+    <string name="lesson_contract">과외 계약서</string>
+    <string name="common_confirm">확인</string>
+
 </resources>

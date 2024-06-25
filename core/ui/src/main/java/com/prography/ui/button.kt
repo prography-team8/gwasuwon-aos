@@ -1,6 +1,8 @@
 package com.prography.ui
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.prography.configuration.R
 import com.prography.configuration.toColor
 import com.prography.configuration.ui.GwasuwonConfigurationManager
@@ -21,9 +24,40 @@ import com.prography.configuration.ui.GwasuwonConfigurationManager
 /**
  * Created by MyeongKi.
  */
+@Composable
+fun CommonBorderButton(
+    modifier: Modifier = Modifier.fillMaxWidth(),
+    @StringRes textResId: Int,
+    onClickNext: () -> Unit
+) {
+    Box(
+        modifier = modifier
+            .wrapContentHeight()
+            .border(
+                width = 1.dp,
+                color = GwasuwonConfigurationManager.colors.primaryNormal.toColor(),
+                shape = RoundedCornerShape(dimensionResource(id = R.dimen.common_btn_conner))
+            )
+            .background(
+                GwasuwonConfigurationManager.colors.backgroundRegularNormal.toColor()
+            )
+            .padding(dimensionResource(id = R.dimen.common_padding))
+            .clickable(onClick = {
+                onClickNext()
+            })
+    ) {
+        Text(
+            modifier = Modifier.align(Alignment.Center),
+            text = stringResource(id = textResId),
+            color = GwasuwonConfigurationManager.colors.primaryNormal.toColor(),
+            style = GwasuwonTypography.Body1NormalBold.textStyle
+        )
+    }
+}
 
 @Composable
-fun CommonNextButton(
+fun CommonButton(
+    @StringRes textResId: Int,
     isAvailable: Boolean,
     onClickNext: () -> Unit
 ) {
@@ -31,7 +65,7 @@ fun CommonNextButton(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.sign_up_next_btn_conner)))
+            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.common_btn_conner)))
             .background(
                 if (isAvailable) {
                     GwasuwonConfigurationManager.colors.primaryNormal.toColor()
@@ -39,7 +73,7 @@ fun CommonNextButton(
                     GwasuwonConfigurationManager.colors.interactionInactive.toColor()
                 }
             )
-            .padding(dimensionResource(id = R.dimen.next_btn_padding))
+            .padding(dimensionResource(id = R.dimen.common_padding))
             .clickable(onClick = {
                 if (isAvailable) {
                     onClickNext()
@@ -48,7 +82,7 @@ fun CommonNextButton(
     ) {
         Text(
             modifier = Modifier.align(Alignment.Center),
-            text = stringResource(id = R.string.next),
+            text = stringResource(id = textResId),
             color = if (isAvailable) {
                 GwasuwonConfigurationManager.colors.staticWhite.toColor()
             } else {

@@ -10,8 +10,14 @@ import kotlinx.coroutines.flow.onEach
 sealed interface NavigationEvent {
     data object NavigateSignInRoute : NavigationEvent
     data object NavigateSignUpRoute : NavigationEvent
+    data object NavigateLessonsRoute : NavigationEvent
+    data object NavigateCreateLessonRoute : NavigationEvent
+    data class NavigateManagingLessonRoute(val lessonId: Long) : NavigationEvent
+    data class NavigateSuccessCreateLessonRoute(val lessonId: Long) : NavigationEvent
+    data class NavigateLessonInfoDetailRoute(val lessonId: Long) : NavigationEvent
+    data class NavigateInviteStudentQrRoute(val lessonId: Long) : NavigationEvent
+    data class NavigateLessonContractQrRoute(val lessonId: Long) : NavigationEvent
 
-    data object NavigateLessonRoute : NavigationEvent
     data object PopBack : NavigationEvent
 }
 
@@ -26,14 +32,39 @@ fun MutableSharedFlow<NavigationEvent>.subscribeNavigationEvent(
                     navActions.navigateSignInRoute()
                 }
 
-                is NavigationEvent.NavigateLessonRoute -> {
-                    navActions.navigateLessounRoute()
-
-                }
-
                 is NavigationEvent.NavigateSignUpRoute -> {
                     navActions.navigateSignUpRoute()
 
+                }
+
+                is NavigationEvent.NavigateLessonsRoute -> {
+                    navActions.navigateLessonsRoute()
+
+                }
+
+                is NavigationEvent.NavigateCreateLessonRoute -> {
+                    navActions.navigateCreateLessonRoute()
+
+                }
+
+                is NavigationEvent.NavigateManagingLessonRoute -> {
+                    navActions.navigateLessonDetailRoute(it.lessonId)
+                }
+
+                is NavigationEvent.NavigateSuccessCreateLessonRoute -> {
+                    navActions.navigateSuccessCreateLessonRoute(it.lessonId)
+                }
+
+                is NavigationEvent.NavigateLessonInfoDetailRoute -> {
+                    navActions.navigateLessonInfoDetailRoute(it.lessonId)
+                }
+
+                is NavigationEvent.NavigateInviteStudentQrRoute -> {
+                    navActions.navigateInviteStudentQrRoute(it.lessonId)
+                }
+
+                is NavigationEvent.NavigateLessonContractQrRoute -> {
+                    navActions.navigateLessonContractQrRoute(it.lessonId)
                 }
 
                 is NavigationEvent.PopBack -> {

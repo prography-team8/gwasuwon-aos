@@ -10,6 +10,6 @@ android {
 }
 dependencies {
     implementation(project(":core:utils"))
-
+    implementation(libs.androidx.compose.paging)
     implementation(libs.kotlin.coroutines)
 }

@@ -9,3 +9,15 @@ android {
         jvmTarget = "1.8"
     }
 }
+dependencies {
+    implementation(project(":core:ui"))
+    implementation(project(":core:usm"))
+    implementation(project(":core:configuration"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:navigation"))
+    implementation(project(":core:utils"))
+    implementation(libs.androidx.compose.paging)
+    implementation(libs.kotlin.collections)
+    implementation(libs.kotlin.date)
+
+}

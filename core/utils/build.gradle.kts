@@ -11,4 +11,6 @@ android {
 
 dependencies {
     implementation(libs.security.crypto)
+    implementation(libs.kotlin.date)
+
 }

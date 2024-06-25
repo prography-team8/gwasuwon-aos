@@ -2,6 +2,9 @@
 agp = "8.4.0"
 androidTools = "31.4.0"
 kotlin = "1.9.0"
+kotlinCollections = "0.3.5"
+kotlinDateTime = "0.6.0"
+
 kotlinCoroutines = "1.8.1"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -11,6 +14,7 @@ lifecycleRuntimeKtx = "2.7.0"
 activityCompose = "1.9.0"
 composeBom = "2024.05.00"
 compose = "1.5.1"
+pagingCompose = "3.3.0"
 composeNavigation = "2.7.7"
 appcompat = "1.6.1"
 material = "1.12.0"
@@ -30,6 +34,8 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-compose-paging = { group = "androidx.paging", name = "paging-compose", version.ref = "pagingCompose" }
+
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
@@ -43,6 +49,9 @@ androidx-navigation = {group = "androidx.navigation", name = "navigation-compose
 android-systemuicontroller = {group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist-systemuicontroller"}
 #kotlin
 kotlin-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
+kotlin-collections = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinCollections" }
+kotlin-date = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinDateTime" }
+
 #ktor
 ktor-client-core = {group ="io.ktor", name ="ktor-client-core", version.ref = "ktor"}
 ktor-client-okhttp = {group ="io.ktor", name ="ktor-client-okhttp", version.ref = "ktor"}

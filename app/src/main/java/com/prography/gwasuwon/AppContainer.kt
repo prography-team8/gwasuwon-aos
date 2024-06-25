@@ -12,8 +12,13 @@ import com.prography.domain.account.request.SignUpRequestOption
 import com.prography.domain.account.usecase.SignInUseCase
 import com.prography.domain.account.usecase.SignUpUseCase
 import com.prography.domain.configuration.ConfigurationEvent
-import com.prography.domain.preference.AccountPreferenceImpl
+import com.prography.domain.lesson.CommonLessonEvent
+import com.prography.domain.lesson.respository.LessonRepositoryImpl
+import com.prography.domain.lesson.usecase.CreateLessonUseCase
+import com.prography.domain.lesson.usecase.LoadLessonsUseCase
+import com.prography.domain.preference.AccountPreference
 import com.prography.domain.preference.ThemePreferenceImpl
+import com.prography.lesson.fake.FakeLessonsDataSource
 import com.prography.network.HttpClientFactory
 import com.prography.utils.security.GwasuwonAccessTokenHelper
 import com.prography.utils.security.GwasuwonRefreshTokenHelper
@@ -25,6 +30,8 @@ import kotlinx.coroutines.flow.flow
  * Created by MyeongKi.
  */
 object AppContainer {
+    val commonLessonEvent: MutableSharedFlow<CommonLessonEvent> = MutableSharedFlow()
+
     val configurationEvent: MutableSharedFlow<ConfigurationEvent> = MutableSharedFlow()
     val navigateEventFlow: MutableSharedFlow<NavigationEvent> = MutableSharedFlow()
     val socialLoginEventFlow: MutableSharedFlow<SocialLoginEvent> = MutableSharedFlow()
@@ -34,8 +41,20 @@ object AppContainer {
     private val gwasuwonRefreshTokenHelper by lazy {
         GwasuwonRefreshTokenHelper(GwasuwonApplication.currentApplication)
     }
+
+    //    private val accountPreference by lazy {
+//        AccountPreferenceImpl(GwasuwonApplication.currentApplication)
+//    }
     private val accountPreference by lazy {
-        AccountPreferenceImpl(GwasuwonApplication.currentApplication)
+        object : AccountPreference {
+            override fun getAccountStatus(): AccountStatus {
+                return AccountStatus.ACTIVE
+            }
+
+            override fun setAccountStatus(accountStatus: AccountStatus) {
+            }
+
+        }
     }
     val accountInfoManager: AccountInfoManager by lazy {
         AccountInfoManagerImpl.apply {
@@ -89,6 +108,10 @@ object AppContainer {
         }
     }
 
+    private val lessonRepository = LessonRepositoryImpl(
+        FakeLessonsDataSource()
+    )
+
     val themePreference by lazy {
         ThemePreferenceImpl(GwasuwonApplication.currentApplication)
     }
@@ -102,6 +125,16 @@ object AppContainer {
         SignUpUseCase(
             accountRepository,
             accountInfoManager
+        )
+    }
+    val loadLessonsUseCase by lazy {
+        LoadLessonsUseCase(
+            lessonRepository
+        )
+    }
+    val createLessonUseCase by lazy {
+        CreateLessonUseCase(
+            lessonRepository
         )
     }
 }
