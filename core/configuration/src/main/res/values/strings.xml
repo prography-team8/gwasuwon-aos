@@ -62,6 +62,6 @@
     <string name="navigate_home">홈으로</string>
     <string name="invite_student_qr">학생 초대 QR</string>
     <string name="lesson_contract">과외 계약서</string>
-
+    <string name="common_confirm">확인</string>
 
 </resources>

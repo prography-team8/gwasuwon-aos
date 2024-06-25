@@ -17,8 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,19 +41,13 @@ import com.prography.lesson.utils.getLessonDayStringRes
 import com.prography.lesson.utils.getLessonDurationStringRes
 import com.prography.lesson.utils.getLessonSubjectStringRes
 import com.prography.ui.CommonButton
+import com.prography.ui.DatePickerButton
 import com.prography.ui.DropdownMenuComponent
 import com.prography.ui.GwasuwonTypography
 import com.prography.ui.SpaceHeight
 import com.prography.utils.date.DateUtils
-import com.prography.utils.date.toDisplayYMDText
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.toPersistentList
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.plus
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
 
 /**
  * Created by MyeongKi.
@@ -131,29 +123,11 @@ internal fun AdditionalInfoScreen(
         SpaceHeight(height = 24)
         CreateLessonInfoSmallTitle(textResId = R.string.lesson_start_date)
         SpaceHeight(height = 8)
-        val currentDate:LocalDateTime = remember {
-            DateUtils.getCurrentLocalDateTime()
-        }
-        val hintDate = remember {
-            currentDate.toDisplayYMDText()
-        }
-        val dateOptions = remember {
-            val currentInstant = currentDate.toInstant(TimeZone.currentSystemDefault())
-            (0..10)
-                .asSequence()
-                .map { currentInstant.plus(it, DateTimeUnit.DAY, TimeZone.currentSystemDefault()) }
-                .map { it.toLocalDateTime(TimeZone.currentSystemDefault()) }
-                .map { it.toDisplayYMDText() }
-                .toPersistentList()
-        }
-        DropdownMenuComponent(
-            defaultOptionText = hintDate,
-            selectedOptionText = uiState.lessonStartDate,
-            option = dateOptions,
-            onOptionSelected = { index ->
-                dateOptions.getOrNull(index)?.let {
-                    intent(CreateLessonIntent.ClickLessonDate(it))
-                }
+
+        DatePickerButton(
+            onClickConfirm = {
+                intent(CreateLessonIntent.ClickLessonDate(it))
+
             }
         )
         Spacer(modifier = Modifier.weight(1f))

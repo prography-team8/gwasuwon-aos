@@ -25,6 +25,9 @@ object DateUtils {
     fun getCurrentDateTime(): Long {
         return Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).toTime()
     }
+    fun getCurrentDateTimeUTC(): Long {
+        return Clock.System.now().toLocalDateTime(TimeZone.UTC).toTime()
+    }
 
 }
 

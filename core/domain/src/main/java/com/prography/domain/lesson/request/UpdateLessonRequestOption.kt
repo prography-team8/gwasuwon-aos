@@ -16,5 +16,5 @@ data class UpdateLessonRequestOption(
     val lessonDay: List<LessonDay>,
     val lessonDuration: LessonDuration,
     val lessonNumberOfProgress: Int,
-    val lessonStartDate: String,
+    val lessonStartDateTime: Long,
 )

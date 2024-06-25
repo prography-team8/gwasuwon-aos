@@ -48,7 +48,7 @@ class FakeLessonsDataSource : LessonDataSource {
                 lessonDay = requestOption.lessonDay,
                 lessonDuration = requestOption.lessonDuration,
                 lessonNumberOfProgress = requestOption.lessonNumberOfProgress,
-                lessonStartDate = requestOption.lessonStartDate,
+                lessonStartDateTime = requestOption.lessonStartDateTime,
                 restLesson = 0,
                 lessonContractUrl = "test url"
             )
@@ -81,7 +81,7 @@ class FakeLessonsDataSource : LessonDataSource {
                 lessonDay = requestOption.lessonDay,
                 lessonDuration = requestOption.lessonDuration,
                 lessonNumberOfProgress = requestOption.lessonNumberOfProgress,
-                lessonStartDate = requestOption.lessonStartDate,
+                lessonStartDateTime = requestOption.lessonStartDateTime,
                 restLesson = requestOption.lessonNumberOfProgress,
                 lessonContractUrl = "test url"
             )

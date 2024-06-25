@@ -12,7 +12,7 @@ data class Lesson(
     val lessonDay: List<LessonDay>,
     val lessonDuration: LessonDuration,
     val lessonNumberOfProgress: Int,
-    val lessonStartDate: String,
+    val lessonStartDateTime: Long,
     val restLesson: Int,
     val lessonContractUrl: String
 )

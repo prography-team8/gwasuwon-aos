@@ -26,12 +26,12 @@ import com.prography.configuration.ui.GwasuwonConfigurationManager
  */
 @Composable
 fun CommonBorderButton(
+    modifier: Modifier = Modifier.fillMaxWidth(),
     @StringRes textResId: Int,
     onClickNext: () -> Unit
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .wrapContentHeight()
             .border(
                 width = 1.dp,

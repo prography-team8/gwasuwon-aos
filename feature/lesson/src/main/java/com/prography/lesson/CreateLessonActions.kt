@@ -15,12 +15,12 @@ sealed interface CreateLessonIntent : Intent<CreateLessonActionEvent> {
     data class ClickLessonDay(val lessonDay: LessonDay) : CreateLessonIntent
     data class ClickLessonDuration(val lessonDuration: LessonDuration) : CreateLessonIntent
     data class ClickLessonSubject(val lessonSubject: LessonSubject) : CreateLessonIntent
-    data class ClickLessonDate(val lessonStartDate: String) : CreateLessonIntent
+    data class ClickLessonDate(val lessonStartDateTime: Long) : CreateLessonIntent
 
     override fun toActionEvent(): CreateLessonActionEvent {
         return when (this) {
             is ClickLessonDate -> {
-                CreateLessonActionEvent.UpdateLessonStartDate(lessonStartDate)
+                CreateLessonActionEvent.UpdateLessonStartDate(lessonStartDateTime)
             }
 
             is ClickLessonDuration -> {
@@ -80,6 +80,6 @@ sealed interface CreateLessonActionEvent : ActionEvent {
     ) : CreateLessonActionEvent
 
     data class UpdateLessonStartDate(
-        val lessonStartDate: String
+        val lessonStartDateTime: Long
     ) : CreateLessonActionEvent
 }

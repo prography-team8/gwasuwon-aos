@@ -62,7 +62,7 @@ class CreateLessonUiMachine(
                         lessonDay = machineInternalState.lessonDay.toList(),
                         lessonDuration = machineInternalState.lessonDuration!!,
                         lessonNumberOfProgress = machineInternalState.lessonNumberOfProgress!!,
-                        lessonStartDate = machineInternalState.lessonStartDate!!
+                        lessonStartDateTime = machineInternalState.lessonStartDateTime!!
                     )
                 ).asResult()
             )
@@ -169,7 +169,7 @@ class CreateLessonUiMachine(
         .filterIsInstance<CreateLessonActionEvent.UpdateLessonStartDate>()
         .map {
             machineInternalState.copy(
-                lessonStartDate = it.lessonStartDate
+                lessonStartDateTime = it.lessonStartDateTime
             )
         }
     override val outerNotifyScenarioActionFlow = null
