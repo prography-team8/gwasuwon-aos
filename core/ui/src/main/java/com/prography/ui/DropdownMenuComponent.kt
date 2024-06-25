@@ -61,6 +61,7 @@ fun DropdownMenuComponent(
         expanded = expanded,
         onExpandedChange = { expanded = !expanded }
     ) {
+        val conner = dimensionResource(id = R.dimen.common_btn_conner)
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -70,10 +71,10 @@ fun DropdownMenuComponent(
                     1.dp,
                     GwasuwonConfigurationManager.colors.lineRegularNormal.toColor(),
                     RoundedCornerShape(
-                        topStart = 8.dp,
-                        topEnd = 8.dp,
-                        bottomStart = if (expanded) 0.dp else 8.dp,
-                        bottomEnd = if (expanded) 0.dp else 8.dp
+                        topStart = conner,
+                        topEnd = conner,
+                        bottomStart = if (expanded) 0.dp else conner,
+                        bottomEnd = if (expanded) 0.dp else conner
                     )
                 )
                 .padding(vertical = 12.dp, horizontal = 16.dp)
@@ -106,7 +107,7 @@ fun DropdownMenuComponent(
                 },
                 contentDescription = "dropdown icon",
                 modifier = Modifier
-                    .size(dimensionResource(id = R.dimen.default_btn_icon_size)),
+                    .size(dimensionResource(id = R.dimen.common_icon_small_size)),
             )
         }
 
@@ -133,7 +134,7 @@ fun DropdownMenuComponent(
                             0 -> {
                                 Spacer(modifier = Modifier.height(4.dp))
                                 Text(
-                                    modifier = Modifier.padding(horizontal = 16.dp),
+                                    modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.common_large_padding)),
                                     text = stringResource(id = resId),
                                     style = GwasuwonTypography.Body1NormalRegular.textStyle
                                 )
@@ -148,7 +149,7 @@ fun DropdownMenuComponent(
                             optionResIds.size - 1 -> {
                                 Spacer(modifier = Modifier.height(12.dp))
                                 Text(
-                                    modifier = Modifier.padding(horizontal = 16.dp),
+                                    modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.common_large_padding)),
                                     text = stringResource(id = resId),
                                     style = GwasuwonTypography.Body1NormalRegular.textStyle
                                 )
@@ -158,7 +159,7 @@ fun DropdownMenuComponent(
                             else -> {
                                 Spacer(modifier = Modifier.height(12.dp))
                                 Text(
-                                    modifier = Modifier.padding(horizontal = 16.dp),
+                                    modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.common_large_padding)),
                                     text = stringResource(id = resId),
                                     style = GwasuwonTypography.Body1NormalRegular.textStyle
                                 )
@@ -173,7 +174,7 @@ fun DropdownMenuComponent(
                     } else {
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            modifier = Modifier.padding(horizontal = 16.dp),
+                            modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.common_large_padding)),
                             text = stringResource(id = resId),
                             style = GwasuwonTypography.Body1NormalRegular.textStyle
                         )

@@ -144,12 +144,12 @@ private fun AllAgreementButton(
             .fillMaxWidth()
             .wrapContentHeight()
             .clip(
-                RoundedCornerShape(dimensionResource(id = R.dimen.agreement_btn_conner))
+                RoundedCornerShape(dimensionResource(id = R.dimen.common_btn_large_conner))
             )
             .background(
                 GwasuwonConfigurationManager.colors.backgroundElevatedAlternative.toColor()
             )
-            .padding(dimensionResource(id = R.dimen.default_btn_padding))
+            .padding(dimensionResource(id = R.dimen.common_large_padding))
             .clickable(onClick = onClick)
     ) {
         Row(
@@ -166,7 +166,7 @@ private fun AllAgreementButton(
                 painter = painterResource(id = R.drawable.material_symbols_check),
                 contentDescription = "check",
                 modifier = Modifier
-                    .size(dimensionResource(id = R.dimen.default_btn_icon_size)),
+                    .size(dimensionResource(id = R.dimen.common_icon_small_size)),
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
@@ -192,7 +192,7 @@ private fun AgreementButton(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(dimensionResource(id = R.dimen.default_btn_padding))
+            .padding(dimensionResource(id = R.dimen.common_large_padding))
             .clickable(onClick = onClick)
     ) {
         Row(
@@ -209,7 +209,7 @@ private fun AgreementButton(
                 painter = painterResource(id = R.drawable.material_symbols_check),
                 contentDescription = "check",
                 modifier = Modifier
-                    .size(dimensionResource(id = R.dimen.default_btn_icon_size)),
+                    .size(dimensionResource(id = R.dimen.common_icon_small_size)),
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
@@ -223,7 +223,7 @@ private fun AgreementButton(
                 painter = painterResource(id = R.drawable.icon_more),
                 contentDescription = "navigate",
                 modifier = Modifier
-                    .size(dimensionResource(id = R.dimen.default_btn_icon_size)),
+                    .size(dimensionResource(id = R.dimen.common_icon_small_size)),
             )
         }
 
@@ -280,12 +280,12 @@ private fun SignUpSelectRoleButton(
             .fillMaxWidth()
             .wrapContentHeight()
             .clip(
-                RoundedCornerShape(dimensionResource(id = R.dimen.sign_up_role_btn_conner))
+                RoundedCornerShape(dimensionResource(id = R.dimen.common_btn_conner))
             )
             .background(
                 colorResource(id = R.color.blue_90)
             )
-            .padding(dimensionResource(id = R.dimen.sign_up_role_btn_padding))
+            .padding(dimensionResource(id = R.dimen.common_medium_padding))
             .clickable(onClick = onClick)
     ) {
         Row(
@@ -295,7 +295,7 @@ private fun SignUpSelectRoleButton(
                 painter = painterResource(id = iconResId),
                 contentDescription = "role icon",
                 modifier = Modifier
-                    .size(dimensionResource(id = R.dimen.sign_up_role_btn_icon)),
+                    .size(dimensionResource(id = R.dimen.common_icon_large_size)),
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(

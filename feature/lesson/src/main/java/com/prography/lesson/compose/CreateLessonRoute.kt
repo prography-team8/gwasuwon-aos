@@ -149,7 +149,7 @@ private fun LessonInfoInput(
                         Modifier.border(
                             width = 1.dp,
                             color = GwasuwonConfigurationManager.colors.lineRegularNormal.toColor(),
-                            shape = RoundedCornerShape(dimensionResource(id = R.dimen.sign_up_role_btn_conner))
+                            shape = RoundedCornerShape(dimensionResource(id = R.dimen.common_btn_conner))
                         )
                     } else {
                         Modifier.background(

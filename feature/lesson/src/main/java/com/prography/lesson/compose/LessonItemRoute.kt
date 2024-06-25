@@ -60,8 +60,8 @@ private fun LessonItemScreen(
             .wrapContentHeight()
             .background(GwasuwonConfigurationManager.colors.backgroundElevatedAlternative.toColor())
             .padding(
-                vertical = dimensionResource(id = R.dimen.common_btn_padding),
-                horizontal = dimensionResource(id = R.dimen.common_btn_large_padding)
+                vertical = dimensionResource(id = R.dimen.common_padding),
+                horizontal = dimensionResource(id = R.dimen.common_large_padding)
             )
             .clickable(onClick = {
                 intent(LessonItemIntent.ClickLesson)
@@ -128,8 +128,8 @@ private fun LessonPointInfoItem(
             .clip(RoundedCornerShape(dimensionResource(id = R.dimen.common_btn_conner)))
             .background(pointColor)
             .padding(
-                vertical = dimensionResource(id = R.dimen.common_btn_small_padding),
-                horizontal = dimensionResource(id = R.dimen.common_btn_padding)
+                vertical = dimensionResource(id = R.dimen.common_small_padding),
+                horizontal = dimensionResource(id = R.dimen.common_padding)
             )
     ) {
         Text(

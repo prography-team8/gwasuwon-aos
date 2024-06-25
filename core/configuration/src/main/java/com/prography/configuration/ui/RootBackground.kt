@@ -36,7 +36,7 @@ fun RootBackground(viewModel: ConfigurationStateViewModel, content: @Composable 
                 .background(GwasuwonConfigurationManager.colors.backgroundRegularNormal.toColor())
                 .fillMaxSize()
                 .padding(
-                    horizontal = dimensionResource(id = R.dimen.default_horizontal_padding)
+                    horizontal = dimensionResource(id = R.dimen.common_large_padding)
                 ),
             color = GwasuwonConfigurationManager.colors.backgroundRegularNormal.toColor()
         ) {

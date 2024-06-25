@@ -23,9 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.prography.account.SignInIntent
 import com.prography.account.SignInViewModel
 import com.prography.configuration.R
@@ -99,7 +97,7 @@ private fun KakaoLoginBtn(
             .wrapContentHeight()
             .clip(RoundedCornerShape(dimensionResource(id = R.dimen.common_btn_conner)))
             .background(GwasuwonConfigurationManager.colors.socialKakao.toColor())
-            .padding(dimensionResource(id = R.dimen.default_btn_padding))
+            .padding(dimensionResource(id = R.dimen.common_large_padding))
             .clickable(onClick = onClickBtn)
     ) {
         Image(
@@ -107,14 +105,13 @@ private fun KakaoLoginBtn(
             contentDescription = "logo",
             modifier = Modifier
                 .align(Alignment.CenterStart)
-                .size(dimensionResource(id = R.dimen.default_btn_icon_size)),
+                .size(dimensionResource(id = R.dimen.common_icon_small_size)),
         )
         Text(
             modifier = Modifier.align(Alignment.Center),
             text = stringResource(id = R.string.kakao_login),
-            fontSize = dimensionResource(id = R.dimen.login_btn_text_size).value.sp,
             color = GwasuwonConfigurationManager.colors.staticBlack.toColor(),
-            fontWeight = FontWeight.W500
+            style = GwasuwonTypography.Body1NormalBold.textStyle
         )
     }
 }

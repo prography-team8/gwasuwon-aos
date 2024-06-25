@@ -139,8 +139,8 @@ private fun EmptyCreateLessonButton(
             .clip(RoundedCornerShape(dimensionResource(id = R.dimen.common_btn_conner)))
             .background(GwasuwonConfigurationManager.colors.primaryNormal.toColor())
             .padding(
-                vertical = dimensionResource(id = R.dimen.common_btn_padding),
-                horizontal = dimensionResource(id = R.dimen.common_btn_large_padding)
+                vertical = dimensionResource(id = R.dimen.common_padding),
+                horizontal = dimensionResource(id = R.dimen.common_large_padding)
             )
             .clickable(onClick = onClick)
     ) {
@@ -192,11 +192,11 @@ private fun HasCreateLessonButton(
             .border(
                 width = 1.dp,
                 color = GwasuwonConfigurationManager.colors.primaryNormal.toColor(),
-                shape = RoundedCornerShape(dimensionResource(id = R.dimen.sign_up_role_btn_conner))
+                shape = RoundedCornerShape(dimensionResource(id = R.dimen.common_btn_conner))
             )
             .padding(
-                vertical = dimensionResource(id = R.dimen.common_btn_padding),
-                horizontal = dimensionResource(id = R.dimen.common_btn_large_padding)
+                vertical = dimensionResource(id = R.dimen.common_padding),
+                horizontal = dimensionResource(id = R.dimen.common_large_padding)
             )
             .clickable(onClick = onClick)
     ) {
@@ -205,7 +205,7 @@ private fun HasCreateLessonButton(
             contentDescription = "add icon",
             modifier = Modifier
                 .align(Alignment.CenterStart)
-                .size(dimensionResource(id = R.dimen.default_btn_icon_size)),
+                .size(dimensionResource(id = R.dimen.common_icon_small_size)),
         )
         Text(
             modifier = Modifier

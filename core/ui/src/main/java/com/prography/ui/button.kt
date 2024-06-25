@@ -41,7 +41,7 @@ fun CommonButton(
                     GwasuwonConfigurationManager.colors.interactionInactive.toColor()
                 }
             )
-            .padding(dimensionResource(id = R.dimen.common_btn_padding))
+            .padding(dimensionResource(id = R.dimen.common_padding))
             .clickable(onClick = {
                 if (isAvailable) {
                     onClickNext()

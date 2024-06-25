@@ -49,7 +49,7 @@ fun CommonToolbar(
             painter = painterResource(id = R.drawable.icon_back),
             contentDescription = "back button",
             modifier = Modifier
-                .size(dimensionResource(id = R.dimen.default_btn_icon_size))
+                .size(dimensionResource(id = R.dimen.common_icon_small_size))
                 .clickable(onClick = onClickBack),
         )
         Spacer(modifier = Modifier.width(8.dp))
