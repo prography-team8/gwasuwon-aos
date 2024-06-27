@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
  * Created by MyeongKi.
  */
 class GenerateInviteStudentQrUseCase(
-    private val generateQrUseCase: GenerateQrUseCase
+    private val generateGwasuwonQrUseCase: GenerateGwasuwonQrUseCase
 ) {
     operator fun invoke(
         lessonId: Long
@@ -21,6 +21,6 @@ class GenerateInviteStudentQrUseCase(
             data = InviteStudentData(lessonId),
             createAt = DateUtils.getCurrentDateTime()
         )
-        return generateQrUseCase(qrData)
+        return generateGwasuwonQrUseCase(qrData)
     }
 }

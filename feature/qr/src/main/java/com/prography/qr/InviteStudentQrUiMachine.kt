@@ -2,7 +2,7 @@ package com.prography.qr
 
 import NavigationEvent
 import com.prography.qr.domain.GenerateInviteStudentQrUseCase
-import com.prography.qr.domain.GenerateQrUseCase
+import com.prography.qr.domain.GenerateGwasuwonQrUseCase
 import com.prography.usm.holder.UiStateMachine
 import com.prography.usm.result.Result
 import com.prography.usm.result.asResult
@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
@@ -30,7 +29,7 @@ class InviteStudentQrUiMachine(
         InviteStudentQrActionEvent,
         InviteStudentQrIntent>(coroutineScope) {
     private val generateInviteStudentQrUseCase = GenerateInviteStudentQrUseCase(
-        generateQrUseCase = GenerateQrUseCase()
+        generateGwasuwonQrUseCase = GenerateGwasuwonQrUseCase()
     )
     override var machineInternalState: InviteStudentQrMachineState = InviteStudentQrMachineState()
 
