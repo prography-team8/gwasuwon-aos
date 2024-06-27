@@ -2,7 +2,6 @@ package com.prography.qr.compose
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
@@ -15,13 +14,12 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.prography.qr.InviteStudentQrActionEvent
-import com.prography.qr.InviteStudentQrIntent
-import com.prography.qr.InviteStudentQrUiState
-import com.prography.qr.InviteStudentQrViewModel
+import com.prography.qr.LessonContractQrActionEvent
+import com.prography.qr.LessonContractQrIntent
+import com.prography.qr.LessonContractQrUiState
+import com.prography.qr.LessonContractQrViewModel
 import com.prography.ui.GwasuwonTypography
 import com.prography.ui.R
-import com.prography.ui.component.CommonButton
 import com.prography.ui.component.CommonToolbar
 import com.prography.ui.component.GwasuwonConfigurationManager
 import com.prography.ui.component.SpaceHeight
@@ -31,34 +29,34 @@ import com.prography.ui.configuration.toColor
  * Created by MyeongKi.
  */
 @Composable
-fun InviteStudentQrRoute(
-    viewModel: InviteStudentQrViewModel
+fun LessonContractQrRoute(
+    viewModel: LessonContractQrViewModel
 ) {
     val uiState = viewModel.machine.uiState.collectAsState()
     LaunchedEffect(true) {
-        viewModel.machine.eventInvoker(InviteStudentQrActionEvent.GenerateQr)
+        viewModel.machine.eventInvoker(LessonContractQrActionEvent.GenerateQr)
     }
-    InviteStudentQrScreen(
+    LessonContractQrScreen(
         uiState = uiState.value,
         intent = viewModel.machine.intentInvoker,
     )
 }
 
 @Composable
-private fun InviteStudentQrScreen(
-    uiState: InviteStudentQrUiState,
-    intent: (InviteStudentQrIntent) -> Unit,
+fun LessonContractQrScreen(
+    uiState: LessonContractQrUiState,
+    intent: (LessonContractQrIntent) -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        InviteStudentQrHeader {
-            intent(InviteStudentQrIntent.ClickBack)
+        LessonContractQrHeader {
+            intent(LessonContractQrIntent.ClickBack)
         }
         SpaceHeight(height = 50)
-        InviteStudentDesc()
+        LessonContractDesc()
         SpaceHeight(height = 32)
         uiState.qr?.let {
             Image(
@@ -67,26 +65,21 @@ private fun InviteStudentQrScreen(
                 contentDescription = "QR Code"
             )
         }
-
-        Spacer(modifier = Modifier.weight(1f))
-        CommonButton(textResId = R.string.navigate_home, isAvailable = true) {
-            intent(InviteStudentQrIntent.ClickHome)
-        }
     }
 }
 
 @Composable
-private fun InviteStudentQrHeader(
+private fun LessonContractQrHeader(
     onClickBack: () -> Unit
 ) {
-    CommonToolbar(titleRes = R.string.invite_student_qr, onClickBack = onClickBack)
+    CommonToolbar(titleRes = R.string.lesson_contract, onClickBack = onClickBack)
 }
 
 @Composable
-private fun InviteStudentDesc() {
+private fun LessonContractDesc() {
     Text(
         textAlign = TextAlign.Center,
-        text = stringResource(id = R.string.invite_student_qr_desc),
+        text = stringResource(id = R.string.lesson_contract_qr_desc),
         style = GwasuwonTypography.Caption1Regular.textStyle,
         color = GwasuwonConfigurationManager.colors.labelNeutral.toColor()
     )

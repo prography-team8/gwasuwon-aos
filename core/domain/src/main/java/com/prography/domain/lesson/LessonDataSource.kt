@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
  * Created by MyeongKi.
  */
 interface LessonDataSource {
+    fun loadLessonContractUrl(lessonId: Long): Flow<String>
     fun loadLessons(requestOption: LoadLessonsRequestOption): Flow<List<Lesson>>
     fun createLesson(requestOption: CreateLessonRequestOption): Flow<Lesson>
     fun loadLesson(lessonId: Long): Flow<Lesson>

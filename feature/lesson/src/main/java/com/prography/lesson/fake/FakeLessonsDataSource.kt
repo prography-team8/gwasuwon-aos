@@ -28,6 +28,13 @@ class FakeLessonsDataSource : LessonDataSource {
 //
 //        ))
     }
+
+    override fun loadLessonContractUrl(lessonId: Long): Flow<String> {
+        return flow {
+            emit("https://www.naver.com/")
+        }
+    }
+
     override fun loadLessons(requestOption: LoadLessonsRequestOption): Flow<List<Lesson>> {
         return flow {
             val start = (requestOption.page - 1) * requestOption.pageSize

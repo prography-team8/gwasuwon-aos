@@ -14,12 +14,19 @@ import kotlinx.serialization.json.Json
 /**
  * Created by MyeongKi.
  */
-class GenerateQrUseCase {
+class GenerateGwasuwonQrUseCase(
+    private val generateQrUseCase: GenerateQrUseCase
+) {
     operator fun invoke(
         qrData: GwasuwonQr
+    ): Flow<Bitmap> = generateQrUseCase(Json.encodeToString(GwasuwonQr.serializer(), qrData))
+}
+
+class GenerateQrUseCase {
+    operator fun invoke(
+        data: String
     ): Flow<Bitmap> = flow {
-        val jsonString = Json.encodeToString(GwasuwonQr.serializer(), qrData)
-        val bitMatrix = QRCodeWriter().encode(jsonString, BarcodeFormat.QR_CODE, QR_SIZE, QR_SIZE)
+        val bitMatrix = QRCodeWriter().encode(data, BarcodeFormat.QR_CODE, QR_SIZE, QR_SIZE)
         val bitmap = BarcodeEncoder().createBitmap(bitMatrix)
         emit(bitmap)
     }.flowOn(Dispatchers.IO)

@@ -64,6 +64,7 @@
     <string name="invite_student_qr_desc">수업을 함께 진행하는 학생이 앱을 설치한 상태에서\nQR 코드를 스캔하면 선생님의 수업에 초대됩니다.</string>
 
     <string name="lesson_contract">과외 계약서</string>
+    <string name="lesson_contract_qr_desc">아래 QR 코드를 스캔하거나 링크 공유를\n선택하면 과외 계약서 페이지로 이동합니다</string>
     <string name="common_confirm">확인</string>
 
 </resources>

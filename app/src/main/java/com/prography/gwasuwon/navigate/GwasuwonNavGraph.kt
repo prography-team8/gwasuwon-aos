@@ -25,7 +25,9 @@ import com.prography.lesson.compose.create.CreateLessonRoute
 import com.prography.lesson.compose.LessonsRoute
 import com.prography.lesson.compose.SuccessCreateLessonRoute
 import com.prography.qr.InviteStudentQrViewModel
+import com.prography.qr.LessonContractQrViewModel
 import com.prography.qr.compose.InviteStudentQrRoute
+import com.prography.qr.compose.LessonContractQrRoute
 import subscribeNavigationEvent
 
 /**
@@ -149,7 +151,15 @@ fun GwasuwonNavGraph(
         with(GwasuwonPath.LessonContractQrPath()) {
             composable(getDestination(), arguments) {
                 val lessonId = it.arguments?.getLong(GwasuwonPath.LessonContractQrPath.ArgumentName.LESSON_ID.name) ?: 0L
-                Text(text = "hi im LessonContractQrPath")
+                LessonContractQrRoute(
+                    viewModel = viewModel(
+                        factory = LessonContractQrViewModel.provideFactory(
+                            lessonId = lessonId,
+                            navigateFlow = AppContainer.navigateEventFlow,
+                            loadContractUrlUseCase = AppContainer.loadLessonContractUrlUseCase
+                        )
+                    )
+                )
             }
         }
 

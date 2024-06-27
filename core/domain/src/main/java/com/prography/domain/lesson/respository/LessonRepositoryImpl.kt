@@ -17,6 +17,10 @@ import kotlinx.coroutines.flow.Flow
 class LessonRepositoryImpl(
     private val remoteSource: LessonDataSource
 ) : LessonRepository {
+    override fun loadLessonContractUrl(lessonId: Long): Flow<String> {
+        return remoteSource.loadLessonContractUrl(lessonId)
+    }
+
     override fun loadLessons(): Flow<PagingData<Lesson>> {
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),
