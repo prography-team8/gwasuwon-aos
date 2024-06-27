@@ -1,4 +1,4 @@
-package com.prography.configuration.ui
+package com.prography.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,9 +11,9 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.prography.configuration.ColorsTheme
-import com.prography.configuration.R
-import com.prography.configuration.toColor
+import com.prography.ui.configuration.ColorsTheme
+import com.prography.ui.R
+import com.prography.ui.configuration.toColor
 
 /**
  * Created by MyeongKi.
@@ -23,7 +23,7 @@ val LocalColors = staticCompositionLocalOf {
 }
 
 @Composable
-fun RootBackground(viewModel: ConfigurationStateViewModel, content: @Composable () -> Unit) {
+fun RootBackground(viewModel: com.prography.ui.configuration.ConfigurationStateViewModel, content: @Composable () -> Unit) {
     val state = viewModel.configurationState.collectAsState().value
     GwasuwonConfiguration(configurationState = state) {
         val systemUiController = rememberSystemUiController()
@@ -47,7 +47,7 @@ fun RootBackground(viewModel: ConfigurationStateViewModel, content: @Composable 
 
 @Composable
 fun GwasuwonConfiguration(
-    configurationState: ConfigurationState,
+    configurationState: com.prography.ui.configuration.ConfigurationState,
     content: @Composable () -> Unit
 ) {
     CompositionLocalProvider(

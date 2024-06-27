@@ -1,6 +1,7 @@
-package com.prography.configuration
+package com.prography.ui.configuration
 
 import androidx.annotation.ColorRes
+import com.prography.ui.R
 import com.prography.domain.configuration.ThemeType
 
 /**

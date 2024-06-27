@@ -1,4 +1,4 @@
-package com.prography.configuration
+package com.prography.ui.configuration
 
 import androidx.annotation.ColorRes
 import androidx.compose.runtime.Composable

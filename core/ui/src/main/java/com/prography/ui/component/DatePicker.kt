@@ -1,4 +1,4 @@
-package com.prography.ui
+package com.prography.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -29,9 +29,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.prography.configuration.R
-import com.prography.configuration.toColor
-import com.prography.configuration.ui.GwasuwonConfigurationManager
+import com.prography.ui.R
+import com.prography.ui.configuration.toColor
+import com.prography.ui.GwasuwonTypography
 import com.prography.utils.date.DateUtils
 import com.prography.utils.date.toDisplayYMDText
 import com.prography.utils.date.toLocalDateTime

@@ -7,15 +7,15 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.prography.configuration.R
+import com.prography.ui.R
 import com.prography.lesson.CreateLessonActionEvent
 import com.prography.lesson.CreateLessonIntent
 import com.prography.lesson.CreateLessonUiState
 import com.prography.lesson.compose.create.CreateLessonHeader
 import com.prography.lesson.compose.create.CreateLessonInfoTitle
 import com.prography.lesson.compose.create.LessonInfoInputItem
-import com.prography.ui.CommonButton
-import com.prography.ui.SpaceHeight
+import com.prography.ui.component.CommonButton
+import com.prography.ui.component.SpaceHeight
 
 /**
  * Created by MyeongKi.
