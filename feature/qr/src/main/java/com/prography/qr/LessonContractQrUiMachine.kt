@@ -1,8 +1,8 @@
 package com.prography.qr
 
 import NavigationEvent
-import com.prography.qr.domain.GenerateInviteStudentQrUseCase
-import com.prography.qr.domain.GenerateGwasuwonQrUseCase
+import com.prography.domain.lesson.usecase.LoadLessonContractUrlUseCase
+import com.prography.qr.domain.GenerateLessonContractUrlQrUseCase
 import com.prography.qr.domain.GenerateQrUseCase
 import com.prography.usm.holder.UiStateMachine
 import com.prography.usm.result.Result
@@ -20,35 +20,30 @@ import kotlinx.coroutines.flow.transform
 /**
  * Created by MyeongKi.
  */
-class InviteStudentQrUiMachine(
+class LessonContractQrUiMachine(
     coroutineScope: CoroutineScope,
     lessonId: Long,
-    navigateFlow: MutableSharedFlow<NavigationEvent>
+    navigateFlow: MutableSharedFlow<NavigationEvent>,
+    loadContractUrlUseCase: LoadLessonContractUrlUseCase
 ) : UiStateMachine<
-        InviteStudentQrUiState,
-        InviteStudentQrMachineState,
-        InviteStudentQrActionEvent,
-        InviteStudentQrIntent>(coroutineScope) {
-    private val generateInviteStudentQrUseCase = GenerateInviteStudentQrUseCase(
-        generateGwasuwonQrUseCase = GenerateGwasuwonQrUseCase(
-            generateQrUseCase = GenerateQrUseCase()
-        )
+        LessonContractQrUiState,
+        LessonContractQrMachineState,
+        LessonContractQrActionEvent,
+        LessonContractQrIntent>(coroutineScope) {
+    private val generateLessonContractUrlQrUseCase = GenerateLessonContractUrlQrUseCase(
+        generateQrUseCase = GenerateQrUseCase(),
+        loadContractUrl = loadContractUrlUseCase
     )
-    override var machineInternalState: InviteStudentQrMachineState = InviteStudentQrMachineState()
+    override var machineInternalState: LessonContractQrMachineState = LessonContractQrMachineState()
 
-    private val navigateHomeFlow = actionFlow
-        .filterIsInstance<InviteStudentQrActionEvent.NavigateHome>()
-        .onEach {
-            navigateFlow.emit(NavigationEvent.NavigateLessonsRoute)
-        }
     private val popBackFlow = actionFlow
-        .filterIsInstance<InviteStudentQrActionEvent.PopBack>()
+        .filterIsInstance<LessonContractQrActionEvent.PopBack>()
         .onEach {
             navigateFlow.emit(NavigationEvent.PopBack)
         }
     private val generateQrFlow = actionFlow
-        .filterIsInstance<InviteStudentQrActionEvent.GenerateQr>()
-        .transform { emitAll(generateInviteStudentQrUseCase(lessonId).asResult()) }
+        .filterIsInstance<LessonContractQrActionEvent.GenerateQr>()
+        .transform { emitAll(generateLessonContractUrlQrUseCase(lessonId).asResult()) }
         .map {
             when (it) {
                 is Result.Error -> {
@@ -65,7 +60,6 @@ class InviteStudentQrUiMachine(
             }
         }
     override val outerNotifyScenarioActionFlow = merge(
-        navigateHomeFlow,
         popBackFlow
     )
 
@@ -73,7 +67,7 @@ class InviteStudentQrUiMachine(
         initMachine()
     }
 
-    override fun mergeStateChangeScenarioActionsFlow(): Flow<InviteStudentQrMachineState> {
+    override fun mergeStateChangeScenarioActionsFlow(): Flow<LessonContractQrMachineState> {
         return generateQrFlow
     }
 }
