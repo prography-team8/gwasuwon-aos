@@ -25,11 +25,14 @@ dependencyResolutionManagement {
 
 rootProject.name = "gwasuwon-aos"
 include(":app")
+
 include(":feature:account")
+include(":feature:lesson")
+include(":feature:qr")
+
 include(":core:domain")
 include(":core:network")
 include(":core:utils")
-include(":feature:lesson")
 include(":core:ui")
 include(":core:navigation")
 include(":core:usm")
