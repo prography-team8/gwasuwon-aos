@@ -20,8 +20,9 @@ android {
 dependencies {
     implementation(project(":feature:account"))
     implementation(project(":feature:lesson"))
-    implementation(project(":core:ui"))
+    implementation(project(":feature:qr"))
 
+    implementation(project(":core:ui"))
     implementation(project(":core:domain"))
     implementation(project(":core:utils"))
     implementation(project(":core:navigation"))

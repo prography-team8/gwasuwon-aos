@@ -61,6 +61,8 @@
     <string name="success_create_lesson_desc_3">학생 초대, 계약 진행이 완료된 이후 수업을 진행하세요.</string>
     <string name="navigate_home">홈으로</string>
     <string name="invite_student_qr">학생 초대 QR</string>
+    <string name="invite_student_qr_desc">수업을 함께 진행하는 학생이 앱을 설치한 상태에서\nQR 코드를 스캔하면 선생님의 수업에 초대됩니다.</string>
+
     <string name="lesson_contract">과외 계약서</string>
     <string name="common_confirm">확인</string>
 
