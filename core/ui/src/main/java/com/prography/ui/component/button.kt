@@ -1,4 +1,4 @@
-package com.prography.ui
+package com.prography.ui.component
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
@@ -17,9 +17,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.prography.configuration.R
-import com.prography.configuration.toColor
-import com.prography.configuration.ui.GwasuwonConfigurationManager
+import com.prography.ui.R
+import com.prography.ui.configuration.toColor
+import com.prography.ui.GwasuwonTypography
 
 /**
  * Created by MyeongKi.

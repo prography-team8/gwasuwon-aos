@@ -24,9 +24,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import com.prography.configuration.R
-import com.prography.configuration.toColor
-import com.prography.configuration.ui.GwasuwonConfigurationManager
+import com.prography.ui.R
+import com.prography.ui.configuration.toColor
+import com.prography.ui.component.GwasuwonConfigurationManager
 import com.prography.domain.lesson.model.LessonDay
 import com.prography.domain.lesson.model.LessonDuration
 import com.prography.domain.lesson.model.LessonSubject
@@ -40,12 +40,11 @@ import com.prography.lesson.compose.create.LessonInfoInputItem
 import com.prography.lesson.utils.getLessonDayStringRes
 import com.prography.lesson.utils.getLessonDurationStringRes
 import com.prography.lesson.utils.getLessonSubjectStringRes
-import com.prography.ui.CommonButton
-import com.prography.ui.DatePickerButton
-import com.prography.ui.DropdownMenuComponent
+import com.prography.ui.component.CommonButton
+import com.prography.ui.component.DatePickerButton
+import com.prography.ui.component.DropdownMenuComponent
 import com.prography.ui.GwasuwonTypography
-import com.prography.ui.SpaceHeight
-import com.prography.utils.date.DateUtils
+import com.prography.ui.component.SpaceHeight
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.toPersistentList
 

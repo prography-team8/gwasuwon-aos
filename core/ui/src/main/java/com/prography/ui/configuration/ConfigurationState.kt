@@ -1,8 +1,5 @@
-package com.prography.configuration.ui
+package com.prography.ui.configuration
 
-import com.prography.configuration.ColorsTheme
-import com.prography.configuration.darkThemeColorsTheme
-import com.prography.configuration.lightThemeColorsTheme
 import com.prography.domain.configuration.ThemeType
 
 /**

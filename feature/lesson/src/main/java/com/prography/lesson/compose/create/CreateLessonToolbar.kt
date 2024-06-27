@@ -1,8 +1,8 @@
 package com.prography.lesson.compose.create
 
 import androidx.compose.runtime.Composable
-import com.prography.configuration.R
-import com.prography.ui.CommonToolbar
+import com.prography.ui.R
+import com.prography.ui.component.CommonToolbar
 
 /**
  * Created by MyeongKi.

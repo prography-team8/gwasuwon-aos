@@ -29,17 +29,17 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.prography.configuration.R
-import com.prography.configuration.toColor
-import com.prography.configuration.ui.GwasuwonConfigurationManager
+import com.prography.ui.R
+import com.prography.ui.configuration.toColor
+import com.prography.ui.component.GwasuwonConfigurationManager
 import com.prography.lesson.LessonItemUiMachine
 import com.prography.lesson.LessonsActionEvent
 import com.prography.lesson.LessonsIntent
 import com.prography.lesson.LessonsUiState
 import com.prography.lesson.LessonsViewModel
-import com.prography.ui.CommonToolbar
+import com.prography.ui.component.CommonToolbar
 import com.prography.ui.GwasuwonTypography
-import com.prography.ui.SpaceHeight
+import com.prography.ui.component.SpaceHeight
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 

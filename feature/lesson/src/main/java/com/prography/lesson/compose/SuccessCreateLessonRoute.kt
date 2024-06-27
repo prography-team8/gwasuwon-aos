@@ -22,15 +22,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import com.prography.configuration.R
-import com.prography.configuration.toColor
-import com.prography.configuration.ui.GwasuwonConfigurationManager
+import com.prography.ui.R
+import com.prography.ui.configuration.toColor
+import com.prography.ui.component.GwasuwonConfigurationManager
 import com.prography.lesson.SuccessCreateLessonIntent
 import com.prography.lesson.SuccessCreateLessonViewModel
-import com.prography.ui.CommonBorderButton
-import com.prography.ui.CommonButton
+import com.prography.ui.component.CommonBorderButton
+import com.prography.ui.component.CommonButton
 import com.prography.ui.GwasuwonTypography
-import com.prography.ui.SpaceHeight
+import com.prography.ui.component.SpaceHeight
 
 /**
  * Created by MyeongKi.

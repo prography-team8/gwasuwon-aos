@@ -12,8 +12,10 @@ android {
 dependencies{
     implementation(project(":core:domain"))
     implementation(project(":core:utils"))
-    implementation(project(":core:configuration"))
     implementation(libs.kotlin.collections)
     implementation(libs.kotlin.date)
+    implementation(libs.kotlin.coroutines)
+    implementation(libs.androidx.compose.viewModel)
+    implementation(libs.android.systemuicontroller)
 
 }

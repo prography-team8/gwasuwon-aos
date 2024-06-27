@@ -6,10 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.prography.account.RootSocialLoginManager
-import com.prography.configuration.ui.ConfigurationStateViewModel
-import com.prography.configuration.ui.RootBackground
 import com.prography.domain.account.SocialLoginEvent
 import com.prography.gwasuwon.navigate.GwasuwonNavGraph
+import com.prography.ui.configuration.ConfigurationStateViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -25,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     themePreference = AppContainer.themePreference
                 )
             )
-            RootBackground(configurationViewModel) {
+            com.prography.ui.component.RootBackground(configurationViewModel) {
                 GwasuwonNavGraph(
                     accountInfoManager = AppContainer.accountInfoManager
                 ) {

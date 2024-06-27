@@ -1,9 +1,8 @@
-package com.prography.configuration.ui
+package com.prography.ui.configuration
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.prography.configuration.toColors
 import com.prography.domain.configuration.ConfigurationEvent
 import com.prography.domain.preference.ThemePreference
 import kotlinx.coroutines.flow.Flow

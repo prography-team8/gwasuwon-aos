@@ -1,7 +1,7 @@
 package com.prography.lesson.utils
 
 import androidx.annotation.StringRes
-import com.prography.configuration.R
+import com.prography.ui.R
 import com.prography.domain.lesson.model.LessonDay
 import com.prography.domain.lesson.model.LessonDuration
 import com.prography.domain.lesson.model.LessonSubject
