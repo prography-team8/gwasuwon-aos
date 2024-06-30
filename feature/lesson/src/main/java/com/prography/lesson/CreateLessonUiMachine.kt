@@ -90,15 +90,11 @@ class CreateLessonUiMachine(
 
     private val goToNextPageFlow = actionFlow
         .filterIsInstance<CreateLessonActionEvent.GoToNextPage>()
+        .filter { machineInternalState.screenType.isLastPage().not() }
         .map {
-            if (machineInternalState.screenType.isRequestCreateLessonPage()) {
-                eventInvoker(CreateLessonActionEvent.CreateLesson)
-                machineInternalState
-            } else {
-                machineInternalState.copy(
-                    screenType = machineInternalState.screenType.next() ?: machineInternalState.screenType
-                )
-            }
+            machineInternalState.copy(
+                screenType = machineInternalState.screenType.next() ?: machineInternalState.screenType
+            )
         }
 
     private val updateStudentNameFlow = actionFlow

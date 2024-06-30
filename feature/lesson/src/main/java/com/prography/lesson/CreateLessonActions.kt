@@ -11,6 +11,7 @@ import com.prography.usm.action.Intent
  */
 sealed interface CreateLessonIntent : Intent<CreateLessonActionEvent> {
     data object ClickNext : CreateLessonIntent
+    data object ClickCreateLesson : CreateLessonIntent
     data object ClickBack : CreateLessonIntent
     data class ClickLessonDay(val lessonDay: LessonDay) : CreateLessonIntent
     data class ClickLessonDuration(val lessonDuration: LessonDuration) : CreateLessonIntent
@@ -37,6 +38,9 @@ sealed interface CreateLessonIntent : Intent<CreateLessonActionEvent> {
 
             is ClickNext -> {
                 CreateLessonActionEvent.GoToNextPage
+            }
+            is ClickCreateLesson->{
+                CreateLessonActionEvent.CreateLesson
             }
 
             is ClickBack -> {

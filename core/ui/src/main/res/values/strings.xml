@@ -29,6 +29,8 @@
     <string name="sign_up_agreement_title">만나서 반가워요!</string>
     <string name="sign_up_agreement_desc">과수원의 원활한 이용을 위해, \n아래 약관에 동의해주세요.</string>
     <string name="next">다음</string>
+    <string name="create_lesson">수업 생성</string>
+
     <string name="all_agreement">약관 전체동의</string>
     <string name="personal_information_agreement">개인정보 수집 및 이용동의(필수)</string>
     <string name="gwasuwon_agreement">과수원 약관(필수)</string>
