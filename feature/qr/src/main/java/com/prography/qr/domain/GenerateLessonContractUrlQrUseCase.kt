@@ -5,6 +5,7 @@ import com.prography.domain.lesson.usecase.LoadLessonContractUrlUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.map
 
 /**
  * Created by MyeongKi.
@@ -16,9 +17,10 @@ class GenerateLessonContractUrlQrUseCase(
     @OptIn(ExperimentalCoroutinesApi::class)
     operator fun invoke(
         lessonId: Long
-    ): Flow<Bitmap> {
+    ): Flow<Pair<Bitmap, String>> {
         return loadContractUrl(lessonId).flatMapConcat { url ->
             generateQrUseCase(url)
+                .map { bitmap -> Pair(bitmap, url) }
         }
     }
 }

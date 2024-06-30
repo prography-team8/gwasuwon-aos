@@ -9,7 +9,8 @@ import com.prography.usm.state.UiState
  * Created by MyeongKi.
  */
 data class LessonContractQrMachineState(
-    val qr: Bitmap? = null
+    val qr: Bitmap? = null,
+    val url: String? = null
 ) : MachineInternalState<LessonContractQrUiState> {
     override fun toUiState(): LessonContractQrUiState = LessonContractQrUiState(qr)
 }

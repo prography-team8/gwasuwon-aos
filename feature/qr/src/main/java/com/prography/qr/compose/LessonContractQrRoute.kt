@@ -2,6 +2,7 @@ package com.prography.qr.compose
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
@@ -14,12 +15,15 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.prography.qr.InviteStudentQrIntent
 import com.prography.qr.LessonContractQrActionEvent
 import com.prography.qr.LessonContractQrIntent
 import com.prography.qr.LessonContractQrUiState
 import com.prography.qr.LessonContractQrViewModel
 import com.prography.ui.GwasuwonTypography
 import com.prography.ui.R
+import com.prography.ui.component.CommonBorderButton
+import com.prography.ui.component.CommonButton
 import com.prography.ui.component.CommonToolbar
 import com.prography.ui.component.GwasuwonConfigurationManager
 import com.prography.ui.component.SpaceHeight
@@ -64,6 +68,14 @@ fun LessonContractQrScreen(
                 bitmap = it.asImageBitmap(),
                 contentDescription = "QR Code"
             )
+        }
+        Spacer(modifier = Modifier.weight(1f))
+        CommonButton(textResId = R.string.share_link, isAvailable = true) {
+            intent(LessonContractQrIntent.ClickShare)
+        }
+        SpaceHeight(height = 8)
+        CommonBorderButton(textResId = R.string.navigate_home) {
+            intent(LessonContractQrIntent.ClickHome)
         }
     }
 }

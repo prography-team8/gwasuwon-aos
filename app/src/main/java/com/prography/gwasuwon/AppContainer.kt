@@ -21,6 +21,7 @@ import com.prography.domain.preference.AccountPreference
 import com.prography.domain.preference.ThemePreferenceImpl
 import com.prography.lesson.fake.FakeLessonsDataSource
 import com.prography.network.HttpClientFactory
+import com.prography.utils.clipboar.ClipboardHelperImpl
 import com.prography.utils.security.GwasuwonAccessTokenHelper
 import com.prography.utils.security.GwasuwonRefreshTokenHelper
 import kotlinx.coroutines.flow.Flow
@@ -36,6 +37,11 @@ object AppContainer {
     val configurationEvent: MutableSharedFlow<ConfigurationEvent> = MutableSharedFlow()
     val navigateEventFlow: MutableSharedFlow<NavigationEvent> = MutableSharedFlow()
     val socialLoginEventFlow: MutableSharedFlow<SocialLoginEvent> = MutableSharedFlow()
+
+    val clipboardHelper by lazy {
+        ClipboardHelperImpl(GwasuwonApplication.currentApplication)
+    }
+
     private val gwasuwonAccessTokenHelper by lazy {
         GwasuwonAccessTokenHelper(GwasuwonApplication.currentApplication)
     }
