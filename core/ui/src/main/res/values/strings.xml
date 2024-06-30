@@ -68,5 +68,7 @@
     <string name="lesson_contract">과외 계약서</string>
     <string name="lesson_contract_qr_desc">아래 QR 코드를 스캔하거나 링크 공유를\n선택하면 과외 계약서 페이지로 이동합니다</string>
     <string name="common_confirm">확인</string>
+    <string name="share_link">링크 공유</string>
+    <string name="complete_copy">클립보드에 복사되었습니다.</string>
 
 </resources>
