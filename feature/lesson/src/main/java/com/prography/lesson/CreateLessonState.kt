@@ -82,7 +82,7 @@ enum class CreateLessonScreenType(val page: Int) {
     ;
 
     fun isFirstPage() = this.page == 1
-    fun isRequestCreateLessonPage() = this.page == entries.size
+    fun isLastPage() = this.page == entries.last().page
     fun next(): CreateLessonScreenType? {
         return entries.find { (this.page + 1) == it.page }
     }

@@ -130,8 +130,8 @@ internal fun AdditionalInfoScreen(
             }
         )
         Spacer(modifier = Modifier.weight(1f))
-        CommonButton(textResId = R.string.next, isAvailable = uiState.availableNextBtn) {
-            intent(CreateLessonIntent.ClickNext)
+        CommonButton(textResId = R.string.create_lesson, isAvailable = uiState.availableNextBtn) {
+            intent(CreateLessonIntent.ClickCreateLesson)
         }
 
     }
