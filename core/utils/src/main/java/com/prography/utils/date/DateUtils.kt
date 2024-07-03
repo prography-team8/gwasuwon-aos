@@ -13,22 +13,31 @@ import kotlinx.datetime.toLocalDateTime
 /**
  * Created by MyeongKi.
  */
+val KTS = TimeZone.of("Asia/Seoul")
 object DateUtils {
     fun getCurrentLocalDateTime(): LocalDateTime {
         return getCurrentLocalDate().toLocalDateTime()
     }
 
     fun getCurrentLocalDate(): LocalDate {
-        return Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+        return Clock.System.now().toLocalDateTime(KTS).date
     }
 
     fun getCurrentDateTime(): Long {
-        return Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).toTime()
-    }
-    fun getCurrentDateTimeUTC(): Long {
-        return Clock.System.now().toLocalDateTime(TimeZone.UTC).toTime()
+        return Clock.System.now().toLocalDateTime(KTS).toTime()
     }
 
+}
+fun Long.toKtsTimeMillis(): Long {
+    val instant = Instant.fromEpochMilliseconds(this)
+    val localDateTime = instant.toLocalDateTime(KTS)
+    return localDateTime.toTime()
+}
+
+fun Long.toUtcTimeMillis(): Long {
+    val instant = Instant.fromEpochMilliseconds(this)
+    val localDateTime = instant.toLocalDateTime(TimeZone.UTC)
+    return localDateTime.toTime()
 }
 
 fun LocalDate.toTime(): Long {

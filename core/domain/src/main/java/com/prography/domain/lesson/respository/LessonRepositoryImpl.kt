@@ -9,6 +9,7 @@ import com.prography.domain.lesson.PAGE_SIZE
 import com.prography.domain.lesson.model.Lesson
 import com.prography.domain.lesson.request.CreateLessonRequestOption
 import com.prography.domain.lesson.request.UpdateLessonRequestOption
+import com.prography.utils.date.toUtcTimeMillis
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -31,7 +32,11 @@ class LessonRepositoryImpl(
     }
 
     override fun createLesson(requestOption: CreateLessonRequestOption): Flow<Lesson> {
-        return remoteSource.createLesson(requestOption)
+        return remoteSource.createLesson(
+            requestOption.copy(
+                lessonStartDateTime = requestOption.lessonStartDateTime.toUtcTimeMillis(),
+            )
+        )
     }
 
     override fun loadLesson(lessonId: Long): Flow<Lesson> {
