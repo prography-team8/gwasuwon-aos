@@ -20,6 +20,7 @@ data class CreateLessonMachineState(
     val lessonDuration: LessonDuration? = null,
     val lessonDay: ImmutableSet<LessonDay> = persistentSetOf(),
     val lessonNumberOfProgress: Int? = null,
+    val lessonNumberOfPostpone: Int? = null,
     val lessonStartDateTime: Long? = null,
     val lessonContractUrl: String = "",
     val isLoading: Boolean = false
@@ -30,6 +31,7 @@ data class CreateLessonMachineState(
             && lessonDay.isNotEmpty()
             && lessonNumberOfProgress != null
             && lessonStartDateTime != null
+            && lessonNumberOfPostpone != null
 
     override fun toUiState(): CreateLessonUiState {
         return when (screenType) {
@@ -49,6 +51,7 @@ data class CreateLessonMachineState(
                     lessonDuration = lessonDuration,
                     lessonDay = lessonDay,
                     lessonNumberOfProgress = lessonNumberOfProgress,
+                    lessonNumberOfPostpone = lessonNumberOfPostpone,
                     lessonStartDateTime = lessonStartDateTime,
                     availableNextBtn = availableAdditionalInfo()
                 )
@@ -70,6 +73,7 @@ sealed interface CreateLessonUiState : UiState {
         val lessonDuration: LessonDuration? = null,
         val lessonDay: ImmutableSet<LessonDay> = persistentSetOf(),
         val lessonNumberOfProgress: Int? = null,
+        val lessonNumberOfPostpone: Int? = null,
         val lessonStartDateTime: Long? = null,
         val availableNextBtn: Boolean,
         val isLoading: Boolean = false

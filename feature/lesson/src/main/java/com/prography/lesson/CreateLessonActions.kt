@@ -39,7 +39,8 @@ sealed interface CreateLessonIntent : Intent<CreateLessonActionEvent> {
             is ClickNext -> {
                 CreateLessonActionEvent.GoToNextPage
             }
-            is ClickCreateLesson->{
+
+            is ClickCreateLesson -> {
                 CreateLessonActionEvent.CreateLesson
             }
 
@@ -81,6 +82,10 @@ sealed interface CreateLessonActionEvent : ActionEvent {
 
     data class UpdateLessonNumberOfProgress(
         val lessonNumberOfProgress: Int
+    ) : CreateLessonActionEvent
+
+    data class UpdateLessonNumberOfPostpone(
+        val lessonNumberOfPostpone: Int
     ) : CreateLessonActionEvent
 
     data class UpdateLessonStartDate(

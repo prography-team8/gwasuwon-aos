@@ -62,7 +62,8 @@ class CreateLessonUiMachine(
                         lessonDay = machineInternalState.lessonDay.toList(),
                         lessonDuration = machineInternalState.lessonDuration!!,
                         lessonNumberOfProgress = machineInternalState.lessonNumberOfProgress!!,
-                        lessonStartDateTime = machineInternalState.lessonStartDateTime!!
+                        lessonStartDateTime = machineInternalState.lessonStartDateTime!!,
+                        lessonNumberOfPostpone = machineInternalState.lessonNumberOfPostpone!!
                     )
                 ).asResult()
             )
@@ -160,6 +161,13 @@ class CreateLessonUiMachine(
                 lessonNumberOfProgress = it.lessonNumberOfProgress
             )
         }
+    private val updateLessonNumberOfPostponeFlow = actionFlow
+        .filterIsInstance<CreateLessonActionEvent.UpdateLessonNumberOfPostpone>()
+        .map {
+            machineInternalState.copy(
+                lessonNumberOfPostpone = it.lessonNumberOfPostpone
+            )
+        }
 
     private val updateLessonStartDateFlow = actionFlow
         .filterIsInstance<CreateLessonActionEvent.UpdateLessonStartDate>()
@@ -186,6 +194,7 @@ class CreateLessonUiMachine(
             toggleLessonDayFlow,
             updateLessonNumberOfProgressFlow,
             updateLessonStartDateFlow,
+            updateLessonNumberOfPostponeFlow,
             popBackFlow
         )
     }
