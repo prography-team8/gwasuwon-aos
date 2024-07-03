@@ -34,6 +34,7 @@ import com.prography.ui.configuration.toColor
 import com.prography.ui.GwasuwonTypography
 import com.prography.utils.date.DateUtils
 import com.prography.utils.date.toDisplayYMDText
+import com.prography.utils.date.toKtsTimeMillis
 import com.prography.utils.date.toLocalDateTime
 
 /**
@@ -105,7 +106,7 @@ fun DatePickerButton(
                 initialSelectedDateMillis = initialSelectedDateMillis,
                 selectableDates = object : SelectableDates {
                     override fun isSelectableDate(utcTimeMillis: Long): Boolean {
-                        return utcTimeMillis > DateUtils.getCurrentDateTimeUTC()
+                        return utcTimeMillis.toKtsTimeMillis() > DateUtils.getCurrentDateTime()
                     }
                 })
 
@@ -129,7 +130,7 @@ fun DatePickerButton(
                         .wrapContentSize(),
                     textResId = R.string.common_confirm
                 ) {
-                    if ((datePickerState.selectedDateMillis ?: -1) > DateUtils.getCurrentDateTimeUTC()) {
+                    if ((datePickerState.selectedDateMillis?.toKtsTimeMillis() ?: -1) > DateUtils.getCurrentDateTime()) {
                         selectedDate = datePickerState.selectedDateMillis ?: -1L
                         onClickConfirm(selectedDate)
                     }
