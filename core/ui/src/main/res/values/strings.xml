@@ -51,6 +51,7 @@
     <string name="additional_info">추가 정보</string>
     <string name="select_subject">과목 선택</string>
     <string name="lesson_schedule">수업 일정</string>
+    <string name="lesson_duration_title">1회당 진행 시간</string>
     <string name="lesson_duration">진행 시간</string>
     <string name="lesson_schedule_day">수업 진행 요일</string>
     <string name="lesson_progress_time">진행 횟수</string>
@@ -70,5 +71,7 @@
     <string name="common_confirm">확인</string>
     <string name="share_link">링크 공유</string>
     <string name="complete_copy">클립보드에 복사되었습니다.</string>
+    <string name="postpone_lesson_title">미루기 횟수</string>
+    <string name="postpone_lesson_target">%d회</string>
 
 </resources>

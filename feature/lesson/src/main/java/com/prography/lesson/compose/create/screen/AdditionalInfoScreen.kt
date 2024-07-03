@@ -24,9 +24,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import com.prography.ui.R
-import com.prography.ui.configuration.toColor
-import com.prography.ui.component.GwasuwonConfigurationManager
 import com.prography.domain.lesson.model.LessonDay
 import com.prography.domain.lesson.model.LessonDuration
 import com.prography.domain.lesson.model.LessonSubject
@@ -40,12 +37,16 @@ import com.prography.lesson.compose.create.LessonInfoInputItem
 import com.prography.lesson.utils.getLessonDayStringRes
 import com.prography.lesson.utils.getLessonDurationStringRes
 import com.prography.lesson.utils.getLessonSubjectStringRes
+import com.prography.ui.GwasuwonTypography
+import com.prography.ui.R
 import com.prography.ui.component.CommonButton
 import com.prography.ui.component.DatePickerButton
 import com.prography.ui.component.DropdownMenuComponent
-import com.prography.ui.GwasuwonTypography
+import com.prography.ui.component.GwasuwonConfigurationManager
 import com.prography.ui.component.SpaceHeight
+import com.prography.ui.configuration.toColor
 import kotlinx.collections.immutable.ImmutableSet
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
 
 /**
@@ -81,10 +82,10 @@ internal fun AdditionalInfoScreen(
                 }
             }
         )
-        SpaceHeight(height = 48)
+        SpaceHeight(height = 32)
         CreateLessonInfoTitle(R.string.lesson_schedule)
         SpaceHeight(height = 32)
-        CreateLessonInfoSmallTitle(textResId = R.string.lesson_schedule)
+        CreateLessonInfoSmallTitle(textResId = R.string.lesson_duration_title)
         SpaceHeight(height = 8)
         val lessonDuration = remember { LessonDuration.entries.toList() }
         DropdownMenuComponent(
@@ -129,12 +130,38 @@ internal fun AdditionalInfoScreen(
 
             }
         )
+        SpaceHeight(height = 24)
+        CreateLessonInfoSmallTitle(textResId = R.string.postpone_lesson_title)
+        SpaceHeight(height = 8)
+        SelectLessonNumberOfPostpone(
+            uiState.lessonNumberOfPostpone
+        ) {
+            event(
+                CreateLessonActionEvent.UpdateLessonNumberOfPostpone(
+                    it
+                )
+            )
+        }
         Spacer(modifier = Modifier.weight(1f))
         CommonButton(textResId = R.string.create_lesson, isAvailable = uiState.availableNextBtn) {
             intent(CreateLessonIntent.ClickCreateLesson)
         }
 
     }
+}
+
+@Composable
+private fun SelectLessonNumberOfPostpone(
+    lessonNumberOfPostpone: Int?,
+    onLessonNumberOfPostponeSelected: (Int) -> Unit
+) {
+    val lessonNumberOfPostponeTarget = remember { listOf(0, 1, 2) }
+    DropdownMenuComponent(
+        defaultOptionText = stringResource(id = R.string.postpone_lesson_title),
+        selectedOptionText = lessonNumberOfPostpone?.let { stringResource(id = R.string.postpone_lesson_target, it) },
+        option = lessonNumberOfPostponeTarget.map { stringResource(id = R.string.postpone_lesson_target, it) }.toImmutableList(),
+        onOptionSelected = onLessonNumberOfPostponeSelected
+    )
 }
 
 @Composable
