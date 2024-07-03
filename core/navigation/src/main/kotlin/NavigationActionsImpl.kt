@@ -9,6 +9,7 @@ class NavigationActions(
 ) {
     fun navigateSignUpRoute() {
         navController.navigate(GwasuwonPath.SingUpPath.getNavigation()) {
+            launchSingleTop = true
             popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
                 saveState = true
             }
@@ -17,6 +18,7 @@ class NavigationActions(
 
     fun navigateSignInRoute() {
         navController.navigate(GwasuwonPath.SingInPath.getNavigation()) {
+            launchSingleTop = true
             popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
                 saveState = true
             }
@@ -35,6 +37,7 @@ class NavigationActions(
 
     fun navigateCreateLessonRoute() {
         navController.navigate(GwasuwonPath.CrateLessonPath.getNavigation()) {
+            launchSingleTop = true
             popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
                 saveState = true
             }
@@ -43,6 +46,7 @@ class NavigationActions(
 
     fun navigateLessonDetailRoute(lessonId: Long) {
         navController.navigate(GwasuwonPath.LessonDetailPath(lessonId).getNavigation()) {
+            launchSingleTop = true
             popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
                 saveState = true
             }
@@ -51,6 +55,7 @@ class NavigationActions(
 
     fun navigateSuccessCreateLessonRoute(lessonId: Long) {
         navController.navigate(GwasuwonPath.SuccessCreateLessonPath(lessonId).getNavigation()) {
+            launchSingleTop = true
             popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
                 inclusive = true
                 saveState = true
@@ -60,6 +65,7 @@ class NavigationActions(
 
     fun navigateLessonInfoDetailRoute(lessonId: Long) {
         navController.navigate(GwasuwonPath.LessonInfoDetailPath(lessonId).getNavigation()) {
+            launchSingleTop = true
             popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
                 saveState = true
             }
@@ -68,6 +74,7 @@ class NavigationActions(
 
     fun navigateInviteStudentQrRoute(lessonId: Long) {
         navController.navigate(GwasuwonPath.InviteStudentQrPath(lessonId).getNavigation()) {
+            launchSingleTop = true
             popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
                 saveState = true
             }
@@ -76,6 +83,7 @@ class NavigationActions(
 
     fun navigateLessonContractQrRoute(lessonId: Long) {
         navController.navigate(GwasuwonPath.LessonContractQrPath(lessonId).getNavigation()) {
+            launchSingleTop = true
             popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
                 saveState = true
             }
