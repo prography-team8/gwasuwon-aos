@@ -85,6 +85,8 @@ private fun LessonInfoDetailScreen(
                 onValueChange = { event(LessonInfoDetailActionEvent.UpdateSchoolYear(it)) }
             )
             SpaceHeight(height = 32)
+            CreateLessonInfoSmallTitle(textResId = R.string.subject)
+            SpaceHeight(height = 8)
             val lessonSubjects = remember { LessonSubject.entries.asSequence().sortedBy { it.index }.toList() }
             DropdownMenuComponent(
                 defaultOptionTextResId = R.string.select_subject,
