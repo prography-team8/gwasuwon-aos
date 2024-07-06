@@ -57,7 +57,8 @@ class FakeLessonsDataSource : LessonDataSource {
                 lessonNumberOfProgress = requestOption.lessonNumberOfProgress,
                 lessonStartDateTime = requestOption.lessonStartDateTime,
                 restLesson = 0,
-                lessonContractUrl = "test url"
+                lessonContractUrl = "test url",
+                lessonNumberOfPostpone = requestOption.lessonNumberOfPostpone
             )
             lessons.add(lesson)
             emit(lesson)
