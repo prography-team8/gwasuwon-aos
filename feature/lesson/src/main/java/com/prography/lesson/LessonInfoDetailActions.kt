@@ -51,6 +51,7 @@ sealed interface LessonInfoDetailIntent : Intent<LessonInfoDetailActionEvent> {
 }
 
 sealed interface LessonInfoDetailActionEvent : ActionEvent {
+    data object Refresh : LessonInfoDetailActionEvent
     data object PopBack : LessonInfoDetailActionEvent
     data object UpdateLesson : LessonInfoDetailActionEvent
 

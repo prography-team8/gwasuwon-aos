@@ -79,7 +79,7 @@ class CreateLessonUiMachine(
                 }
 
                 is Result.Success -> {
-                    commonLessonEvent.emit(CommonLessonEvent.NotifyCreateLesson(it.data))
+                    commonLessonEvent.emit(CommonLessonEvent.NotifyUpdateLesson(it.data))
                     navigateFlow.emit(NavigationEvent.NavigateSuccessCreateLessonRoute(it.data.lessonId))
                     machineInternalState.copy(
                         isLoading = false,
