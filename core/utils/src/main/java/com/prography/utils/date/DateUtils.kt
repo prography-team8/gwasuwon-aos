@@ -15,6 +15,7 @@ import kotlinx.datetime.toLocalDateTime
  * Created by MyeongKi.
  */
 val KTS = TimeZone.of("Asia/Seoul")
+
 object DateUtils {
     fun getCurrentLocalDateTime(): LocalDateTime {
         return getCurrentLocalDate().toLocalDateTime()
@@ -29,6 +30,7 @@ object DateUtils {
     }
 
 }
+
 fun Long.toKtsTimeMillis(): Long {
     val instant = Instant.fromEpochMilliseconds(this)
     val localDateTime = instant.toLocalDateTime(KTS)
@@ -42,12 +44,12 @@ fun Long.toUtcTimeMillis(): Long {
 }
 
 fun LocalDate.toTime(): Long {
-    return LocalDateTime(date = this, time = LocalTime(0, 0)).toInstant(TimeZone.currentSystemDefault())
+    return LocalDateTime(date = this, time = LocalTime(0, 0, 0, 0)).toInstant(TimeZone.currentSystemDefault())
         .toEpochMilliseconds()
 }
 
 fun LocalDate.toLocalDateTime(): LocalDateTime {
-    return LocalDateTime(date = this, time = LocalTime(0, 0))
+    return LocalDateTime(date = this, time = LocalTime(0, 0, 0, 0))
 }
 
 fun LocalDateTime.toTime(): Long {
@@ -59,6 +61,9 @@ fun Long.toLocalDateTime(): LocalDateTime {
     return instant.toLocalDateTime(KTS)
 }
 
+fun List<Long>.toKrMonthDateTime(): List<Long> {
+    return map { it.toLocalDateTime().date.toLocalDateTime().toTime() }
+}
 
 fun LocalDateTime.toDisplayYMDText(): String {
     return "${date.year}-${date.month.number.toDoubleDigit()}-${date.dayOfMonth.toDoubleDigit()}"
@@ -68,7 +73,7 @@ fun LocalDateTime.toDisplayYMDTText(): String {
     return "${date.year}.${date.month.number.toDoubleDigit()}.${date.dayOfMonth.toDoubleDigit()} " + "${time.hour.toDoubleDigit()}:${time.minute.toDoubleDigit()}"
 }
 
-fun Long.toDisplayKrMonthDate():String{
+fun Long.toDisplayKrMonthDate(): String {
     val localDateTime = toLocalDateTime()
     return "${localDateTime.date.month.number}월 ${localDateTime.date.dayOfMonth}일 (${localDateTime.dayOfWeek.toKrString()})"
 }
