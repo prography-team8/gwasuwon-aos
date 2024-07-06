@@ -1,6 +1,7 @@
 package com.prography.utils.date
 
 import kotlinx.datetime.Clock
+import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -50,12 +51,12 @@ fun LocalDate.toLocalDateTime(): LocalDateTime {
 }
 
 fun LocalDateTime.toTime(): Long {
-    return toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
+    return toInstant(KTS).toEpochMilliseconds()
 }
 
 fun Long.toLocalDateTime(): LocalDateTime {
     val instant = Instant.fromEpochMilliseconds(this)
-    return instant.toLocalDateTime(TimeZone.currentSystemDefault())
+    return instant.toLocalDateTime(KTS)
 }
 
 
@@ -65,6 +66,23 @@ fun LocalDateTime.toDisplayYMDText(): String {
 
 fun LocalDateTime.toDisplayYMDTText(): String {
     return "${date.year}.${date.month.number.toDoubleDigit()}.${date.dayOfMonth.toDoubleDigit()} " + "${time.hour.toDoubleDigit()}:${time.minute.toDoubleDigit()}"
+}
+
+fun Long.toDisplayKrMonthDate():String{
+    val localDateTime = toLocalDateTime()
+    return "${localDateTime.date.month.number}월 ${localDateTime.date.dayOfMonth}일 (${localDateTime.dayOfWeek.toKrString()})"
+}
+
+fun DayOfWeek.toKrString(): String {
+    return when (this) {
+        DayOfWeek.MONDAY -> "월"
+        DayOfWeek.TUESDAY -> "화"
+        DayOfWeek.WEDNESDAY -> "수"
+        DayOfWeek.THURSDAY -> "목"
+        DayOfWeek.FRIDAY -> "금"
+        DayOfWeek.SATURDAY -> "토"
+        DayOfWeek.SUNDAY -> "일"
+    }
 }
 
 private fun Int.toDoubleDigit(): String {
