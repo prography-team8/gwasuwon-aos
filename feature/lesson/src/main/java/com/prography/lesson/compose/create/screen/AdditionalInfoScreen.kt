@@ -33,7 +33,7 @@ import com.prography.lesson.CreateLessonUiState
 import com.prography.lesson.compose.create.CreateLessonHeader
 import com.prography.lesson.compose.create.CreateLessonInfoSmallTitle
 import com.prography.lesson.compose.create.CreateLessonInfoTitle
-import com.prography.lesson.compose.create.LessonInfoInputItem
+import com.prography.lesson.compose.LessonInfoInputItem
 import com.prography.lesson.utils.getLessonDayStringRes
 import com.prography.lesson.utils.getLessonDurationStringRes
 import com.prography.lesson.utils.getLessonSubjectStringRes
@@ -59,99 +59,105 @@ internal fun AdditionalInfoScreen(
     event: (CreateLessonActionEvent) -> Unit,
     intent: (CreateLessonIntent) -> Unit
 ) {
-    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(scrollState)
     ) {
         CreateLessonHeader {
             intent(CreateLessonIntent.ClickBack)
         }
-        SpaceHeight(height = 24)
-        CreateLessonInfoTitle(R.string.additional_info)
-        SpaceHeight(height = 32)
-        val lessonSubjects = remember { LessonSubject.entries.asSequence().sortedBy { it.index }.toList() }
-        DropdownMenuComponent(
-            defaultOptionTextResId = R.string.select_subject,
-            selectedOptionTextResId = uiState.lessonSubject?.getLessonSubjectStringRes(),
-            optionResIds = lessonSubjects.map { it.getLessonSubjectStringRes() }.toPersistentList(),
-            onOptionSelected = { index ->
-                lessonSubjects.getOrNull(index)?.let {
-                    intent(CreateLessonIntent.ClickLessonSubject(it))
-                }
-            }
-        )
-        SpaceHeight(height = 32)
-        CreateLessonInfoTitle(R.string.lesson_schedule)
-        SpaceHeight(height = 32)
-        CreateLessonInfoSmallTitle(textResId = R.string.lesson_duration_title)
-        SpaceHeight(height = 8)
-        val lessonDuration = remember { LessonDuration.entries.toList() }
-        DropdownMenuComponent(
-            defaultOptionTextResId = R.string.lesson_duration,
-            selectedOptionTextResId = uiState.lessonDuration?.getLessonDurationStringRes(),
-            optionResIds = lessonDuration.map { it.getLessonDurationStringRes() }.toPersistentList(),
-            onOptionSelected = { index ->
-                lessonDuration.getOrNull(index)?.let {
-                    intent(CreateLessonIntent.ClickLessonDuration(it))
-                }
-            }
-        )
-        SpaceHeight(height = 24)
-        CreateLessonInfoSmallTitle(textResId = R.string.lesson_schedule_day)
-        SpaceHeight(height = 12)
-        SelectLessonDay(
-            uiState.lessonDay
+        val scrollState = rememberScrollState()
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState)
         ) {
-            intent(CreateLessonIntent.ClickLessonDay(it))
-        }
-        SpaceHeight(height = 24)
-        LessonInfoInputItem(
-            titleRes = R.string.lesson_progress_time,
-            hintRes = R.string.lesson_progress_time_hint,
-            inputText = uiState.lessonNumberOfProgress?.toString() ?: "",
-            keyboardType = KeyboardType.Number,
-            onValueChange = {
-                event(
-                    CreateLessonActionEvent.UpdateLessonNumberOfProgress(
-                        it.toIntOrNull() ?: 1
+
+            SpaceHeight(height = 24)
+            CreateLessonInfoTitle(R.string.additional_info)
+            SpaceHeight(height = 32)
+            val lessonSubjects = remember { LessonSubject.entries.asSequence().sortedBy { it.index }.toList() }
+            DropdownMenuComponent(
+                defaultOptionTextResId = R.string.select_subject,
+                selectedOptionTextResId = uiState.lessonSubject?.getLessonSubjectStringRes(),
+                optionResIds = lessonSubjects.map { it.getLessonSubjectStringRes() }.toPersistentList(),
+                onOptionSelected = { index ->
+                    lessonSubjects.getOrNull(index)?.let {
+                        intent(CreateLessonIntent.ClickLessonSubject(it))
+                    }
+                }
+            )
+            SpaceHeight(height = 32)
+            CreateLessonInfoTitle(R.string.lesson_schedule)
+            SpaceHeight(height = 32)
+            CreateLessonInfoSmallTitle(textResId = R.string.lesson_duration_title)
+            SpaceHeight(height = 8)
+            val lessonDuration = remember { LessonDuration.entries.toList() }
+            DropdownMenuComponent(
+                defaultOptionTextResId = R.string.lesson_duration,
+                selectedOptionTextResId = uiState.lessonDuration?.getLessonDurationStringRes(),
+                optionResIds = lessonDuration.map { it.getLessonDurationStringRes() }.toPersistentList(),
+                onOptionSelected = { index ->
+                    lessonDuration.getOrNull(index)?.let {
+                        intent(CreateLessonIntent.ClickLessonDuration(it))
+                    }
+                }
+            )
+            SpaceHeight(height = 24)
+            CreateLessonInfoSmallTitle(textResId = R.string.lesson_schedule_day)
+            SpaceHeight(height = 12)
+            SelectLessonDay(
+                uiState.lessonDay
+            ) {
+                intent(CreateLessonIntent.ClickLessonDay(it))
+            }
+            SpaceHeight(height = 24)
+            LessonInfoInputItem(
+                titleRes = R.string.lesson_progress_time,
+                hintRes = R.string.lesson_progress_time_hint,
+                inputText = uiState.lessonNumberOfProgress?.toString() ?: "",
+                keyboardType = KeyboardType.Number,
+                onValueChange = {
+                    event(
+                        CreateLessonActionEvent.UpdateLessonNumberOfProgress(
+                            it.toIntOrNull() ?: 1
+                        )
+                    )
+                }
+            )
+            SpaceHeight(height = 24)
+            CreateLessonInfoSmallTitle(textResId = R.string.lesson_start_date)
+            SpaceHeight(height = 8)
+
+            DatePickerButton(
+                selectedDate = uiState.lessonStartDateTime ?: -1,
+                onClickConfirm = {
+                    intent(CreateLessonIntent.ClickLessonDate(it))
+                }
+            )
+            SpaceHeight(height = 24)
+            CreateLessonInfoSmallTitle(textResId = R.string.postpone_lesson_title)
+            SpaceHeight(height = 8)
+            SelectLessonNumberOfPostpone(
+                uiState.lessonNumberOfPostpone
+            ) {
+                intent(
+                    CreateLessonIntent.ClickLessonNumberOfPostpone(
+                        it
                     )
                 )
             }
-        )
-        SpaceHeight(height = 24)
-        CreateLessonInfoSmallTitle(textResId = R.string.lesson_start_date)
-        SpaceHeight(height = 8)
-
-        DatePickerButton(
-            onClickConfirm = {
-                intent(CreateLessonIntent.ClickLessonDate(it))
-
+            Spacer(modifier = Modifier.weight(1f))
+            CommonButton(textResId = R.string.create_lesson, isAvailable = uiState.availableNextBtn) {
+                intent(CreateLessonIntent.ClickCreateLesson)
             }
-        )
-        SpaceHeight(height = 24)
-        CreateLessonInfoSmallTitle(textResId = R.string.postpone_lesson_title)
-        SpaceHeight(height = 8)
-        SelectLessonNumberOfPostpone(
-            uiState.lessonNumberOfPostpone
-        ) {
-            event(
-                CreateLessonActionEvent.UpdateLessonNumberOfPostpone(
-                    it
-                )
-            )
         }
-        Spacer(modifier = Modifier.weight(1f))
-        CommonButton(textResId = R.string.create_lesson, isAvailable = uiState.availableNextBtn) {
-            intent(CreateLessonIntent.ClickCreateLesson)
-        }
-
     }
 }
 
 @Composable
-private fun SelectLessonNumberOfPostpone(
+internal fun SelectLessonNumberOfPostpone(
     lessonNumberOfPostpone: Int?,
     onLessonNumberOfPostponeSelected: (Int) -> Unit
 ) {
@@ -165,7 +171,7 @@ private fun SelectLessonNumberOfPostpone(
 }
 
 @Composable
-private fun SelectLessonDay(
+internal fun SelectLessonDay(
     lessonDaySelected: ImmutableSet<LessonDay>,
     onLessonDaySelected: (LessonDay) -> Unit
 ) {

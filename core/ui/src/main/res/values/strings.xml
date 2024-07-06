@@ -73,5 +73,9 @@
     <string name="complete_copy">클립보드에 복사되었습니다.</string>
     <string name="postpone_lesson_title">미루기 횟수</string>
     <string name="postpone_lesson_target">%d회</string>
+    <string name="lesson_info_detail_title">수업 정보</string>
+    <string name="lesson_info_detail_desc">계약 완료 이후, 학부모 님 동의없이 정보 수정이 불가능합니다.</string>
+
+    <string name="update">수정</string>
 
 </resources>

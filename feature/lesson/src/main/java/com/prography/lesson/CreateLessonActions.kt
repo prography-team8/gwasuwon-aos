@@ -15,6 +15,7 @@ sealed interface CreateLessonIntent : Intent<CreateLessonActionEvent> {
     data object ClickBack : CreateLessonIntent
     data class ClickLessonDay(val lessonDay: LessonDay) : CreateLessonIntent
     data class ClickLessonDuration(val lessonDuration: LessonDuration) : CreateLessonIntent
+    data class ClickLessonNumberOfPostpone(val lessonNumberOfPostpone: Int) : CreateLessonIntent
     data class ClickLessonSubject(val lessonSubject: LessonSubject) : CreateLessonIntent
     data class ClickLessonDate(val lessonStartDateTime: Long) : CreateLessonIntent
 
@@ -30,6 +31,9 @@ sealed interface CreateLessonIntent : Intent<CreateLessonActionEvent> {
 
             is ClickLessonSubject -> {
                 CreateLessonActionEvent.UpdateLessonSubject(lessonSubject)
+            }
+            is ClickLessonNumberOfPostpone->{
+                CreateLessonActionEvent.UpdateLessonNumberOfPostpone(lessonNumberOfPostpone)
             }
 
             is ClickLessonDay -> {
