@@ -17,8 +17,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.prography.ui.R
 import com.prography.ui.GwasuwonTypography
+import com.prography.ui.R
+import com.prography.ui.configuration.toColor
 
 /**
  * Created by MyeongKi.
@@ -58,5 +59,37 @@ fun CommonToolbar(
             modifier = Modifier.weight(1f),
             titleRes = titleRes
         )
+    }
+}
+
+
+@Composable
+fun CommonToolbar(
+    modifier: Modifier = Modifier,
+    @StringRes titleRes: Int,
+    onClickBack: () -> Unit,
+    onClickRight: () -> Unit,
+    isVisibleRight: Boolean,
+    @StringRes rightTextRes: Int
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        CommonToolbar(
+            modifier = modifier.weight(1f),
+            titleRes = titleRes,
+            onClickBack = onClickBack
+        )
+        if (isVisibleRight) {
+            Text(
+                text = stringResource(id = rightTextRes),
+                style = GwasuwonTypography.Label2Bold.textStyle,
+                color = GwasuwonConfigurationManager.colors.primaryNormal.toColor(),
+                modifier = Modifier
+                    .clickable(onClick = onClickRight)
+                    .padding(end = 8.dp),
+            )
+        }
     }
 }

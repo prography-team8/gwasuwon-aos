@@ -12,22 +12,7 @@ import kotlinx.coroutines.flow.flow
  * Created by MyeongKi.
  */
 class FakeLessonsDataSource : LessonDataSource {
-    private val lessons = mutableListOf<Lesson>().apply {
-//        add(Lesson(
-//            lessonId = 0,
-//            studentName = "studentName",
-//            schoolYear = "schoolYear",
-//            memo = "memo",
-//            lessonSubject = LessonSubject.MATH,
-//            lessonDay = listOf(LessonDay.FRIDAY),
-//            lessonDuration = LessonDuration.ONE_HOUR,
-//            lessonNumberOfProgress = 8,
-//            lessonStartDate = "lessonStartDate",
-//            restLesson = 1,
-//            lessonContractUrl = "lessonContractUrl"
-//
-//        ))
-    }
+    private val lessons = mutableListOf<Lesson>()
 
     override fun loadLessonContractUrl(lessonId: Long): Flow<String> {
         return flow {

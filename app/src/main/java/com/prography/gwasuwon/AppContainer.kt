@@ -16,7 +16,9 @@ import com.prography.domain.lesson.CommonLessonEvent
 import com.prography.domain.lesson.respository.LessonRepositoryImpl
 import com.prography.domain.lesson.usecase.CreateLessonUseCase
 import com.prography.domain.lesson.usecase.LoadLessonContractUrlUseCase
+import com.prography.domain.lesson.usecase.LoadLessonUseCase
 import com.prography.domain.lesson.usecase.LoadLessonsUseCase
+import com.prography.domain.lesson.usecase.UpdateLessonUseCase
 import com.prography.domain.preference.AccountPreference
 import com.prography.domain.preference.ThemePreferenceImpl
 import com.prography.lesson.fake.FakeLessonsDataSource
@@ -147,6 +149,18 @@ object AppContainer {
 
     val loadLessonContractUrlUseCase by lazy {
         LoadLessonContractUrlUseCase(
+            lessonRepository
+        )
+    }
+
+    val loadLessonUseCase by lazy {
+        LoadLessonUseCase(
+            lessonRepository
+        )
+    }
+
+    val updateLessonUseCase by lazy {
+        UpdateLessonUseCase(
             lessonRepository
         )
     }
