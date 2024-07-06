@@ -29,9 +29,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.prography.ui.GwasuwonTypography
 import com.prography.ui.R
 import com.prography.ui.configuration.toColor
-import com.prography.ui.GwasuwonTypography
 import com.prography.utils.date.DateUtils
 import com.prography.utils.date.toDisplayYMDText
 import com.prography.utils.date.toKtsTimeMillis
@@ -43,13 +43,13 @@ import com.prography.utils.date.toLocalDateTime
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerButton(
-    onClickConfirm: (dateMillisSelected: Long) -> Unit
+    onClickConfirm: (dateMillisSelected: Long) -> Unit,
+    selectedDate: Long = -1L
 ) {
     val initialSelectedDateMillis = remember {
         DateUtils.getCurrentDateTime()
     }
     var expanded by remember { mutableStateOf(false) }
-    var selectedDate by remember { mutableLongStateOf(-1L) }
     val currentDateText = remember {
         DateUtils.getCurrentLocalDateTime().toDisplayYMDText()
     }
@@ -121,18 +121,20 @@ fun DatePickerButton(
                     todayContentColor = GwasuwonConfigurationManager.colors.primaryNormal.toColor(),
                 )
             )
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ) {
                 CommonBorderButton(
                     modifier = Modifier
                         .align(Alignment.CenterEnd)
                         .wrapContentSize(),
                     textResId = R.string.common_confirm
                 ) {
-                    if ((datePickerState.selectedDateMillis?.toKtsTimeMillis() ?: -1) > DateUtils.getCurrentDateTime()) {
-                        selectedDate = datePickerState.selectedDateMillis ?: -1L
-                        onClickConfirm(selectedDate)
+                    val dateClicked = datePickerState.selectedDateMillis?.toKtsTimeMillis() ?: -1
+                    if (dateClicked > DateUtils.getCurrentDateTime()) {
+                        onClickConfirm(dateClicked)
                     }
                     expanded = false
                 }

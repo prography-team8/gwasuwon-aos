@@ -137,6 +137,7 @@ private fun LessonInfoDetailScreen(
             SpaceHeight(height = 8)
 
             DatePickerButton(
+                selectedDate = uiState.lessonStartDateTime ?: -1,
                 onClickConfirm = {
                     intent(LessonInfoDetailIntent.ClickLessonDate(it))
                 }

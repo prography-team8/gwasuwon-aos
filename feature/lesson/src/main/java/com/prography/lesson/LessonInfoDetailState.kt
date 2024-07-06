@@ -15,11 +15,11 @@ import kotlinx.collections.immutable.toImmutableSet
  */
 data class LessonInfoDetailMachineState(
     val originalLessonInfo: Lesson? = null,
-    val studentName: String = originalLessonInfo?.studentName ?:"",
-    val schoolYear: String = originalLessonInfo?.schoolYear?:"",
+    val studentName: String = originalLessonInfo?.studentName ?: "",
+    val schoolYear: String = originalLessonInfo?.schoolYear ?: "",
     val lessonSubject: LessonSubject? = originalLessonInfo?.lessonSubject,
     val lessonDuration: LessonDuration? = originalLessonInfo?.lessonDuration,
-    val lessonDay: ImmutableSet<LessonDay> = originalLessonInfo?.lessonDay?.toImmutableSet()?: persistentSetOf(),
+    val lessonDay: ImmutableSet<LessonDay> = originalLessonInfo?.lessonDay?.toImmutableSet() ?: persistentSetOf(),
     val lessonNumberOfProgress: Int? = originalLessonInfo?.lessonNumberOfProgress,
     val lessonNumberOfPostpone: Int? = originalLessonInfo?.lessonNumberOfPostpone,
     val lessonStartDateTime: Long? = originalLessonInfo?.lessonStartDateTime,
@@ -36,9 +36,19 @@ data class LessonInfoDetailMachineState(
                 || lessonStartDateTime != originalLessonInfo.lessonStartDateTime
     }
 
+    private fun isValidLesson(): Boolean {
+        return studentName.isNotEmpty()
+                && schoolYear.isNotEmpty()
+                && lessonSubject != null
+                && lessonDuration != null
+                && lessonDay.isNotEmpty()
+                && lessonNumberOfProgress != null
+                && lessonStartDateTime != null
+    }
+
     override fun toUiState(): LessonInfoDetailUiState {
         return LessonInfoDetailUiState(
-            isVisibleUpdateBtn = isDiffFromOriginal(),
+            isVisibleUpdateBtn = isDiffFromOriginal() && isValidLesson(),
             studentName = studentName,
             schoolYear = schoolYear,
             lessonSubject = lessonSubject,
