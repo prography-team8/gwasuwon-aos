@@ -127,7 +127,6 @@ internal fun AdditionalInfoScreen(
         DatePickerButton(
             onClickConfirm = {
                 intent(CreateLessonIntent.ClickLessonDate(it))
-
             }
         )
         SpaceHeight(height = 24)
@@ -136,8 +135,8 @@ internal fun AdditionalInfoScreen(
         SelectLessonNumberOfPostpone(
             uiState.lessonNumberOfPostpone
         ) {
-            event(
-                CreateLessonActionEvent.UpdateLessonNumberOfPostpone(
+            intent(
+                CreateLessonIntent.ClickLessonNumberOfPostpone(
                     it
                 )
             )
