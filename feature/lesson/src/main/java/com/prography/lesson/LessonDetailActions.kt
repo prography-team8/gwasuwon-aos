@@ -34,6 +34,7 @@ sealed interface LessonDetailIntent : Intent<LessonDetailActionEvent> {
 }
 
 sealed interface LessonDetailActionEvent : ActionEvent {
+    data object Refresh : LessonDetailActionEvent
     data object PopBack : LessonDetailActionEvent
     data object NavigateLessonCertificationQr : LessonDetailActionEvent
     data class FocusDate(val date: Long) : LessonDetailActionEvent
