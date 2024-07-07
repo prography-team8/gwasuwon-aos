@@ -16,6 +16,7 @@ import com.prography.domain.lesson.CommonLessonEvent
 import com.prography.domain.lesson.respository.LessonRepositoryImpl
 import com.prography.domain.lesson.usecase.CreateLessonUseCase
 import com.prography.domain.lesson.usecase.LoadLessonContractUrlUseCase
+import com.prography.domain.lesson.usecase.LoadLessonDatesUseCase
 import com.prography.domain.lesson.usecase.LoadLessonUseCase
 import com.prography.domain.lesson.usecase.LoadLessonsUseCase
 import com.prography.domain.lesson.usecase.UpdateLessonUseCase
@@ -158,7 +159,9 @@ object AppContainer {
             lessonRepository
         )
     }
-
+    val loadLessonDatesUseCase by lazy {
+        LoadLessonDatesUseCase()
+    }
     val updateLessonUseCase by lazy {
         UpdateLessonUseCase(
             lessonRepository

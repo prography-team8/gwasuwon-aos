@@ -1,5 +1,6 @@
 package com.prography.gwasuwon
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -33,6 +34,7 @@ class MainActivity : ComponentActivity() {
             }
         }
         observeEvent()
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
     }
 
     private fun observeEvent() {

@@ -12,7 +12,7 @@ junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 lifecycleRuntimeKtx = "2.7.0"
 activityCompose = "1.9.0"
-composeBom = "2024.05.00"
+composeBom = "2024.06.00"
 compose = "1.5.1"
 pagingCompose = "3.3.0"
 composeNavigation = "2.7.7"
@@ -27,6 +27,8 @@ espressoCoreVersion = "3.5.1"
 security = "1.0.0"
 kakao-sdk = "2.20.1"
 ktor = "2.3.11"
+kizitonwose-calendar = "2.6.0-beta02"
+
 accompanist-systemuicontroller = "0.24.3-alpha"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -65,6 +67,9 @@ kakao-login = {group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-s
 # qr
 zxing = {group = "com.google.zxing", name = "core", version = "3.4.1"}
 zxing-android = {group = "com.journeyapps", name = "zxing-android-embedded", version = "4.2.0"}
+
+#calendar
+kizitonwose-calendar = {group = "com.kizitonwose.calendar", name = "compose", version.ref = "kizitonwose-calendar"}
 
 #gradle
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
