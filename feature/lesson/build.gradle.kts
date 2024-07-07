@@ -18,5 +18,5 @@ dependencies {
     implementation(libs.androidx.compose.paging)
     implementation(libs.kotlin.collections)
     implementation(libs.kotlin.date)
-
+    implementation(libs.kizitonwose.calendar)
 }

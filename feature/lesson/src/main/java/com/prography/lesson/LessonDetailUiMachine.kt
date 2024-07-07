@@ -79,7 +79,7 @@ class LessonDetailUiMachine(
                         lessonDates = dates.toPersistentSet(),
                         studentName = lesson.studentName,
                         lessonNumberOfProgress = lesson.lessonNumberOfProgress,
-                        focusDate = DateUtils.getCurrentDateTime(),
+                        focusDate = DateUtils.getCurrentDateTime().toKrMonthDateTime(),
                         lessonAttendanceDates = lesson.lessonAttendanceDates.toKrMonthDateTime().toImmutableList(),
                         lessonAbsentDates = lesson.lessonAbsentDates.toKrMonthDateTime().toPersistentSet()
                     )

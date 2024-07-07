@@ -62,7 +62,11 @@ fun Long.toLocalDateTime(): LocalDateTime {
 }
 
 fun List<Long>.toKrMonthDateTime(): List<Long> {
-    return map { it.toLocalDateTime().date.toLocalDateTime().toTime() }
+    return map { it.toKrMonthDateTime() }
+}
+
+fun Long.toKrMonthDateTime(): Long {
+    return toLocalDateTime().date.toLocalDateTime().toTime()
 }
 
 fun LocalDateTime.toDisplayYMDText(): String {

@@ -29,9 +29,21 @@ fun CommonToolbar(
     modifier: Modifier = Modifier,
     @StringRes titleRes: Int,
 ) {
+    CommonToolbar(
+        modifier = modifier,
+        title = stringResource(id = titleRes)
+
+    )
+}
+
+@Composable
+fun CommonToolbar(
+    modifier: Modifier = Modifier,
+    title: String,
+) {
     Text(
         modifier = modifier.padding(vertical = 8.dp),
-        text = stringResource(id = titleRes),
+        text = title,
         style = GwasuwonTypography.Heading1Bold.textStyle
     )
 }
@@ -39,7 +51,7 @@ fun CommonToolbar(
 @Composable
 fun CommonToolbar(
     modifier: Modifier = Modifier,
-    @StringRes titleRes: Int,
+    title: String,
     onClickBack: () -> Unit
 ) {
     Row(
@@ -57,9 +69,22 @@ fun CommonToolbar(
         Spacer(modifier = Modifier.width(8.dp))
         CommonToolbar(
             modifier = Modifier.weight(1f),
-            titleRes = titleRes
+            title = title
         )
     }
+}
+
+@Composable
+fun CommonToolbar(
+    modifier: Modifier = Modifier,
+    @StringRes titleRes: Int,
+    onClickBack: () -> Unit
+) {
+    CommonToolbar(
+        modifier = modifier,
+        title = stringResource(id = titleRes),
+        onClickBack = onClickBack
+    )
 }
 
 

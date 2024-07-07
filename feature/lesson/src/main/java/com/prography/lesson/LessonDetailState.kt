@@ -32,6 +32,7 @@ data class LessonDetailMachineState(
             LessonDateInfoUiState.ScheduleLesson
         }
         return LessonDetailUiState(
+            studentName = studentName,
             focusDate = focusDate,
             lessonDateInfoUiState = lessonDateInfoUiState,
             lessonDates = lessonDates,
@@ -43,6 +44,7 @@ data class LessonDetailMachineState(
 }
 
 data class LessonDetailUiState(
+    val studentName: String,
     val focusDate: Long,
     val lessonDateInfoUiState: LessonDateInfoUiState,
     val lessonDates: ImmutableSet<Long>,

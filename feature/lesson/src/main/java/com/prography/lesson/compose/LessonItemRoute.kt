@@ -59,6 +59,7 @@ private fun LessonItemScreen(
             .fillMaxWidth()
             .wrapContentHeight()
             .background(GwasuwonConfigurationManager.colors.backgroundElevatedAlternative.toColor())
+            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.common_btn_conner)))
             .padding(
                 vertical = dimensionResource(id = R.dimen.common_padding),
                 horizontal = dimensionResource(id = R.dimen.common_large_padding)

@@ -19,9 +19,11 @@ import com.prography.domain.account.AccountInfoManager
 import com.prography.domain.account.model.AccountStatus
 import com.prography.gwasuwon.AppContainer
 import com.prography.lesson.CreateLessonViewModel
+import com.prography.lesson.LessonDetailViewModel
 import com.prography.lesson.LessonInfoDetailViewModel
 import com.prography.lesson.LessonsViewModel
 import com.prography.lesson.SuccessCreateLessonViewModel
+import com.prography.lesson.compose.LessonDetailRoute
 import com.prography.lesson.compose.LessonInfoDetailRoute
 import com.prography.lesson.compose.LessonsRoute
 import com.prography.lesson.compose.SuccessCreateLessonRoute
@@ -178,8 +180,17 @@ fun GwasuwonNavGraph(
 
         with(GwasuwonPath.LessonDetailPath()) {
             composable(getDestination(), arguments) {
-                val lessonId = it.arguments?.getLong(GwasuwonPath.LessonDetailPath.ArgumentName.LESSON_ID.name) ?: ""
-                Text(text = "hi im lesson detail")
+                val lessonId = it.arguments?.getLong(GwasuwonPath.LessonDetailPath.ArgumentName.LESSON_ID.name) ?: 0L
+                LessonDetailRoute(
+                    viewModel = viewModel(
+                        factory = LessonDetailViewModel.provideFactory(
+                            lessonId = lessonId,
+                            navigateFlow = AppContainer.navigateEventFlow,
+                            loadLessonUseCase = AppContainer.loadLessonUseCase,
+                            loadLessonDatesUseCase = AppContainer.loadLessonDatesUseCase
+                        )
+                    )
+                )
             }
         }
     }
