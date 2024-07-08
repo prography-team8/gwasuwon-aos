@@ -12,6 +12,7 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import kotlin.math.min
 
 /**
  * Created by MyeongKi.
@@ -19,11 +20,12 @@ import kotlinx.datetime.toLocalDateTime
 class LoadLessonDatesUseCase {
     operator fun invoke(lesson: Lesson): Flow<List<Long>> {
         return flow {
+            val postponedLessonSize = min(lesson.lessonNumberOfPostpone, lesson.lessonAbsentDates.size)
             val startDateTime = lesson.lessonStartDateTime.toLocalDateTime()
             val lessonTimes = mutableListOf<Long>()
             var currentLessonCount = 0
             var currentDateTime: LocalDateTime = startDateTime
-            while (currentLessonCount < lesson.lessonNumberOfProgress) {
+            while (currentLessonCount < (lesson.lessonNumberOfProgress + postponedLessonSize)) {
                 if (lesson.lessonDay.contains(LessonDay.entries[currentDateTime.dayOfWeek.ordinal])) {
                     val lessonTime = currentDateTime.date.toTime()
                     lessonTimes.add(lessonTime)
