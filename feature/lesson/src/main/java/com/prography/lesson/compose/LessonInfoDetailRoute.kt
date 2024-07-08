@@ -11,6 +11,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -59,6 +60,8 @@ private fun LessonInfoDetailScreen(
     event: (LessonInfoDetailActionEvent) -> Unit,
     intent: (LessonInfoDetailIntent) -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
+
     Column(
         modifier = Modifier
             .padding(
@@ -150,6 +153,9 @@ private fun LessonInfoDetailScreen(
                 selectedDate = uiState.lessonStartDateTime ?: -1,
                 onClickConfirm = {
                     intent(LessonInfoDetailIntent.ClickLessonDate(it))
+                },
+                onExpandPicker = {
+                    focusManager.clearFocus()
                 }
             )
             SpaceHeight(height = 32)

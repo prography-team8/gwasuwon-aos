@@ -20,7 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -45,7 +44,8 @@ import com.prography.utils.date.toLocalDateTime
 @Composable
 fun DatePickerButton(
     onClickConfirm: (dateMillisSelected: Long) -> Unit,
-    selectedDate: Long = -1L
+    selectedDate: Long = -1L,
+    onExpandPicker: () -> Unit
 ) {
     val initialSelectedDateMillis = remember {
         DateUtils.getCurrentDateTime()
@@ -64,6 +64,7 @@ fun DatePickerButton(
             )
             .padding(vertical = 12.dp, horizontal = 16.dp)
             .clickable {
+                onExpandPicker()
                 expanded = true
             }
 
