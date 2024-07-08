@@ -4,12 +4,10 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -20,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.prography.lesson.LessonDateInfoUiState
 import com.prography.lesson.LessonDetailActionEvent
 import com.prography.lesson.LessonDetailIntent
@@ -30,11 +27,12 @@ import com.prography.ui.GwasuwonTypography
 import com.prography.ui.R
 import com.prography.ui.component.CommonButton
 import com.prography.ui.component.CommonToolbar
+import com.prography.ui.component.DropdownMoreComponent
 import com.prography.ui.component.GwasuwonConfigurationManager
 import com.prography.ui.component.SpaceHeight
-import com.prography.ui.component.SpaceWidth
 import com.prography.ui.configuration.toColor
 import com.prography.utils.date.toDisplayKrMonthDate
+import kotlinx.collections.immutable.persistentListOf
 
 /**
  * Created by MyeongKi.
@@ -62,9 +60,20 @@ private fun LessonDetailScreen(
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         CommonToolbar(
-            title = stringResource(id = R.string.student_title, uiState.studentName)
+            title = stringResource(id = R.string.student_title, uiState.studentName),
+            onClickBack = {
+                intent(LessonDetailIntent.ClickBack)
+            },
+            isVisibleRight = true,
         ) {
-            intent(LessonDetailIntent.ClickBack)
+            DropdownMoreComponent(
+                optionRes = persistentListOf(
+                    R.string.lesson_info_detail_title,
+                    R.string.delete_lesson
+                )
+            ) {
+
+            }
         }
         LessonDetailCalendar(
             focusDate = uiState.focusDate,
@@ -85,7 +94,6 @@ private fun LessonDetailScreen(
         )
     }
 }
-
 
 
 @Composable
