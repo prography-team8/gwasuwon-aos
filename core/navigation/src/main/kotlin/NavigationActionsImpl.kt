@@ -81,6 +81,15 @@ class NavigationActions(
         }
     }
 
+    fun navigateLessonCertificationQrRoute(lessonId: Long) {
+        navController.navigate(GwasuwonPath.LessonCertificationQrPath(lessonId).getNavigation()) {
+            launchSingleTop = true
+            popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+        }
+    }
+
     fun navigateLessonContractQrRoute(lessonId: Long) {
         navController.navigate(GwasuwonPath.LessonContractQrPath(lessonId).getNavigation()) {
             launchSingleTop = true

@@ -51,8 +51,7 @@ class LessonDetailUiMachine(
     private val navigateLessonCertificationQrFlow = actionFlow
         .filterIsInstance<LessonDetailActionEvent.NavigateLessonCertificationQr>()
         .onEach {
-            //FIXME
-            navigateFlow.emit(NavigationEvent.NavigateLessonContractQrRoute(lessonId = lessonId))
+            navigateFlow.emit(NavigationEvent.NavigateLessonCertificationQrRoute(lessonId = lessonId))
         }
 
     @OptIn(ExperimentalCoroutinesApi::class)

@@ -31,7 +31,7 @@ class FakeLessonsDataSource : LessonDataSource {
 
         add(
             Lesson(
-                lessonId = 1,
+                lessonId = -1,
                 studentName = "name",
                 schoolYear = "schoolYear",
                 memo = "memo",
