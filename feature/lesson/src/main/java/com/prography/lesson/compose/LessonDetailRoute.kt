@@ -251,7 +251,7 @@ private fun CompletedLessonItem(
             title = dateString,
             desc = stringResource(
                 id = R.string.completed_lesson_desc,
-                itemState.lessonIndex,
+                itemState.lessonIndex + 1,
                 itemState.lessonNumberOfProgress,
             )
         )
