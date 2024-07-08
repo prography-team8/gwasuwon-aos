@@ -84,4 +84,15 @@ class FakeLessonsDataSource : LessonDataSource {
             emit(updatedLesson)
         }
     }
+
+    override fun deleteLesson(lessonId: Long): Flow<Unit> {
+        return flow {
+            val lesson = lessons.find { it.lessonId == lessonId }
+            if (lesson == null) {
+                throw IllegalArgumentException("lesson not found")
+            }
+            lessons.remove(lesson)
+            emit(Unit)
+        }
+    }
 }

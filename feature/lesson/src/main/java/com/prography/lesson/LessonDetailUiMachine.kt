@@ -1,6 +1,8 @@
 package com.prography.lesson
 
 import NavigationEvent
+import com.prography.domain.lesson.CommonLessonEvent
+import com.prography.domain.lesson.usecase.DeleteLessonUseCase
 import com.prography.domain.lesson.usecase.LoadLessonDatesUseCase
 import com.prography.domain.lesson.usecase.LoadLessonUseCase
 import com.prography.usm.holder.UiStateMachine
@@ -29,8 +31,10 @@ class LessonDetailUiMachine(
     lessonId: Long,
     coroutineScope: CoroutineScope,
     navigateFlow: MutableSharedFlow<NavigationEvent>,
+    commonLessonEvent: MutableSharedFlow<CommonLessonEvent>,
     loadLessonUseCase: LoadLessonUseCase,
-    loadLessonDatesUseCase: LoadLessonDatesUseCase
+    loadLessonDatesUseCase: LoadLessonDatesUseCase,
+    deleteLessonUseCase: DeleteLessonUseCase,
 ) : UiStateMachine<
         LessonDetailUiState,
         LessonDetailMachineState,
@@ -105,10 +109,28 @@ class LessonDetailUiMachine(
         .onEach {
             navigateFlow.emit(NavigationEvent.NavigateLessonInfoDetailRoute(lessonId = lessonId))
         }
+
+    private val deleteLessonFlow = actionFlow
+        .filterIsInstance<LessonDetailActionEvent.DeleteLesson>()
+        .transform {
+            emitAll(deleteLessonUseCase(lessonId).asResult())
+        }
+        .onEach {
+            when (it) {
+                is Result.Success -> {
+                    commonLessonEvent.emit(CommonLessonEvent.NotifyDeleteLesson(lessonId))
+                    navigateFlow.emit(NavigationEvent.PopBack)
+                }
+
+                else -> Unit
+            }
+        }
+
     override val outerNotifyScenarioActionFlow = merge(
         popBackFlow,
         navigateLessonCertificationQrFlow,
-        navigateLessonInfoDetailFlow
+        navigateLessonInfoDetailFlow,
+        deleteLessonFlow
     )
 
     init {

@@ -78,7 +78,7 @@ private fun LessonDetailScreen(
                     }
 
                     1 -> {
-
+                        intent(LessonDetailIntent.ClickDeleteLesson)
                     }
 
                     else -> Unit
