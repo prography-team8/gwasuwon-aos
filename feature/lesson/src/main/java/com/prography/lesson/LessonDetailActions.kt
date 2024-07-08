@@ -12,6 +12,8 @@ sealed interface LessonDetailIntent : Intent<LessonDetailActionEvent> {
     data class ClickDate(val date: Long) : LessonDetailIntent
     data object ClickCheckByAttendance : LessonDetailIntent
 
+    data object ClickLessonInfoDetail : LessonDetailIntent
+
     override fun toActionEvent(): LessonDetailActionEvent {
         return when (this) {
             is ClickBack -> {
@@ -29,6 +31,11 @@ sealed interface LessonDetailIntent : Intent<LessonDetailActionEvent> {
             is ClickCheckByAttendance -> {
                 LessonDetailActionEvent.CheckByAttendance
             }
+
+            is ClickLessonInfoDetail -> {
+                LessonDetailActionEvent.NavigateLessonInfoDetail
+
+            }
         }
     }
 }
@@ -39,4 +46,6 @@ sealed interface LessonDetailActionEvent : ActionEvent {
     data object NavigateLessonCertificationQr : LessonDetailActionEvent
     data class FocusDate(val date: Long) : LessonDetailActionEvent
     data object CheckByAttendance : LessonDetailActionEvent
+
+    data object NavigateLessonInfoDetail : LessonDetailActionEvent
 }

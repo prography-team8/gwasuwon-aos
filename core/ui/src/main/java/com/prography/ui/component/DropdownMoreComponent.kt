@@ -32,7 +32,6 @@ import kotlinx.collections.immutable.ImmutableList
  * Created by MyeongKi.
  */
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropdownMoreComponent(
     optionRes: ImmutableList<Int>,

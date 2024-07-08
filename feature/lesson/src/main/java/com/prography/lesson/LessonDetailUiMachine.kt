@@ -99,9 +99,16 @@ class LessonDetailUiMachine(
             //FIXME usecase 추가 필요 단일 상태만 변경 필요.
             machineInternalState
         }
+
+    private val navigateLessonInfoDetailFlow = actionFlow
+        .filterIsInstance<LessonDetailActionEvent.NavigateLessonInfoDetail>()
+        .onEach {
+            navigateFlow.emit(NavigationEvent.NavigateLessonInfoDetailRoute(lessonId = lessonId))
+        }
     override val outerNotifyScenarioActionFlow = merge(
         popBackFlow,
-        navigateLessonCertificationQrFlow
+        navigateLessonCertificationQrFlow,
+        navigateLessonInfoDetailFlow
     )
 
     init {

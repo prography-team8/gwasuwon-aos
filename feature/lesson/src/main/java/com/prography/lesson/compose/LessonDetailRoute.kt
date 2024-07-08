@@ -72,7 +72,17 @@ private fun LessonDetailScreen(
                     R.string.delete_lesson
                 )
             ) {
+                when (it) {
+                    0 -> {
+                        intent(LessonDetailIntent.ClickLessonInfoDetail)
+                    }
 
+                    1 -> {
+
+                    }
+
+                    else -> Unit
+                }
             }
         }
         LessonDetailCalendar(
