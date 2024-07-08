@@ -8,12 +8,12 @@ import com.prography.usm.state.UiState
 /**
  * Created by MyeongKi.
  */
-data class InviteStudentQrMachineState(
+data class OnlyQrMachineState(
     val qr: Bitmap? = null
-) : MachineInternalState<InviteStudentQrUiState> {
-    override fun toUiState(): InviteStudentQrUiState = InviteStudentQrUiState(qr)
+) : MachineInternalState<OnlyQrUiState> {
+    override fun toUiState(): OnlyQrUiState = OnlyQrUiState(qr)
 }
 @Immutable
-data class InviteStudentQrUiState(
+data class OnlyQrUiState(
     val qr: Bitmap? = null
 ) : UiState

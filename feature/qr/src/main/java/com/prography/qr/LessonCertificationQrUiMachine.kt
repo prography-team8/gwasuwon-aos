@@ -1,8 +1,8 @@
 package com.prography.qr
 
 import NavigationEvent
-import com.prography.qr.domain.GenerateInviteStudentQrUseCase
 import com.prography.qr.domain.GenerateGwasuwonQrUseCase
+import com.prography.qr.domain.GenerateLessonCertificationQrUseCase
 import com.prography.qr.domain.GenerateQrUseCase
 import com.prography.usm.holder.UiStateMachine
 import com.prography.usm.result.Result
@@ -20,35 +20,30 @@ import kotlinx.coroutines.flow.transform
 /**
  * Created by MyeongKi.
  */
-class InviteStudentQrUiMachine(
+class LessonCertificationQrUiMachine(
     coroutineScope: CoroutineScope,
     lessonId: Long,
     navigateFlow: MutableSharedFlow<NavigationEvent>
 ) : UiStateMachine<
         OnlyQrUiState,
         OnlyQrMachineState,
-        InviteStudentQrActionEvent,
-        InviteStudentQrIntent>(coroutineScope) {
-    private val generateInviteStudentQrUseCase = GenerateInviteStudentQrUseCase(
+        LessonCertificationQrActionEvent,
+        LessonCertificationQrIntent>(coroutineScope) {
+    private val generateLessonCertificationQrUseCase = GenerateLessonCertificationQrUseCase(
         generateGwasuwonQrUseCase = GenerateGwasuwonQrUseCase(
             generateQrUseCase = GenerateQrUseCase()
         )
     )
     override var machineInternalState: OnlyQrMachineState = OnlyQrMachineState()
 
-    private val navigateHomeFlow = actionFlow
-        .filterIsInstance<InviteStudentQrActionEvent.NavigateHome>()
-        .onEach {
-            navigateFlow.emit(NavigationEvent.NavigateLessonsRoute)
-        }
     private val popBackFlow = actionFlow
-        .filterIsInstance<InviteStudentQrActionEvent.PopBack>()
+        .filterIsInstance<LessonCertificationQrActionEvent.PopBack>()
         .onEach {
             navigateFlow.emit(NavigationEvent.PopBack)
         }
     private val generateQrFlow = actionFlow
-        .filterIsInstance<InviteStudentQrActionEvent.GenerateQr>()
-        .transform { emitAll(generateInviteStudentQrUseCase(lessonId).asResult()) }
+        .filterIsInstance<LessonCertificationQrActionEvent.GenerateQr>()
+        .transform { emitAll(generateLessonCertificationQrUseCase(lessonId).asResult()) }
         .map {
             when (it) {
                 is Result.Error -> {
@@ -65,7 +60,6 @@ class InviteStudentQrUiMachine(
             }
         }
     override val outerNotifyScenarioActionFlow = merge(
-        navigateHomeFlow,
         popBackFlow
     )
 

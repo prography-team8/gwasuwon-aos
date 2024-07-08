@@ -106,7 +106,19 @@ sealed interface GwasuwonPath {
             ;
         }
     }
+    data class LessonCertificationQrPath(
+        private val lessonId: Long = -1
+    ) : GwasuwonPath {
+        override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.LESSON_CERTIFICATION_QR
+        override val arguments: List<NamedNavArgument> = listOf(
+            navArgument(ArgumentName.LESSON_ID.name) { defaultValue = lessonId },
+        )
 
+        enum class ArgumentName {
+            LESSON_ID,
+            ;
+        }
+    }
     data class LessonContractQrPath(
         private val lessonId: Long = -1
     ) : GwasuwonPath {
