@@ -33,7 +33,9 @@ import com.prography.ui.component.ErrorDialog
 import com.prography.ui.component.GwasuwonConfigurationManager
 import com.prography.ui.component.SpaceHeight
 import com.prography.ui.configuration.toColor
+import com.prography.utils.date.DateUtils
 import com.prography.utils.date.toDisplayKrMonthDate
+import com.prography.utils.date.toTime
 import kotlinx.collections.immutable.persistentListOf
 
 /**
@@ -168,7 +170,9 @@ private fun LessonDateInfoRoute(
             ScheduleLessonItem(
                 modifier = modifier,
                 focusDate = focusDate
-            )
+            ) {
+                intent(LessonDetailIntent.ClickLessonCertificationQr)
+            }
         }
 
         is LessonDateInfoUiState.AbsentLesson -> {
@@ -207,7 +211,8 @@ private fun NoLessonItem(
 @Composable
 private fun ScheduleLessonItem(
     modifier: Modifier,
-    focusDate: Long
+    focusDate: Long,
+    onClickLessonCertification: () -> Unit
 ) {
     val dateString = focusDate.toDisplayKrMonthDate()
     Column(modifier = modifier) {
@@ -215,6 +220,14 @@ private fun ScheduleLessonItem(
             title = dateString,
             descRes = R.string.schedule_lesson_desc
         )
+        Spacer(modifier = Modifier.weight(1f))
+        if (focusDate == DateUtils.getCurrentLocalDate().toTime()) {
+            CommonButton(
+                textResId = R.string.lesson_certification_qr,
+                isAvailable = true,
+                onClickNext = onClickLessonCertification
+            )
+        }
     }
 }
 

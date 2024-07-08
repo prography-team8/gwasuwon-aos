@@ -34,6 +34,7 @@ import com.prography.ui.R
 import com.prography.ui.configuration.toColor
 import com.prography.utils.date.DateUtils
 import com.prography.utils.date.toDisplayYMDText
+import com.prography.utils.date.toKrMonthDateTime
 import com.prography.utils.date.toKtsTimeMillis
 import com.prography.utils.date.toLocalDateTime
 
@@ -106,7 +107,7 @@ fun DatePickerButton(
                 initialSelectedDateMillis = initialSelectedDateMillis,
                 selectableDates = object : SelectableDates {
                     override fun isSelectableDate(utcTimeMillis: Long): Boolean {
-                        return utcTimeMillis.toKtsTimeMillis() > DateUtils.getCurrentDateTime()
+                        return utcTimeMillis.toKtsTimeMillis().toKrMonthDateTime() >= DateUtils.getCurrentDateTime().toKrMonthDateTime()
                     }
                 })
 
@@ -132,8 +133,8 @@ fun DatePickerButton(
                         .wrapContentSize(),
                     textResId = R.string.common_confirm
                 ) {
-                    val dateClicked = datePickerState.selectedDateMillis?.toKtsTimeMillis() ?: -1
-                    if (dateClicked > DateUtils.getCurrentDateTime()) {
+                    val dateClicked = datePickerState.selectedDateMillis?.toKtsTimeMillis()?.toKtsTimeMillis()?.toKrMonthDateTime() ?: -1
+                    if (dateClicked >= DateUtils.getCurrentDateTime().toKtsTimeMillis().toKrMonthDateTime()) {
                         onClickConfirm(dateClicked)
                     }
                     expanded = false
