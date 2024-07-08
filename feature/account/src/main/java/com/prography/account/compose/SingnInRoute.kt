@@ -48,7 +48,11 @@ fun SignInRoute(
 private fun SignInScreen(
     intent: (SignInIntent) -> Unit
 ) {
-    Box {
+    Box(
+        modifier = Modifier.padding(
+            horizontal = dimensionResource(id = R.dimen.common_large_padding)
+        )
+    ) {
         SignInLogo()
         KakaoLoginBtn(modifier = Modifier.align(Alignment.BottomCenter)) {
             intent(SignInIntent.ClickKakaoSignIn)

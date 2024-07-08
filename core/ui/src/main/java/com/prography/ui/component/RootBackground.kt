@@ -34,10 +34,7 @@ fun RootBackground(viewModel: com.prography.ui.configuration.ConfigurationStateV
         Surface(
             modifier = Modifier
                 .background(GwasuwonConfigurationManager.colors.backgroundRegularNormal.toColor())
-                .fillMaxSize()
-                .padding(
-                    horizontal = dimensionResource(id = R.dimen.common_large_padding)
-                ),
+                .fillMaxSize(),
             color = GwasuwonConfigurationManager.colors.backgroundRegularNormal.toColor()
         ) {
             content()

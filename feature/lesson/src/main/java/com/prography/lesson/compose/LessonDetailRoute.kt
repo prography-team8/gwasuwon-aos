@@ -20,6 +20,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.prography.lesson.LessonDateInfoUiState
 import com.prography.lesson.LessonDetailActionEvent
+import com.prography.lesson.LessonDetailDialog
 import com.prography.lesson.LessonDetailIntent
 import com.prography.lesson.LessonDetailUiState
 import com.prography.lesson.LessonDetailViewModel
@@ -28,6 +29,7 @@ import com.prography.ui.R
 import com.prography.ui.component.CommonButton
 import com.prography.ui.component.CommonToolbar
 import com.prography.ui.component.DropdownMoreComponent
+import com.prography.ui.component.ErrorDialog
 import com.prography.ui.component.GwasuwonConfigurationManager
 import com.prography.ui.component.SpaceHeight
 import com.prography.ui.configuration.toColor
@@ -50,6 +52,41 @@ fun LessonDetailRoute(
         event = viewModel.machine.eventInvoker,
         intent = viewModel.machine.intentInvoker
     )
+    LessonDetailDialogRoute(
+        uiState.value.dialog,
+        viewModel.machine.intentInvoker,
+        viewModel.machine.eventInvoker
+    )
+}
+
+@Composable
+private fun LessonDetailDialogRoute(
+    dialogState: LessonDetailDialog,
+    intent: (LessonDetailIntent) -> Unit,
+    event: (LessonDetailActionEvent) -> Unit
+) {
+    when (dialogState) {
+        is LessonDetailDialog.DeleteLesson -> {
+            ErrorDialog(
+                titleResId = R.string.delete_lesson,
+                contentResId = R.string.delete_lesson_dialog_desc,
+                positiveResId = R.string.delete,
+                negativeResId = R.string.cancel,
+                onClickPositive = {
+                    event(LessonDetailActionEvent.HideDialog)
+                    intent(LessonDetailIntent.ClickDeleteDialogConfirm)
+                },
+                onClickNegative = {
+                    intent(LessonDetailIntent.ClickDialogCancel)
+                },
+                onClickBackground = {
+                    intent(LessonDetailIntent.ClickDialogBackground)
+                }
+            )
+        }
+
+        else -> Unit
+    }
 }
 
 @Composable
@@ -58,7 +95,13 @@ private fun LessonDetailScreen(
     event: (LessonDetailActionEvent) -> Unit,
     intent: (LessonDetailIntent) -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .padding(
+                horizontal = dimensionResource(id = R.dimen.common_large_padding)
+            )
+            .fillMaxSize()
+    ) {
         CommonToolbar(
             title = stringResource(id = R.string.student_title, uiState.studentName),
             onClickBack = {

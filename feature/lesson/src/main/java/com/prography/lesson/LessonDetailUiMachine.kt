@@ -126,6 +126,20 @@ class LessonDetailUiMachine(
             }
         }
 
+    private val hideDialogFlow = actionFlow
+        .filterIsInstance<LessonDetailActionEvent.HideDialog>()
+        .map {
+            machineInternalState.copy(
+                dialog = LessonDetailDialog.None
+            )
+        }
+    private val showDeleteLessonDialogFlow = actionFlow
+        .filterIsInstance<LessonDetailActionEvent.ShowDeleteLessonDialog>()
+        .map {
+            machineInternalState.copy(
+                dialog = LessonDetailDialog.DeleteLesson
+            )
+        }
     override val outerNotifyScenarioActionFlow = merge(
         popBackFlow,
         navigateLessonCertificationQrFlow,
@@ -141,7 +155,9 @@ class LessonDetailUiMachine(
         return merge(
             refreshFlow,
             focusDateFlow,
-            checkByAttendanceFlow
+            checkByAttendanceFlow,
+            hideDialogFlow,
+            showDeleteLessonDialogFlow
         )
     }
 }

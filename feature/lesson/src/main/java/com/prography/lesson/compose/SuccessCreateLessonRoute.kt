@@ -49,6 +49,9 @@ private fun SuccessCreateLessonScreen(
     intent: (SuccessCreateLessonIntent) -> Unit
 ) {
     Column(
+        modifier = Modifier.padding(
+            horizontal = dimensionResource(id = R.dimen.common_large_padding)
+        ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         SpaceHeight(height = 40)

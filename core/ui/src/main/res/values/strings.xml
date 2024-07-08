@@ -91,4 +91,9 @@
     <string name="calendar_attendance_lesson_desc">완료된 수업</string>
 
     <string name="delete_lesson">수업 삭제</string>
+    <string name="delete_lesson_dialog_desc">수업을 삭제하시겠습니까?</string>
+    <string name="delete">삭제</string>
+    <string name="cancel">취소</string>
+
+
 </resources>

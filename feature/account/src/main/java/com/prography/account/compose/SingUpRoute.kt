@@ -62,7 +62,11 @@ private fun SignUpAgreementScreen(
     uiState: SignUpUiState.Agreement,
     intent: (SignUpIntent) -> Unit
 ) {
-    Column {
+    Column(
+        modifier = Modifier.padding(
+            horizontal = dimensionResource(id = R.dimen.common_large_padding)
+        )
+    ) {
         SignUpAgreementBody(
             modifier = Modifier.weight(1f)
         )
@@ -78,7 +82,11 @@ private fun SignUpAgreementBody(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .padding(
+                horizontal = dimensionResource(id = R.dimen.common_large_padding)
+            )
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Center
     ) {
         Text(
