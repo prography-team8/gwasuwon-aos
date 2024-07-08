@@ -118,3 +118,26 @@ fun CommonToolbar(
         }
     }
 }
+
+@Composable
+fun CommonToolbar(
+    modifier: Modifier = Modifier,
+    title: String,
+    onClickBack: () -> Unit,
+    isVisibleRight: Boolean,
+    rightContent: @Composable () -> Unit,
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        CommonToolbar(
+            modifier = modifier.weight(1f),
+            title = title,
+            onClickBack = onClickBack
+        )
+        if (isVisibleRight) {
+            rightContent()
+        }
+    }
+}

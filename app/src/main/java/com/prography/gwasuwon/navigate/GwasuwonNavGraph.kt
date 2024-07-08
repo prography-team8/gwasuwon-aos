@@ -186,8 +186,10 @@ fun GwasuwonNavGraph(
                         factory = LessonDetailViewModel.provideFactory(
                             lessonId = lessonId,
                             navigateFlow = AppContainer.navigateEventFlow,
+                            commonLessonEvent = AppContainer.commonLessonEvent,
                             loadLessonUseCase = AppContainer.loadLessonUseCase,
-                            loadLessonDatesUseCase = AppContainer.loadLessonDatesUseCase
+                            loadLessonDatesUseCase = AppContainer.loadLessonDatesUseCase,
+                            deleteLessonUseCase = AppContainer.deleteLessonUseCase
                         )
                     )
                 )

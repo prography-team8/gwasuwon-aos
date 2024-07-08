@@ -1,6 +1,8 @@
 package com.prography.lesson
 
 import NavigationEvent
+import com.prography.domain.lesson.CommonLessonEvent
+import com.prography.domain.lesson.usecase.DeleteLessonUseCase
 import com.prography.domain.lesson.usecase.LoadLessonDatesUseCase
 import com.prography.domain.lesson.usecase.LoadLessonUseCase
 import com.prography.usm.holder.UiStateMachine
@@ -29,8 +31,10 @@ class LessonDetailUiMachine(
     lessonId: Long,
     coroutineScope: CoroutineScope,
     navigateFlow: MutableSharedFlow<NavigationEvent>,
+    commonLessonEvent: MutableSharedFlow<CommonLessonEvent>,
     loadLessonUseCase: LoadLessonUseCase,
-    loadLessonDatesUseCase: LoadLessonDatesUseCase
+    loadLessonDatesUseCase: LoadLessonDatesUseCase,
+    deleteLessonUseCase: DeleteLessonUseCase,
 ) : UiStateMachine<
         LessonDetailUiState,
         LessonDetailMachineState,
@@ -99,9 +103,48 @@ class LessonDetailUiMachine(
             //FIXME usecase 추가 필요 단일 상태만 변경 필요.
             machineInternalState
         }
+
+    private val navigateLessonInfoDetailFlow = actionFlow
+        .filterIsInstance<LessonDetailActionEvent.NavigateLessonInfoDetail>()
+        .onEach {
+            navigateFlow.emit(NavigationEvent.NavigateLessonInfoDetailRoute(lessonId = lessonId))
+        }
+
+    private val deleteLessonFlow = actionFlow
+        .filterIsInstance<LessonDetailActionEvent.DeleteLesson>()
+        .transform {
+            emitAll(deleteLessonUseCase(lessonId).asResult())
+        }
+        .onEach {
+            when (it) {
+                is Result.Success -> {
+                    commonLessonEvent.emit(CommonLessonEvent.NotifyDeleteLesson(lessonId))
+                    navigateFlow.emit(NavigationEvent.PopBack)
+                }
+
+                else -> Unit
+            }
+        }
+
+    private val hideDialogFlow = actionFlow
+        .filterIsInstance<LessonDetailActionEvent.HideDialog>()
+        .map {
+            machineInternalState.copy(
+                dialog = LessonDetailDialog.None
+            )
+        }
+    private val showDeleteLessonDialogFlow = actionFlow
+        .filterIsInstance<LessonDetailActionEvent.ShowDeleteLessonDialog>()
+        .map {
+            machineInternalState.copy(
+                dialog = LessonDetailDialog.DeleteLesson
+            )
+        }
     override val outerNotifyScenarioActionFlow = merge(
         popBackFlow,
-        navigateLessonCertificationQrFlow
+        navigateLessonCertificationQrFlow,
+        navigateLessonInfoDetailFlow,
+        deleteLessonFlow
     )
 
     init {
@@ -112,7 +155,9 @@ class LessonDetailUiMachine(
         return merge(
             refreshFlow,
             focusDateFlow,
-            checkByAttendanceFlow
+            checkByAttendanceFlow,
+            hideDialogFlow,
+            showDeleteLessonDialogFlow
         )
     }
 }

@@ -61,6 +61,9 @@ internal fun AdditionalInfoScreen(
 ) {
     Column(
         modifier = Modifier
+            .padding(
+                horizontal = dimensionResource(id = R.dimen.common_large_padding)
+            )
             .fillMaxSize()
     ) {
         CreateLessonHeader {

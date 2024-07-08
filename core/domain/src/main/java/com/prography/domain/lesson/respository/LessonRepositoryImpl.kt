@@ -76,4 +76,8 @@ class LessonRepositoryImpl(
             )
         )
     }
+
+    override fun deleteLesson(lessonId: Long): Flow<Unit> {
+        return remoteSource.deleteLesson(lessonId)
+    }
 }

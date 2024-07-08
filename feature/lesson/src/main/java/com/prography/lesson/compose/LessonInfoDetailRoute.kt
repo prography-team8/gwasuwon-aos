@@ -2,6 +2,7 @@ package com.prography.lesson.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
@@ -10,6 +11,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import com.prography.domain.lesson.model.LessonDuration
@@ -57,7 +59,13 @@ private fun LessonInfoDetailScreen(
     event: (LessonInfoDetailActionEvent) -> Unit,
     intent: (LessonInfoDetailIntent) -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .padding(
+                horizontal = dimensionResource(id = R.dimen.common_large_padding)
+            )
+            .fillMaxSize()
+    ) {
         LessonInfoToolbar(
             isVisibleUpdateBtn = uiState.isVisibleUpdateBtn,
             onClickUpdate = { intent(LessonInfoDetailIntent.ClickUpdateLesson) },

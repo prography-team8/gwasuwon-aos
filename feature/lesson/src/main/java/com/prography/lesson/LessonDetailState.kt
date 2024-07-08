@@ -19,6 +19,7 @@ data class LessonDetailMachineState(
     val lessonAttendanceDates: ImmutableList<Long> = persistentListOf(),
     val lessonAbsentDates: ImmutableSet<Long> = persistentSetOf(),
     val isLoading: Boolean = false,
+    val dialog: LessonDetailDialog = LessonDetailDialog.None
 ) : MachineInternalState<LessonDetailUiState> {
     override fun toUiState(): LessonDetailUiState {
         val lessonDateInfoUiState = if (lessonDates.contains(focusDate).not()) {
@@ -38,7 +39,8 @@ data class LessonDetailMachineState(
             lessonDates = lessonDates,
             lessonAttendanceDates = lessonAttendanceDates.toImmutableSet(),
             lessonAbsentDates = lessonAbsentDates,
-            isLoading = isLoading
+            isLoading = isLoading,
+            dialog = dialog
         )
     }
 }
@@ -51,6 +53,7 @@ data class LessonDetailUiState(
     val lessonAttendanceDates: ImmutableSet<Long>,
     val lessonAbsentDates: ImmutableSet<Long>,
     val isLoading: Boolean,
+    val dialog: LessonDetailDialog
 ) : UiState
 
 sealed interface LessonDateInfoUiState {
@@ -64,4 +67,10 @@ sealed interface LessonDateInfoUiState {
         val lessonNumberOfProgress: Int,
         val lessonIndex: Int
     ) : LessonDateInfoUiState
+}
+
+sealed interface LessonDetailDialog {
+    data object None : LessonDetailDialog
+
+    data object DeleteLesson : LessonDetailDialog
 }

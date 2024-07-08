@@ -84,7 +84,8 @@ class LessonsUiMachine(
 private fun Flow<CommonLessonEvent>.toActionFlow(): Flow<LessonsActionEvent> {
     return map {
         when (it) {
-            is CommonLessonEvent.NotifyUpdateLesson -> LessonsActionEvent.RequestRefresh
+            is CommonLessonEvent.NotifyUpdateLesson,
+            is CommonLessonEvent.NotifyDeleteLesson -> LessonsActionEvent.RequestRefresh
         }
     }
 }

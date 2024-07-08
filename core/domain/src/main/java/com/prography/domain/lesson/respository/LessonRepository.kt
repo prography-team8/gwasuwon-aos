@@ -15,4 +15,5 @@ interface LessonRepository {
     fun createLesson(requestOption: CreateLessonRequestOption): Flow<Lesson>
     fun loadLesson(lessonId: Long): Flow<Lesson>
     fun updateLesson(requestOption: UpdateLessonRequestOption): Flow<Lesson>
+    fun deleteLesson(lessonId: Long): Flow<Unit>
 }
