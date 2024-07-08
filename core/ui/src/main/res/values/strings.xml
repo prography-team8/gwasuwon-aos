@@ -84,6 +84,8 @@
     <string name="schedule_lesson_desc">수업 진행 예정</string>
     <string name="absent_lesson_desc">수업을 미뤘어요</string>
     <string name="check_by_attendance">출석으로 체크</string>
+    <string name="lesson_certification_qr">수업 인증 QR</string>
+
     <string name="completed_lesson_desc">%d/%d회차</string>
 
     <string name="calendar_schedule_lesson_desc">수업 예정일자</string>
