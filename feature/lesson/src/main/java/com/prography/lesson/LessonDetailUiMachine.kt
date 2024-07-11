@@ -2,6 +2,8 @@ package com.prography.lesson
 
 import NavigationEvent
 import com.prography.domain.lesson.CommonLessonEvent
+import com.prography.domain.lesson.request.CheckLessonByAttendanceRequestOption
+import com.prography.domain.lesson.usecase.CheckLessonByAttendanceUseCase
 import com.prography.domain.lesson.usecase.DeleteLessonUseCase
 import com.prography.domain.lesson.usecase.LoadLessonDatesUseCase
 import com.prography.domain.lesson.usecase.LoadLessonUseCase
@@ -10,7 +12,6 @@ import com.prography.usm.result.Result
 import com.prography.usm.result.asResult
 import com.prography.utils.date.DateUtils
 import com.prography.utils.date.toKrMonthDateTime
-import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -35,6 +36,7 @@ class LessonDetailUiMachine(
     loadLessonUseCase: LoadLessonUseCase,
     loadLessonDatesUseCase: LoadLessonDatesUseCase,
     deleteLessonUseCase: DeleteLessonUseCase,
+    checkLessonByAttendanceUseCase: CheckLessonByAttendanceUseCase
 ) : UiStateMachine<
         LessonDetailUiState,
         LessonDetailMachineState,
@@ -82,9 +84,9 @@ class LessonDetailUiMachine(
                         lessonDates = dates.toPersistentSet(),
                         studentName = lesson.studentName,
                         lessonNumberOfProgress = lesson.lessonNumberOfProgress,
-                        focusDate = DateUtils.getCurrentDateTime().toKrMonthDateTime(),
-                        lessonAttendanceDates = lesson.lessonAttendanceDates.toKrMonthDateTime().toImmutableList(),
-                        lessonAbsentDates = lesson.lessonAbsentDates.toKrMonthDateTime().toPersistentSet()
+                        focusDate = DateUtils.getCurrentDateTime(),
+                        lessonAttendanceDates = lesson.lessonAttendanceDates,
+                        lessonAbsentDates = lesson.lessonAbsentDates
                     )
                 }
             }
@@ -98,9 +100,40 @@ class LessonDetailUiMachine(
         }
     private val checkByAttendanceFlow = actionFlow
         .filterIsInstance<LessonDetailActionEvent.CheckByAttendance>()
+        .transform {
+            val lessonAbsentDatesKr = machineInternalState.lessonAbsentDates.asSequence().map { it.toKrMonthDateTime() }.toSet()
+            lessonAbsentDatesKr
+                .indexOf(machineInternalState.focusDate)
+                .takeIf { it != -1 }
+                ?.run {
+                    emitAll(
+                        checkLessonByAttendanceUseCase(
+                            CheckLessonByAttendanceRequestOption(
+                                lessonId = lessonId,
+                                lessonAbsentDate = machineInternalState.lessonAbsentDates[this]
+                            )
+                        ).asResult()
+                    )
+                }
+        }
         .map {
-            //FIXME usecase 추가 필요 단일 상태만 변경 필요.
-            machineInternalState
+            when (it) {
+                is Result.Error -> {
+                    machineInternalState.copy(isLoading = false)
+                }
+
+                is Result.Loading -> {
+                    machineInternalState.copy(isLoading = true)
+                }
+
+                is Result.Success -> {
+                    machineInternalState.copy(
+                        isLoading = false,
+                        lessonAbsentDates = it.data.lessonAbsentDates,
+                        lessonAttendanceDates = it.data.lessonAttendanceDates
+                    )
+                }
+            }
         }
 
     private val navigateLessonInfoDetailFlow = actionFlow

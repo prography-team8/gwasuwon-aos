@@ -5,14 +5,13 @@ import com.prography.domain.lesson.model.Lesson
 import com.prography.domain.lesson.model.LessonDay
 import com.prography.domain.lesson.model.LessonDuration
 import com.prography.domain.lesson.model.LessonSubject
+import com.prography.domain.lesson.request.CheckLessonByAttendanceRequestOption
 import com.prography.domain.lesson.request.CreateLessonRequestOption
 import com.prography.domain.lesson.request.LoadLessonsRequestOption
 import com.prography.domain.lesson.request.UpdateLessonRequestOption
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.text.SimpleDateFormat
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import java.util.Date
 import java.util.TimeZone
 
@@ -128,6 +127,21 @@ class FakeLessonsDataSource : LessonDataSource {
             }
             lessons.remove(lesson)
             emit(Unit)
+        }
+    }
+
+    override fun checkLessonByAttendance(requestOption: CheckLessonByAttendanceRequestOption): Flow<Lesson> {
+        return flow {
+            val lesson = lessons.find { it.lessonId == requestOption.lessonId }
+            if (lesson == null) {
+                throw IllegalArgumentException("lesson not found")
+            }
+            val updatedLesson = lesson.copy(
+                lessonAttendanceDates = lesson.lessonAttendanceDates + requestOption.lessonAbsentDate,
+                lessonAbsentDates = lesson.lessonAbsentDates.filter { it != requestOption.lessonAbsentDate }
+            )
+            lessons[lessons.indexOf(lesson)] = updatedLesson
+            emit(updatedLesson)
         }
     }
 }

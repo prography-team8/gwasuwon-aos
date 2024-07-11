@@ -35,7 +35,7 @@ import com.prography.ui.component.SpaceHeight
 import com.prography.ui.configuration.toColor
 import com.prography.utils.date.DateUtils
 import com.prography.utils.date.toDisplayKrMonthDate
-import com.prography.utils.date.toTime
+import com.prography.utils.date.toKrTime
 import kotlinx.collections.immutable.persistentListOf
 
 /**
@@ -222,7 +222,7 @@ private fun ScheduleLessonItem(
             descRes = R.string.schedule_lesson_desc
         )
         Spacer(modifier = Modifier.weight(1f))
-        if (focusDate == DateUtils.getCurrentLocalDate().toTime()) {
+        if (focusDate == DateUtils.getCurrentLocalDate().toKrTime()) {
             CommonButton(
                 textResId = R.string.lesson_certification_qr,
                 isAvailable = true,

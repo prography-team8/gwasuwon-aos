@@ -8,6 +8,7 @@ import com.prography.domain.lesson.LessonDataSource
 import com.prography.domain.lesson.LoadLessonComposePagingSource
 import com.prography.domain.lesson.PAGE_SIZE
 import com.prography.domain.lesson.model.Lesson
+import com.prography.domain.lesson.request.CheckLessonByAttendanceRequestOption
 import com.prography.domain.lesson.request.CreateLessonRequestOption
 import com.prography.domain.lesson.request.UpdateLessonRequestOption
 import com.prography.utils.date.toKtsTimeMillis
@@ -79,5 +80,13 @@ class LessonRepositoryImpl(
 
     override fun deleteLesson(lessonId: Long): Flow<Unit> {
         return remoteSource.deleteLesson(lessonId)
+    }
+
+    override fun checkLessonByAttendance(requestOption: CheckLessonByAttendanceRequestOption): Flow<Lesson> {
+        return remoteSource.checkLessonByAttendance(
+            requestOption.copy(
+                lessonAbsentDate = requestOption.lessonAbsentDate.toUtcTimeMillis(),
+            )
+        )
     }
 }

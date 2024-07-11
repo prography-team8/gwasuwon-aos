@@ -2,6 +2,7 @@ package com.prography.lesson
 
 import com.prography.usm.state.MachineInternalState
 import com.prography.usm.state.UiState
+import com.prography.utils.date.toKrMonthDateTime
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentListOf
@@ -16,29 +17,32 @@ data class LessonDetailMachineState(
     val lessonNumberOfProgress: Int = 0,
     val focusDate: Long = -1,
     val lessonDates: ImmutableSet<Long> = persistentSetOf(),
-    val lessonAttendanceDates: ImmutableList<Long> = persistentListOf(),
-    val lessonAbsentDates: ImmutableSet<Long> = persistentSetOf(),
+    val lessonAttendanceDates: List<Long> = listOf(),
+    val lessonAbsentDates: List<Long> = listOf(),
     val isLoading: Boolean = false,
     val dialog: LessonDetailDialog = LessonDetailDialog.None
 ) : MachineInternalState<LessonDetailUiState> {
     override fun toUiState(): LessonDetailUiState {
-        val lessonDateInfoUiState = if (lessonDates.contains(focusDate).not()) {
+        val focusDateKr = focusDate.toKrMonthDateTime()
+        val lessonAttendanceDatesKr = lessonAttendanceDates.asSequence().map { it.toKrMonthDateTime() }.toImmutableSet()
+        val lessonAbsentDatesKr = lessonAbsentDates.asSequence().map { it.toKrMonthDateTime() }.toImmutableSet()
+        val lessonDateInfoUiState = if (lessonDates.contains(focusDateKr).not()) {
             LessonDateInfoUiState.NoLesson
-        } else if (lessonAbsentDates.contains(focusDate)) {
+        } else if (lessonAbsentDatesKr.contains(focusDateKr)) {
             LessonDateInfoUiState.AbsentLesson
-        } else if (lessonAttendanceDates.contains(focusDate)) {
-            val lessonIndex = lessonAttendanceDates.indexOf(focusDate)
+        } else if (lessonAttendanceDatesKr.contains(focusDateKr)) {
+            val lessonIndex = lessonAttendanceDatesKr.indexOf(focusDateKr)
             LessonDateInfoUiState.CompletedLesson(lessonNumberOfProgress, lessonIndex)
         } else {
             LessonDateInfoUiState.ScheduleLesson
         }
         return LessonDetailUiState(
             studentName = studentName,
-            focusDate = focusDate,
+            focusDate = focusDateKr,
             lessonDateInfoUiState = lessonDateInfoUiState,
             lessonDates = lessonDates,
-            lessonAttendanceDates = lessonAttendanceDates.toImmutableSet(),
-            lessonAbsentDates = lessonAbsentDates,
+            lessonAttendanceDates = lessonAttendanceDatesKr,
+            lessonAbsentDates = lessonAbsentDatesKr,
             isLoading = isLoading,
             dialog = dialog
         )

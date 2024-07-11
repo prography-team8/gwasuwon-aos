@@ -26,24 +26,24 @@ object DateUtils {
     }
 
     fun getCurrentDateTime(): Long {
-        return Clock.System.now().toLocalDateTime(KTS).toTime()
+        return Clock.System.now().toLocalDateTime(KTS).toKrTime()
     }
 
 }
 
 fun Long.toKtsTimeMillis(): Long {
     val instant = Instant.fromEpochMilliseconds(this)
-    val localDateTime = instant.toLocalDateTime(KTS)
-    return localDateTime.toTime()
+    val localDateTime = instant.toLocalDateTime(TimeZone.UTC)
+    return localDateTime.toKrTime()
 }
 
 fun Long.toUtcTimeMillis(): Long {
     val instant = Instant.fromEpochMilliseconds(this)
-    val localDateTime = instant.toLocalDateTime(TimeZone.UTC)
-    return localDateTime.toTime()
+    val localDateTime = instant.toLocalDateTime(KTS)
+    return localDateTime.toUtcTime()
 }
 
-fun LocalDate.toTime(): Long {
+fun LocalDate.toKrTime(): Long {
     return LocalDateTime(date = this, time = LocalTime(0, 0, 0, 0)).toInstant(TimeZone.currentSystemDefault())
         .toEpochMilliseconds()
 }
@@ -52,10 +52,12 @@ fun LocalDate.toLocalDateTime(): LocalDateTime {
     return LocalDateTime(date = this, time = LocalTime(0, 0, 0, 0))
 }
 
-fun LocalDateTime.toTime(): Long {
+fun LocalDateTime.toKrTime(): Long {
     return toInstant(KTS).toEpochMilliseconds()
 }
-
+fun LocalDateTime.toUtcTime(): Long {
+    return toInstant(TimeZone.UTC).toEpochMilliseconds()
+}
 fun Long.toLocalDateTime(): LocalDateTime {
     val instant = Instant.fromEpochMilliseconds(this)
     return instant.toLocalDateTime(KTS)
@@ -66,7 +68,7 @@ fun List<Long>.toKrMonthDateTime(): List<Long> {
 }
 
 fun Long.toKrMonthDateTime(): Long {
-    return toLocalDateTime().date.toLocalDateTime().toTime()
+    return toLocalDateTime().date.toLocalDateTime().toKrTime()
 }
 
 fun LocalDateTime.toDisplayYMDText(): String {

@@ -14,6 +14,7 @@ import com.prography.domain.account.usecase.SignUpUseCase
 import com.prography.domain.configuration.ConfigurationEvent
 import com.prography.domain.lesson.CommonLessonEvent
 import com.prography.domain.lesson.respository.LessonRepositoryImpl
+import com.prography.domain.lesson.usecase.CheckLessonByAttendanceUseCase
 import com.prography.domain.lesson.usecase.CreateLessonUseCase
 import com.prography.domain.lesson.usecase.DeleteLessonUseCase
 import com.prography.domain.lesson.usecase.LoadLessonContractUrlUseCase
@@ -170,6 +171,11 @@ object AppContainer {
     }
     val deleteLessonUseCase by lazy {
         DeleteLessonUseCase(
+            lessonRepository
+        )
+    }
+    val checkLessonByAttendanceUseCase by lazy {
+        CheckLessonByAttendanceUseCase(
             lessonRepository
         )
     }
