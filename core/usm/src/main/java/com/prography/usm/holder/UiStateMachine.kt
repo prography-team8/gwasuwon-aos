@@ -60,6 +60,7 @@ abstract class UiStateMachine<
 
     fun initMachine() {
         outerNotifyScenarioActionFlow?.launchIn(scope)
+        uiState.launchIn(scope)
     }
 
     protected abstract fun mergeStateChangeScenarioActionsFlow(): Flow<MachineInternalState>
