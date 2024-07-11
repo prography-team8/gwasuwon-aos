@@ -46,6 +46,7 @@ fun LessonDetailRoute(
     viewModel: LessonDetailViewModel
 ) {
     val uiState = viewModel.machine.uiState.collectAsState()
+    //캘린더는 매번 새로고침을 위하여 필요.
     LaunchedEffect(true) {
         viewModel.machine.eventInvoker(LessonDetailActionEvent.Refresh)
     }

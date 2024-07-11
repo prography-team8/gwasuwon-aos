@@ -182,6 +182,7 @@ class LessonInfoDetailUiMachine(
 
     init {
         initMachine()
+        eventInvoker(LessonInfoDetailActionEvent.Refresh)
     }
 
     override fun mergeStateChangeScenarioActionsFlow(): Flow<LessonInfoDetailMachineState> {

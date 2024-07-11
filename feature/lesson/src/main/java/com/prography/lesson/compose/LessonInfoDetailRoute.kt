@@ -44,9 +44,6 @@ fun LessonInfoDetailRoute(
     viewModel: LessonInfoDetailViewModel
 ) {
     val uiState = viewModel.machine.uiState.collectAsState()
-    LaunchedEffect(true) {
-        viewModel.machine.eventInvoker(LessonInfoDetailActionEvent.Refresh)
-    }
     LessonInfoDetailScreen(
         uiState = uiState.value,
         event = viewModel.machine.eventInvoker,
