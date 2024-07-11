@@ -4,7 +4,7 @@ import com.prography.domain.lesson.model.Lesson
 import com.prography.domain.lesson.model.LessonDay
 import com.prography.utils.date.KTS
 import com.prography.utils.date.toLocalDateTime
-import com.prography.utils.date.toTime
+import com.prography.utils.date.toKrTime
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.DateTimeUnit
@@ -27,7 +27,7 @@ class LoadLessonDatesUseCase {
             var currentDateTime: LocalDateTime = startDateTime
             while (currentLessonCount < (lesson.lessonNumberOfProgress + postponedLessonSize)) {
                 if (lesson.lessonDay.contains(LessonDay.entries[currentDateTime.dayOfWeek.ordinal])) {
-                    val lessonTime = currentDateTime.date.toTime()
+                    val lessonTime = currentDateTime.date.toKrTime()
                     lessonTimes.add(lessonTime)
                     currentLessonCount++
                 }

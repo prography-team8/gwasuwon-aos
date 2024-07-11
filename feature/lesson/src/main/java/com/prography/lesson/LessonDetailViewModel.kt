@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.prography.domain.lesson.CommonLessonEvent
+import com.prography.domain.lesson.usecase.CheckLessonByAttendanceUseCase
 import com.prography.domain.lesson.usecase.DeleteLessonUseCase
 import com.prography.domain.lesson.usecase.LoadLessonDatesUseCase
 import com.prography.domain.lesson.usecase.LoadLessonUseCase
@@ -20,6 +21,7 @@ class LessonDetailViewModel(
     loadLessonUseCase: LoadLessonUseCase,
     loadLessonDatesUseCase: LoadLessonDatesUseCase,
     deleteLessonUseCase: DeleteLessonUseCase,
+    checkLessonByAttendanceUseCase: CheckLessonByAttendanceUseCase
 ) : ViewModel() {
     val machine = LessonDetailUiMachine(
         lessonId = lessonId,
@@ -28,7 +30,8 @@ class LessonDetailViewModel(
         commonLessonEvent = commonLessonEvent,
         loadLessonUseCase = loadLessonUseCase,
         loadLessonDatesUseCase = loadLessonDatesUseCase,
-        deleteLessonUseCase = deleteLessonUseCase
+        deleteLessonUseCase = deleteLessonUseCase,
+        checkLessonByAttendanceUseCase = checkLessonByAttendanceUseCase
     )
 
     companion object {
@@ -39,6 +42,7 @@ class LessonDetailViewModel(
             loadLessonUseCase: LoadLessonUseCase,
             loadLessonDatesUseCase: LoadLessonDatesUseCase,
             deleteLessonUseCase: DeleteLessonUseCase,
+            checkLessonByAttendanceUseCase: CheckLessonByAttendanceUseCase
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -48,7 +52,8 @@ class LessonDetailViewModel(
                     commonLessonEvent,
                     loadLessonUseCase,
                     loadLessonDatesUseCase,
-                    deleteLessonUseCase
+                    deleteLessonUseCase,
+                    checkLessonByAttendanceUseCase
                 ) as T
             }
         }

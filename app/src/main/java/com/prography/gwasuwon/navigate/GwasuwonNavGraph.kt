@@ -203,7 +203,8 @@ fun GwasuwonNavGraph(
                             commonLessonEvent = AppContainer.commonLessonEvent,
                             loadLessonUseCase = AppContainer.loadLessonUseCase,
                             loadLessonDatesUseCase = AppContainer.loadLessonDatesUseCase,
-                            deleteLessonUseCase = AppContainer.deleteLessonUseCase
+                            deleteLessonUseCase = AppContainer.deleteLessonUseCase,
+                            checkLessonByAttendanceUseCase = AppContainer.checkLessonByAttendanceUseCase
                         )
                     )
                 )
