@@ -14,7 +14,6 @@ data class Lesson(
     val lessonNumberOfProgress: Int,
     val lessonNumberOfPostpone: Int,
     val lessonStartDateTime: Long,
-    val restLesson: Int,
     val lessonContractUrl: String,
     val lessonAttendanceDates: List<Long>,
     val lessonAbsentDates: List<Long>

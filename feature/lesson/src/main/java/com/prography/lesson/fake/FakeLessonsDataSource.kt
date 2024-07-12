@@ -39,7 +39,6 @@ class FakeLessonsDataSource : LessonDataSource {
                 lessonDuration = LessonDuration.ONE_HOUR,
                 lessonNumberOfProgress = 8,
                 lessonStartDateTime = date.time,
-                restLesson = 0,
                 lessonContractUrl = "test url",
                 lessonNumberOfPostpone = 0,
                 lessonAttendanceDates = listOf(attendance.time, attendance2.time),
@@ -75,7 +74,6 @@ class FakeLessonsDataSource : LessonDataSource {
                 lessonDuration = requestOption.lessonDuration,
                 lessonNumberOfProgress = requestOption.lessonNumberOfProgress,
                 lessonStartDateTime = requestOption.lessonStartDateTime,
-                restLesson = 0,
                 lessonContractUrl = "test url",
                 lessonNumberOfPostpone = requestOption.lessonNumberOfPostpone,
                 lessonAttendanceDates = emptyList(),
@@ -111,7 +109,6 @@ class FakeLessonsDataSource : LessonDataSource {
                 lessonDuration = requestOption.lessonDuration,
                 lessonNumberOfProgress = requestOption.lessonNumberOfProgress,
                 lessonStartDateTime = requestOption.lessonStartDateTime,
-                restLesson = requestOption.lessonNumberOfProgress,
                 lessonContractUrl = "test url"
             )
             lessons[lessons.indexOf(lesson)] = updatedLesson

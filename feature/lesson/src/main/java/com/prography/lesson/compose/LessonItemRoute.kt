@@ -109,7 +109,7 @@ private fun LessonItemScreen(
                 Text(
                     modifier = Modifier
                         .wrapContentSize(),
-                    text = "${uiState.lesson.restLesson}/${uiState.lesson.lessonNumberOfProgress}",
+                    text = "${uiState.lesson.lessonAttendanceDates.size}/${uiState.lesson.lessonNumberOfProgress}",
                     color = GwasuwonConfigurationManager.colors.labelNormal.toColor(),
                     style = GwasuwonTypography.Label2Regular.textStyle
                 )
