@@ -1,6 +1,9 @@
 package com.prography.lesson
 
 import NavigationEvent
+import com.prography.domain.dialog.model.LessonDeductedDialogMeta
+import com.prography.domain.dialog.usecase.IsShowingNotifyLessonDeductedDialogUseCase
+import com.prography.domain.dialog.usecase.UpdateShownNotifyLessonDeductedDialogUseCase
 import com.prography.domain.lesson.CommonLessonEvent
 import com.prography.domain.lesson.request.CheckLessonByAttendanceRequestOption
 import com.prography.domain.lesson.usecase.CheckLessonByAttendanceUseCase
@@ -24,6 +27,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.transform
+import kotlin.math.max
 
 /**
  * Created by MyeongKi.
@@ -36,7 +40,9 @@ class LessonDetailUiMachine(
     loadLessonUseCase: LoadLessonUseCase,
     loadLessonDatesUseCase: LoadLessonDatesUseCase,
     deleteLessonUseCase: DeleteLessonUseCase,
-    checkLessonByAttendanceUseCase: CheckLessonByAttendanceUseCase
+    checkLessonByAttendanceUseCase: CheckLessonByAttendanceUseCase,
+    isShowingNotifyLessonDeductedDialogUseCase: IsShowingNotifyLessonDeductedDialogUseCase,
+    updateShownNotifyLessonDeductedDialogUseCase: UpdateShownNotifyLessonDeductedDialogUseCase
 ) : UiStateMachine<
         LessonDetailUiState,
         LessonDetailMachineState,
@@ -63,6 +69,15 @@ class LessonDetailUiMachine(
             emitAll(loadLessonUseCase(lessonId).flatMapConcat { lesson ->
                 loadLessonDatesUseCase(lesson).map {
                     Pair(lesson, it)
+                }.flatMapConcat { lessonAndDates ->
+                    isShowingNotifyLessonDeductedDialogUseCase(lessonId, max(lesson.lessonAbsentDates.size - lesson.lessonNumberOfPostpone, 0))
+                        .onEach { isShowingNotifyLessonDeductedDialog ->
+                            if (isShowingNotifyLessonDeductedDialog) {
+                                eventInvoker(LessonDetailActionEvent.ShowNotifyLessonDeductedDialog)
+                            }
+                        }.map {
+                            lessonAndDates
+                        }
                 }
             }.asResult())
         }
@@ -84,6 +99,7 @@ class LessonDetailUiMachine(
                         lessonDates = dates.toPersistentSet(),
                         studentName = lesson.studentName,
                         lessonNumberOfProgress = lesson.lessonNumberOfProgress,
+                        lessonNumberOfPostpone = lesson.lessonNumberOfPostpone,
                         focusDate = DateUtils.getCurrentDateTime(),
                         lessonAttendanceDates = lesson.lessonAttendanceDates,
                         lessonAbsentDates = lesson.lessonAbsentDates
@@ -135,6 +151,9 @@ class LessonDetailUiMachine(
                 }
             }
         }
+        .onEach {
+            eventInvoker(LessonDetailActionEvent.UpdateLessonDeducted)
+        }
 
     private val navigateLessonInfoDetailFlow = actionFlow
         .filterIsInstance<LessonDetailActionEvent.NavigateLessonInfoDetail>()
@@ -165,6 +184,16 @@ class LessonDetailUiMachine(
                 dialog = LessonDetailDialog.None
             )
         }
+    private val hideNotifyLessonDeductedDialog = actionFlow
+        .filterIsInstance<LessonDetailActionEvent.HideNotifyLessonDeductedDialog>()
+        .onEach {
+            eventInvoker(LessonDetailActionEvent.UpdateLessonDeducted)
+        }
+        .map {
+            machineInternalState.copy(
+                dialog = LessonDetailDialog.None
+            )
+        }
     private val showDeleteLessonDialogFlow = actionFlow
         .filterIsInstance<LessonDetailActionEvent.ShowDeleteLessonDialog>()
         .map {
@@ -172,11 +201,32 @@ class LessonDetailUiMachine(
                 dialog = LessonDetailDialog.DeleteLesson
             )
         }
+    private val showNotifyLessonDeductedDialogFlow = actionFlow
+        .filterIsInstance<LessonDetailActionEvent.ShowNotifyLessonDeductedDialog>()
+        .map {
+            machineInternalState.copy(
+                dialog = LessonDetailDialog.NotifyLessonDeducted
+            )
+        }
+
+    private val updateLessonDeducted = actionFlow
+        .filterIsInstance<LessonDetailActionEvent.UpdateLessonDeducted>()
+        .transform {
+            emitAll(
+                updateShownNotifyLessonDeductedDialogUseCase(
+                    LessonDeductedDialogMeta(
+                        lessonId = lessonId,
+                        lessonDeducted = max(machineInternalState.lessonAbsentDates.size - machineInternalState.lessonNumberOfPostpone, 0)
+                    )
+                ).asResult()
+            )
+        }
     override val outerNotifyScenarioActionFlow = merge(
         popBackFlow,
         navigateLessonCertificationQrFlow,
         navigateLessonInfoDetailFlow,
-        deleteLessonFlow
+        deleteLessonFlow,
+        updateLessonDeducted
     )
 
     init {
@@ -189,7 +239,9 @@ class LessonDetailUiMachine(
             focusDateFlow,
             checkByAttendanceFlow,
             hideDialogFlow,
-            showDeleteLessonDialogFlow
+            showDeleteLessonDialogFlow,
+            hideNotifyLessonDeductedDialog,
+            showNotifyLessonDeductedDialogFlow
         )
     }
 }

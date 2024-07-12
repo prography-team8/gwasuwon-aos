@@ -28,6 +28,7 @@ security = "1.0.0"
 kakao-sdk = "2.20.1"
 ktor = "2.3.11"
 kizitonwose-calendar = "2.6.0-beta02"
+sql-delight="2.0.2"
 
 accompanist-systemuicontroller = "0.24.3-alpha"
 [libraries]
@@ -70,6 +71,11 @@ zxing-android = {group = "com.journeyapps", name = "zxing-android-embedded", ver
 
 #calendar
 kizitonwose-calendar = {group = "com.kizitonwose.calendar", name = "compose", version.ref = "kizitonwose-calendar"}
+
+#database
+sql-delight-android = {group = "app.cash.sqldelight", name = "android-driver", version.ref = "sql-delight"}
+sql-delight-core = {group = "app.cash.sqldelight", name = "sqlite-driver", version.ref = "sql-delight"}
+
 
 #gradle
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }

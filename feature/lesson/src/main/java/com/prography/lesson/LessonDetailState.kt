@@ -3,9 +3,7 @@ package com.prography.lesson
 import com.prography.usm.state.MachineInternalState
 import com.prography.usm.state.UiState
 import com.prography.utils.date.toKrMonthDateTime
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableSet
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.toImmutableSet
 
@@ -15,6 +13,7 @@ import kotlinx.collections.immutable.toImmutableSet
 data class LessonDetailMachineState(
     val studentName: String = "",
     val lessonNumberOfProgress: Int = 0,
+    val lessonNumberOfPostpone: Int = 0,
     val focusDate: Long = -1,
     val lessonDates: ImmutableSet<Long> = persistentSetOf(),
     val lessonAttendanceDates: List<Long> = listOf(),
@@ -77,4 +76,5 @@ sealed interface LessonDetailDialog {
     data object None : LessonDetailDialog
 
     data object DeleteLesson : LessonDetailDialog
+    data object NotifyLessonDeducted : LessonDetailDialog
 }

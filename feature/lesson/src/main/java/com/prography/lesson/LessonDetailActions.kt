@@ -16,6 +16,7 @@ sealed interface LessonDetailIntent : Intent<LessonDetailActionEvent> {
     data object ClickDialogCancel : LessonDetailIntent
     data object ClickDeleteDialogConfirm : LessonDetailIntent
     data object ClickDialogBackground : LessonDetailIntent
+    data object ClickNotifyLessonDeductedDialog : LessonDetailIntent
 
     override fun toActionEvent(): LessonDetailActionEvent {
         return when (this) {
@@ -50,6 +51,10 @@ sealed interface LessonDetailIntent : Intent<LessonDetailActionEvent> {
             is ClickDialogCancel, is ClickDialogBackground -> {
                 LessonDetailActionEvent.HideDialog
             }
+
+            is ClickNotifyLessonDeductedDialog -> {
+                LessonDetailActionEvent.HideNotifyLessonDeductedDialog
+            }
         }
     }
 }
@@ -62,6 +67,9 @@ sealed interface LessonDetailActionEvent : ActionEvent {
     data object CheckByAttendance : LessonDetailActionEvent
     data object NavigateLessonInfoDetail : LessonDetailActionEvent
     data object ShowDeleteLessonDialog : LessonDetailActionEvent
+    data object ShowNotifyLessonDeductedDialog : LessonDetailActionEvent
     data object DeleteLesson : LessonDetailActionEvent
     data object HideDialog : LessonDetailActionEvent
+    data object HideNotifyLessonDeductedDialog : LessonDetailActionEvent
+    data object UpdateLessonDeducted : LessonDetailActionEvent
 }

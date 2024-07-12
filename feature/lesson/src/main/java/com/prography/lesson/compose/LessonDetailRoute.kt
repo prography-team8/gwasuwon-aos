@@ -46,7 +46,9 @@ fun LessonDetailRoute(
     viewModel: LessonDetailViewModel
 ) {
     val uiState = viewModel.machine.uiState.collectAsState()
-    //캘린더는 매번 새로고침을 위하여 필요.
+    /**
+     * 캘린더는 매번 새로고침을 위하여 필요.
+     */
     LaunchedEffect(true) {
         viewModel.machine.eventInvoker(LessonDetailActionEvent.Refresh)
     }
@@ -87,7 +89,23 @@ private fun LessonDetailDialogRoute(
                 }
             )
         }
-
+        is LessonDetailDialog.NotifyLessonDeducted->{
+            ErrorDialog(
+                titleResId = R.string.lesson_deducted_title,
+                contentResId = R.string.lesson_deducted_title_desc,
+                positiveResId = R.string.common_confirm,
+                negativeResId = R.string.cancel,
+                onClickPositive = {
+                    intent(LessonDetailIntent.ClickNotifyLessonDeductedDialog)
+                },
+                onClickNegative = {
+                    intent(LessonDetailIntent.ClickNotifyLessonDeductedDialog)
+                },
+                onClickBackground = {
+                    intent(LessonDetailIntent.ClickNotifyLessonDeductedDialog)
+                }
+            )
+        }
         else -> Unit
     }
 }

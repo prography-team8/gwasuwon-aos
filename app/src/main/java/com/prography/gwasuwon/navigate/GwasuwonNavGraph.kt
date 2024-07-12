@@ -204,7 +204,9 @@ fun GwasuwonNavGraph(
                             loadLessonUseCase = AppContainer.loadLessonUseCase,
                             loadLessonDatesUseCase = AppContainer.loadLessonDatesUseCase,
                             deleteLessonUseCase = AppContainer.deleteLessonUseCase,
-                            checkLessonByAttendanceUseCase = AppContainer.checkLessonByAttendanceUseCase
+                            checkLessonByAttendanceUseCase = AppContainer.checkLessonByAttendanceUseCase,
+                            isShowingNotifyLessonDeductedDialogUseCase = AppContainer.isShowingNotifyLessonDeductedDialogUseCase,
+                            updateShownNotifyLessonDeductedDialogUseCase = AppContainer.updateShownNotifyLessonDeductedDialogUseCase
                         )
                     )
                 )

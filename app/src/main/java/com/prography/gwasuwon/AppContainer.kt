@@ -2,6 +2,8 @@ package com.prography.gwasuwon
 
 import NavigationEvent
 import com.prography.account.AccountInfoManagerImpl
+import com.prography.database.dialog.DialogLocalDataSource
+import com.prography.database.dialog.provideDialogDatabaseDriver
 import com.prography.domain.account.AccountInfoManager
 import com.prography.domain.account.SocialLoginEvent
 import com.prography.domain.account.model.AccountInfo
@@ -12,6 +14,8 @@ import com.prography.domain.account.request.SignUpRequestOption
 import com.prography.domain.account.usecase.SignInUseCase
 import com.prography.domain.account.usecase.SignUpUseCase
 import com.prography.domain.configuration.ConfigurationEvent
+import com.prography.domain.dialog.usecase.IsShowingNotifyLessonDeductedDialogUseCase
+import com.prography.domain.dialog.usecase.UpdateShownNotifyLessonDeductedDialogUseCase
 import com.prography.domain.lesson.CommonLessonEvent
 import com.prography.domain.lesson.respository.LessonRepositoryImpl
 import com.prography.domain.lesson.usecase.CheckLessonByAttendanceUseCase
@@ -177,6 +181,23 @@ object AppContainer {
     val checkLessonByAttendanceUseCase by lazy {
         CheckLessonByAttendanceUseCase(
             lessonRepository
+        )
+    }
+
+    private val dialogDataSource by lazy {
+        DialogLocalDataSource(
+            provideDialogDatabaseDriver(GwasuwonApplication.currentApplication)
+        )
+    }
+
+    val isShowingNotifyLessonDeductedDialogUseCase by lazy {
+        IsShowingNotifyLessonDeductedDialogUseCase(
+            dialogDataSource
+        )
+    }
+    val updateShownNotifyLessonDeductedDialogUseCase by lazy {
+        UpdateShownNotifyLessonDeductedDialogUseCase(
+            dialogDataSource
         )
     }
 }
