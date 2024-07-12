@@ -27,6 +27,7 @@ dependencies {
     implementation(project(":core:utils"))
     implementation(project(":core:navigation"))
     implementation(project(":core:network"))
+    implementation(project(":core:database"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

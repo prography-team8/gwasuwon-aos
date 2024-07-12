@@ -32,6 +32,7 @@ include(":feature:qr")
 
 include(":core:domain")
 include(":core:network")
+include(":core:database")
 include(":core:utils")
 include(":core:ui")
 include(":core:navigation")

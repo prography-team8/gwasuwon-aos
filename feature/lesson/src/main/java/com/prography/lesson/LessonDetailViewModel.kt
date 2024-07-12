@@ -4,6 +4,8 @@ import NavigationEvent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.prography.domain.dialog.usecase.IsShowingNotifyLessonDeductedDialogUseCase
+import com.prography.domain.dialog.usecase.UpdateShownNotifyLessonDeductedDialogUseCase
 import com.prography.domain.lesson.CommonLessonEvent
 import com.prography.domain.lesson.usecase.CheckLessonByAttendanceUseCase
 import com.prography.domain.lesson.usecase.DeleteLessonUseCase
@@ -21,7 +23,9 @@ class LessonDetailViewModel(
     loadLessonUseCase: LoadLessonUseCase,
     loadLessonDatesUseCase: LoadLessonDatesUseCase,
     deleteLessonUseCase: DeleteLessonUseCase,
-    checkLessonByAttendanceUseCase: CheckLessonByAttendanceUseCase
+    checkLessonByAttendanceUseCase: CheckLessonByAttendanceUseCase,
+    isShowingNotifyLessonDeductedDialogUseCase: IsShowingNotifyLessonDeductedDialogUseCase,
+    updateShownNotifyLessonDeductedDialogUseCase: UpdateShownNotifyLessonDeductedDialogUseCase
 ) : ViewModel() {
     val machine = LessonDetailUiMachine(
         lessonId = lessonId,
@@ -31,7 +35,9 @@ class LessonDetailViewModel(
         loadLessonUseCase = loadLessonUseCase,
         loadLessonDatesUseCase = loadLessonDatesUseCase,
         deleteLessonUseCase = deleteLessonUseCase,
-        checkLessonByAttendanceUseCase = checkLessonByAttendanceUseCase
+        checkLessonByAttendanceUseCase = checkLessonByAttendanceUseCase,
+        isShowingNotifyLessonDeductedDialogUseCase = isShowingNotifyLessonDeductedDialogUseCase,
+        updateShownNotifyLessonDeductedDialogUseCase = updateShownNotifyLessonDeductedDialogUseCase
     )
 
     companion object {
@@ -42,7 +48,9 @@ class LessonDetailViewModel(
             loadLessonUseCase: LoadLessonUseCase,
             loadLessonDatesUseCase: LoadLessonDatesUseCase,
             deleteLessonUseCase: DeleteLessonUseCase,
-            checkLessonByAttendanceUseCase: CheckLessonByAttendanceUseCase
+            checkLessonByAttendanceUseCase: CheckLessonByAttendanceUseCase,
+            isShowingNotifyLessonDeductedDialogUseCase: IsShowingNotifyLessonDeductedDialogUseCase,
+            updateShownNotifyLessonDeductedDialogUseCase: UpdateShownNotifyLessonDeductedDialogUseCase
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -53,7 +61,9 @@ class LessonDetailViewModel(
                     loadLessonUseCase,
                     loadLessonDatesUseCase,
                     deleteLessonUseCase,
-                    checkLessonByAttendanceUseCase
+                    checkLessonByAttendanceUseCase,
+                    isShowingNotifyLessonDeductedDialogUseCase,
+                    updateShownNotifyLessonDeductedDialogUseCase
                 ) as T
             }
         }

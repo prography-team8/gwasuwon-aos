@@ -41,7 +41,7 @@ class FakeLessonsDataSource : LessonDataSource {
                 lessonStartDateTime = date.time,
                 restLesson = 0,
                 lessonContractUrl = "test url",
-                lessonNumberOfPostpone = 2,
+                lessonNumberOfPostpone = 0,
                 lessonAttendanceDates = listOf(attendance.time, attendance2.time),
                 lessonAbsentDates = listOf(absent.time)
             )

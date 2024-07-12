@@ -1,0 +1,11 @@
+CREATE TABLE LessonDeductedDialogMetaEntity (
+    lessonId INTEGER NOT NULL PRIMARY KEY,
+    lessonDeducted INTEGER NOT NULL
+);
+
+isertLessonDeductedDialogMeta:
+INSERT INTO LessonDeductedDialogMetaEntity (lessonId, lessonDeducted)
+VALUES (?, ?);
+
+getLessonDeductedDialogMeta:
+SELECT * FROM LessonDeductedDialogMetaEntity WHERE lessonId = ?;

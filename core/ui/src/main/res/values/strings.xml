@@ -98,5 +98,7 @@
     <string name="delete">삭제</string>
     <string name="cancel">취소</string>
 
+    <string name="lesson_deducted_title">미루기 횟수 초과</string>
+    <string name="lesson_deducted_title_desc">미루기 횟수가 초과하여\n수업 횟수가 1회 차감됩니다</string>
 
 </resources>
