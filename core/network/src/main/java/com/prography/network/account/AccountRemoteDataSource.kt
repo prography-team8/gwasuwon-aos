@@ -3,8 +3,7 @@ package com.prography.network.account
 import com.prography.domain.account.AccountDataSource
 import com.prography.domain.account.model.AccountInfo
 import com.prography.domain.account.model.AccountStatus
-import com.prography.domain.account.model.AccountType
-import com.prography.domain.account.model.TokenType
+import com.prography.domain.account.model.AccountRole
 import com.prography.domain.account.request.SignInRequestOption
 import com.prography.domain.account.request.SignUpRequestOption
 import kotlinx.coroutines.flow.Flow
@@ -26,9 +25,8 @@ class AccountRemoteDataSource(
                 accessToken = result.accessToken,
                 email = result.email,
                 refreshToken = result.refreshToken,
-                accountType = AccountType.valueOf(result.accountType),
+                role = AccountRole.valueOf(result.role),
                 status = AccountStatus.valueOf(result.status),
-                tokenType = TokenType.valueOf(result.tokenType)
             )
         )
     }
@@ -44,9 +42,8 @@ class AccountRemoteDataSource(
                     accessToken = result.accessToken,
                     email = result.email,
                     refreshToken = result.refreshToken,
-                    accountType = AccountType.valueOf(result.accountType),
+                    role = AccountRole.valueOf(result.role),
                     status = AccountStatus.valueOf(result.status),
-                    tokenType = TokenType.valueOf(result.tokenType)
                 )
             )
         }

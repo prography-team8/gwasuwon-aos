@@ -17,7 +17,7 @@ interface AccountInfoManager {
     )
 
     fun update(accountInfo: AccountInfo)
-    fun refrehToken(refreshToken: RefreshToken)
+    fun updateRefreshToken(refreshToken: RefreshToken)
     fun getAccountInfo(): AccountInfo?
     fun clear()
     fun isRequireSyncAccountInfo(): Boolean

@@ -2,6 +2,8 @@ package com.prography.account
 
 import com.prography.domain.account.AccountInfoManager
 import com.prography.domain.account.model.AccountInfo
+import com.prography.domain.account.model.AccountRole
+import com.prography.domain.account.model.AccountStatus
 import com.prography.domain.account.model.RefreshToken
 import com.prography.domain.preference.AccountPreference
 import com.prography.utils.security.CryptoHelper
@@ -27,7 +29,8 @@ object AccountInfoManagerImpl : AccountInfoManager {
             AccountInfo(
                 accessToken = accessTokenHelper.decryptContents() ?: "",
                 refreshToken = refreshTokenHelper.decryptContents() ?: "",
-                status = accountPreference.getAccountStatus()
+                status = accountPreference.getAccountStatus(),
+                role = accountPreference.getAccountRole()
             )
         )
     }
@@ -37,10 +40,11 @@ object AccountInfoManagerImpl : AccountInfoManager {
         accessTokenHelper.encryptContentsAndStore(accountInfo.accessToken)
         refreshTokenHelper.encryptContentsAndStore(accountInfo.refreshToken)
         accountPreference.setAccountStatus(accountInfo.status)
+        accountPreference.setAccountRole(accountInfo.role)
         this.accountInfo.set(accountInfo)
     }
 
-    override fun refrehToken(refreshToken: RefreshToken) {
+    override fun updateRefreshToken(refreshToken: RefreshToken) {
         accessTokenHelper.encryptContentsAndStore(refreshToken.accessToken)
         refreshTokenHelper.encryptContentsAndStore(refreshToken.refreshToken)
         val current = accountInfo.get() ?: AccountInfo(accessToken = "", refreshToken = "")
@@ -58,6 +62,11 @@ object AccountInfoManagerImpl : AccountInfoManager {
 
     override fun clear() {
         accountInfo.set(null)
+        accessTokenHelper.encryptContentsAndStore("")
+        refreshTokenHelper.encryptContentsAndStore("")
+        accountPreference.setAccountStatus(AccountStatus.NONE)
+        accountPreference.setAccountRole(AccountRole.NONE)
+
     }
 
     override fun isRequireSyncAccountInfo(): Boolean {

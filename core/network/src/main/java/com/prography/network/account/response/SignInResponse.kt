@@ -8,10 +8,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SignInResponse(
     val id: Long,
-    val accessToken: String,
-    val tokenType: String,
     val email: String,
-    val status: String,
+    val tokenType: String,
+    val accessToken: String,
     val refreshToken: String,
-    val accountType: String,
+    val status: String,
+    val role: String,
 )

@@ -61,6 +61,7 @@ ktor-client-okhttp = {group ="io.ktor", name ="ktor-client-okhttp", version.ref 
 ktor-client-logging = {group ="io.ktor", name ="ktor-client-logging", version.ref = "ktor"}
 ktor-client-serialization = {group ="io.ktor", name ="ktor-serialization-kotlinx-json", version.ref = "ktor"}
 ktor-client-negotiation = {group ="io.ktor", name ="ktor-client-content-negotiation", version.ref = "ktor"}
+ktor-client-auth = {group ="io.ktor", name ="ktor-client-auth", version.ref = "ktor"}
 
 #kakao
 kakao-login = {group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-sdk"}

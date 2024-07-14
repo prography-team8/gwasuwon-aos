@@ -16,7 +16,7 @@ import io.ktor.client.request.post
  */
 class AccountHttpClient(private val httpClient: HttpClient) {
     suspend fun requestSignIn(requestOption: SignInRequestOption): SignInResponse {
-        return httpClient.post("$GWASUWON_HOST/api/v1/auth/login/${requestOption.type.name}") {
+        return httpClient.post("$GWASUWON_HOST/api/v1/auth/login/${requestOption.type.name.lowercase()}") {
             setJsonBody(
                 SignInRequestBody(accessToken = requestOption.accessKey)
             )
@@ -25,7 +25,7 @@ class AccountHttpClient(private val httpClient: HttpClient) {
     suspend fun requestSignUp(requestOption: SignUpRequestOption): SignInResponse {
         return httpClient.post("$GWASUWON_HOST/test") {
             setJsonBody(
-                SignUpRequestBody(accountType = requestOption.accountType.name)
+                SignUpRequestBody(accountType = requestOption.roleType.name)
             )
         }.body()
     }
