@@ -17,9 +17,8 @@ sealed interface NavigationEvent {
     data class NavigateLessonInfoDetailRoute(val lessonId: Long) : NavigationEvent
     data class NavigateInviteStudentQrRoute(val lessonId: Long) : NavigationEvent
     data class NavigateLessonCertificationQrRoute(val lessonId: Long) : NavigationEvent
-
     data class NavigateLessonContractQrRoute(val lessonId: Long) : NavigationEvent
-
+    data class NavigateWeb(val url: String) : NavigationEvent
     data object PopBack : NavigationEvent
 }
 
@@ -68,9 +67,15 @@ fun MutableSharedFlow<NavigationEvent>.subscribeNavigationEvent(
                 is NavigationEvent.NavigateLessonContractQrRoute -> {
                     navActions.navigateLessonContractQrRoute(it.lessonId)
                 }
+
                 is NavigationEvent.NavigateLessonCertificationQrRoute -> {
                     navActions.navigateLessonCertificationQrRoute(it.lessonId)
                 }
+
+                is NavigationEvent.NavigateWeb -> {
+                    navActions.navigateWeb(it.url)
+                }
+
                 is NavigationEvent.PopBack -> {
                     navActions.popBackStack()
                 }

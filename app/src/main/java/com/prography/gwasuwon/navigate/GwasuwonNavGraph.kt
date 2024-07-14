@@ -2,7 +2,6 @@ package com.prography.gwasuwon.navigate
 
 import GwasuwonPath
 import NavigationActions
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -42,11 +41,16 @@ import subscribeNavigationEvent
 @Composable
 fun GwasuwonNavGraph(
     accountInfoManager: AccountInfoManager,
+    navigateWeb: (String) -> Unit,
     onEmptyBackStack: () -> Unit,
 ) {
     val navController = rememberNavController()
     val navigationActions = remember(navController) {
-        NavigationActions(navController, onEmptyBackStack)
+        NavigationActions(
+            navController,
+            navigateWeb,
+            onEmptyBackStack
+        )
     }
     LaunchedEffect(Unit) {
         AppContainer.navigateEventFlow.subscribeNavigationEvent(

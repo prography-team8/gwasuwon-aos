@@ -8,8 +8,10 @@ import com.prography.usm.action.Intent
  */
 sealed interface SignUpIntent : Intent<SignUpActionEvent> {
     data object ClickAllAgreement : SignUpIntent
-    data object ClickPersonalInformationAgreement : SignUpIntent
-    data object ClickGwasuwonServiceAgreement : SignUpIntent
+    data object CheckPersonalInformationAgreement : SignUpIntent
+    data object ClickArrowPersonalInformationAgreement : SignUpIntent
+    data object CheckGwasuwonServiceAgreement : SignUpIntent
+    data object ClickArrowGwasuwonServiceAgreement : SignUpIntent
     data object ClickTeacher : SignUpIntent
     data object ClickStudent : SignUpIntent
     data object ClickNextButton : SignUpIntent
@@ -20,12 +22,20 @@ sealed interface SignUpIntent : Intent<SignUpActionEvent> {
                 SignUpActionEvent.ToggleAllAgreement
             }
 
-            is ClickPersonalInformationAgreement -> {
+            is CheckPersonalInformationAgreement -> {
                 SignUpActionEvent.TogglePersonalInformationAgreement
             }
 
-            is ClickGwasuwonServiceAgreement -> {
+            is ClickArrowPersonalInformationAgreement -> {
+                SignUpActionEvent.ShowAgreementPage("https://www.naver.com/")
+            }
+
+            is CheckGwasuwonServiceAgreement -> {
                 SignUpActionEvent.ToggleGwasuwonServiceAgreement
+            }
+
+            is ClickArrowGwasuwonServiceAgreement -> {
+                SignUpActionEvent.ShowAgreementPage("https://www.naver.com/")
             }
 
             is ClickTeacher -> {
@@ -52,4 +62,5 @@ sealed interface SignUpActionEvent : ActionEvent {
     data object GoToNextSignUpPage : SignUpActionEvent
     data object NavigateLessonRoute : SignUpActionEvent
     data object RequestSignUp : SignUpActionEvent
+    data class ShowAgreementPage(val url:String):SignUpActionEvent
 }

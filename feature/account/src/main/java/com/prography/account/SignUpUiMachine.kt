@@ -1,8 +1,8 @@
 package com.prography.account
 
 import NavigationEvent
-import com.prography.domain.account.model.AccountStatus
 import com.prography.domain.account.model.AccountRole
+import com.prography.domain.account.model.AccountStatus
 import com.prography.domain.account.request.SignUpRequestOption
 import com.prography.domain.account.usecase.SignUpUseCase
 import com.prography.usm.holder.UiStateMachine
@@ -135,8 +135,15 @@ class SignUpUiMachine(
             navigateFlow.emit(NavigationEvent.NavigateLessonsRoute)
         }
 
+    private val showAgreementPage = actionFlow
+        .filterIsInstance<SignUpActionEvent.ShowAgreementPage>()
+        .onEach {
+            navigateFlow.emit(NavigationEvent.NavigateWeb(it.url))
+        }
+
     override val outerNotifyScenarioActionFlow = merge(
         navigateLessonRouteFlow,
+        showAgreementPage
     )
 
     init {
