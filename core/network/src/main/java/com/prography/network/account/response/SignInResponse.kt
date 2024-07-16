@@ -15,3 +15,10 @@ data class SignInResponse(
     val status: String,
     val role: String,
 )
+@Serializable
+data class SignUpResponse(
+    val id: Long,
+    val email: String,
+    val status: String,
+    val role: String,
+)

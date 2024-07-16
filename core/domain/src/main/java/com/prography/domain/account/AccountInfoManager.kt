@@ -12,8 +12,8 @@ interface AccountInfoManager {
     fun init(
         accessTokenHelper: CryptoHelper,
         refreshTokenHelper: CryptoHelper,
-        accountPreference: AccountPreference
-
+        accountPreference: AccountPreference,
+        notifyAccountChange: () -> Unit
     )
 
     fun update(accountInfo: AccountInfo)

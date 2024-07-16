@@ -63,21 +63,24 @@ object AppContainer {
                 accessTokenHelper = gwasuwonAccessTokenHelper,
                 refreshTokenHelper = gwasuwonRefreshTokenHelper,
                 accountPreference = accountPreference
-            )
+            ) {
+                gwasuwonHttpClient = HttpClientFactory.createGwasuwonHttpClient(accountInfoManager) {
+                    navigateEventFlow.emit(NavigationEvent.NavigateSignInRoute)
+                }
+            }
         }
     }
-    private val gwasuwonHttpClient by lazy {
-        HttpClientFactory.createGwasuwonHttpClient(accountInfoManager) {
-            navigateEventFlow.emit(NavigationEvent.NavigateSignInRoute)
-        }
+    private var gwasuwonHttpClient = HttpClientFactory.createGwasuwonHttpClient(accountInfoManager) {
+        navigateEventFlow.emit(NavigationEvent.NavigateSignInRoute)
     }
 
     private val accountRepository by lazy {
         AccountRepositoryImpl(
             remoteDataSource = AccountRemoteDataSource(
                 httpClient = AccountHttpClient(
-                    httpClient = gwasuwonHttpClient
-                )
+                    httpClient = { gwasuwonHttpClient }
+                ),
+                accountInfoManager = accountInfoManager
             )
         )
     }

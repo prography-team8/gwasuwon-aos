@@ -8,6 +8,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.kakao.sdk.user.UserApiClient
 import com.prography.account.RootSocialLoginManager
 import com.prography.domain.account.SocialLoginEvent
 import com.prography.gwasuwon.navigate.GwasuwonNavGraph
@@ -55,5 +56,9 @@ class MainActivity : ComponentActivity() {
                 else->Unit
             }
         }.launchIn(lifecycleScope)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
     }
 }

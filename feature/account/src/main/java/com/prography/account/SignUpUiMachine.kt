@@ -90,7 +90,11 @@ class SignUpUiMachine(
         .transform {
             emitAll(
                 signUpUseCase(
-                    SignUpRequestOption(it)
+                    SignUpRequestOption(
+                        roleType = it,
+                        privacyPolicyAgreement = machineInternalState.isPersonalInformationAgreement,
+                        termsOfServiceAgreement = machineInternalState.isGwasuwonServiceAgreement
+                    )
                 ).asResult()
             )
         }

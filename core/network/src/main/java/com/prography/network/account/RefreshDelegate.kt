@@ -10,7 +10,9 @@ import com.prography.network.setJsonBody
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.ktor.client.request.headers
 import io.ktor.client.request.post
+import io.ktor.http.HttpHeaders
 
 /**
  * Created by MyeongKi.
@@ -23,12 +25,14 @@ class RefreshDelegate(
     suspend operator fun invoke(): BearerTokens? {
         val response: RefreshResponse? = try {
             httpClient.post("$GWASUWON_HOST/api/v1/auth/token/refresh") {
+                headers { append(HttpHeaders.Authorization, "Bearer ${accountInfoManager.getAccountInfo()?.accessToken ?: ""}") }
                 setJsonBody(
                     RefreshRequestBody(refreshToken = accountInfoManager.getAccountInfo()?.refreshToken ?: "")
                 )
             }.body()
         } catch (e: Exception) {
             Log.e("RefreshDelegate", e.message ?: "refresh token error")
+            accountInfoManager.clear()
             navigateSignInRoute()
             null
         }
@@ -48,6 +52,7 @@ class RefreshDelegate(
 
         } else {
             accountInfoManager.clear()
+            navigateSignInRoute()
             null
         }
     }

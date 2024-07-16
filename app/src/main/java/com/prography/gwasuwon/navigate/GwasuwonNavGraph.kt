@@ -2,6 +2,7 @@ package com.prography.gwasuwon.navigate
 
 import GwasuwonPath
 import NavigationActions
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -15,6 +16,7 @@ import com.prography.account.SignUpViewModel
 import com.prography.account.compose.SignInRoute
 import com.prography.account.compose.SignUpRoute
 import com.prography.domain.account.AccountInfoManager
+import com.prography.domain.account.model.AccountRole
 import com.prography.domain.account.model.AccountStatus
 import com.prography.gwasuwon.AppContainer
 import com.prography.lesson.CreateLessonViewModel
@@ -99,15 +101,23 @@ fun GwasuwonNavGraph(
         }
         with(GwasuwonPath.LessonsPath) {
             composable(getDestination(), arguments) {
-                LessonsRoute(
-                    viewModel = viewModel(
-                        factory = LessonsViewModel.provideFactory(
-                            navigateFlow = AppContainer.navigateEventFlow,
-                            loadLessonsUseCase = AppContainer.loadLessonsUseCase,
-                            commonLessonEvent = AppContainer.commonLessonEvent
+                when (AppContainer.accountInfoManager.getAccountInfo()?.role) {
+                    AccountRole.STUDENT -> {
+                        Text(text = "haha im student")
+                    }
+
+                    else -> {
+                        LessonsRoute(
+                            viewModel = viewModel(
+                                factory = LessonsViewModel.provideFactory(
+                                    navigateFlow = AppContainer.navigateEventFlow,
+                                    loadLessonsUseCase = AppContainer.loadLessonsUseCase,
+                                    commonLessonEvent = AppContainer.commonLessonEvent
+                                )
+                            )
                         )
-                    )
-                )
+                    }
+                }
             }
         }
         with(GwasuwonPath.CrateLessonPath) {

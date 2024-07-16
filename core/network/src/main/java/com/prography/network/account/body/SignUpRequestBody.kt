@@ -7,5 +7,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class SignUpRequestBody(
-    val accountType: String,
+    val role: String,
+    val privacyPolicyAgreement: Boolean,
+    val termsOfServiceAgreement: Boolean
 )

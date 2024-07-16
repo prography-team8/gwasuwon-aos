@@ -6,5 +6,7 @@ import com.prography.domain.account.model.AccountRole
  * Created by MyeongKi.
  */
 data class SignUpRequestOption(
-    val roleType: AccountRole
+    val roleType: AccountRole,
+    val privacyPolicyAgreement: Boolean,
+    val termsOfServiceAgreement: Boolean
 )

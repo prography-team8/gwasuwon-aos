@@ -3,6 +3,7 @@ package com.prography.network
 import com.prography.domain.account.AccountInfoManager
 import com.prography.network.account.RefreshDelegate
 import io.ktor.client.HttpClient
+import io.ktor.client.HttpClientConfig
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpResponseValidator
 import io.ktor.client.plugins.HttpTimeout
@@ -18,6 +19,22 @@ import kotlinx.serialization.json.Json
  * Created by MyeongKi.
  */
 object HttpClientFactory {
+    private val refreshClient by lazy {
+        HttpClient {
+            install(ContentNegotiation) {
+                json(
+                    Json {
+                        ignoreUnknownKeys = true
+                        coerceInputValues = true
+                    }
+                )
+            }
+            install(HttpTimeout) {
+                requestTimeoutMillis = 3000
+            }
+        }
+    }
+
     fun createGwasuwonHttpClient(
         accountInfoManager: AccountInfoManager,
         navigateSignInRoute: suspend () -> Unit
@@ -37,28 +54,32 @@ object HttpClientFactory {
             bearer {
                 loadTokens {
                     BearerTokens(
-                        accessToken = accountInfoManager.getAccountInfo()?.accessToken ?: "", // 초기 액세스 토큰
+                        accessToken = accountInfoManager.getAccountInfo()?.accessToken ?: "",
                         refreshToken = accountInfoManager.getAccountInfo()?.refreshToken ?: ""
                     )
                 }
                 refreshTokens {
-                    RefreshDelegate(client, accountInfoManager, navigateSignInRoute).invoke()
+                    RefreshDelegate(refreshClient, accountInfoManager, navigateSignInRoute).invoke()
                 }
             }
         }
-        HttpResponseValidator {
-            validateResponse { response ->
-                when (val statusCode = response.status.value) {
-                    in 400..499 -> {
-                        throw ClientRequestException(response, "Client error with status code $statusCode")
-                    }
+        installValidateResponse()
+    }
+}
 
-                    in 500..599 -> {
-                        throw ServerResponseException(response, "Server error with status code $statusCode")
-                    }
-
-                    else -> Unit
+private fun HttpClientConfig<*>.installValidateResponse() {
+    HttpResponseValidator {
+        validateResponse { response ->
+            when (val statusCode = response.status.value) {
+                in 400..499 -> {
+                    throw ClientRequestException(response, "Client error with status code $statusCode")
                 }
+
+                in 500..599 -> {
+                    throw ServerResponseException(response, "Server error with status code $statusCode")
+                }
+
+                else -> Unit
             }
         }
     }

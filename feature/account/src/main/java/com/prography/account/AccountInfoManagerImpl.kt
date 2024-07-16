@@ -17,14 +17,17 @@ object AccountInfoManagerImpl : AccountInfoManager {
     private lateinit var accessTokenHelper: CryptoHelper
     private lateinit var refreshTokenHelper: CryptoHelper
     private lateinit var accountPreference: AccountPreference
+    private lateinit var notifyAccountChange: () -> Unit
     override fun init(
         accessTokenHelper: CryptoHelper,
         refreshTokenHelper: CryptoHelper,
-        accountPreference: AccountPreference
+        accountPreference: AccountPreference,
+        notifyAccountChange: () -> Unit
     ) {
         this.accessTokenHelper = accessTokenHelper
         this.refreshTokenHelper = refreshTokenHelper
         this.accountPreference = accountPreference
+        this.notifyAccountChange = notifyAccountChange
         this.accountInfo.set(
             AccountInfo(
                 accessToken = accessTokenHelper.decryptContents() ?: "",
@@ -42,6 +45,7 @@ object AccountInfoManagerImpl : AccountInfoManager {
         accountPreference.setAccountStatus(accountInfo.status)
         accountPreference.setAccountRole(accountInfo.role)
         this.accountInfo.set(accountInfo)
+        notifyAccountChange()
     }
 
     override fun updateRefreshToken(refreshToken: RefreshToken) {

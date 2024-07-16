@@ -6,6 +6,7 @@ import com.prography.network.GWASUWON_HOST
 import com.prography.network.account.body.SignInRequestBody
 import com.prography.network.account.body.SignUpRequestBody
 import com.prography.network.account.response.SignInResponse
+import com.prography.network.account.response.SignUpResponse
 import com.prography.network.setJsonBody
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -14,18 +15,23 @@ import io.ktor.client.request.post
 /**
  * Created by MyeongKi.
  */
-class AccountHttpClient(private val httpClient: HttpClient) {
+class AccountHttpClient(private val httpClient: () -> HttpClient) {
     suspend fun requestSignIn(requestOption: SignInRequestOption): SignInResponse {
-        return httpClient.post("$GWASUWON_HOST/api/v1/auth/login/${requestOption.type.name.lowercase()}") {
+        return httpClient().post("$GWASUWON_HOST/api/v1/auth/login/${requestOption.type.name.lowercase()}") {
             setJsonBody(
                 SignInRequestBody(accessToken = requestOption.accessKey)
             )
         }.body()
     }
-    suspend fun requestSignUp(requestOption: SignUpRequestOption): SignInResponse {
-        return httpClient.post("$GWASUWON_HOST/test") {
+
+    suspend fun requestSignUp(requestOption: SignUpRequestOption): SignUpResponse {
+        return httpClient().post("$GWASUWON_HOST/api/v1/users/activation") {
             setJsonBody(
-                SignUpRequestBody(accountType = requestOption.roleType.name)
+                SignUpRequestBody(
+                    role = requestOption.roleType.name,
+                    privacyPolicyAgreement = requestOption.privacyPolicyAgreement,
+                    termsOfServiceAgreement = requestOption.termsOfServiceAgreement
+                )
             )
         }.body()
     }
