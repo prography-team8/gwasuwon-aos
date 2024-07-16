@@ -16,6 +16,7 @@ import com.prography.account.SignUpViewModel
 import com.prography.account.compose.SignInRoute
 import com.prography.account.compose.SignUpRoute
 import com.prography.domain.account.AccountInfoManager
+import com.prography.domain.account.model.AccountRole
 import com.prography.domain.account.model.AccountStatus
 import com.prography.gwasuwon.AppContainer
 import com.prography.lesson.CreateLessonViewModel
@@ -42,11 +43,16 @@ import subscribeNavigationEvent
 @Composable
 fun GwasuwonNavGraph(
     accountInfoManager: AccountInfoManager,
+    navigateWeb: (String) -> Unit,
     onEmptyBackStack: () -> Unit,
 ) {
     val navController = rememberNavController()
     val navigationActions = remember(navController) {
-        NavigationActions(navController, onEmptyBackStack)
+        NavigationActions(
+            navController,
+            navigateWeb,
+            onEmptyBackStack
+        )
     }
     LaunchedEffect(Unit) {
         AppContainer.navigateEventFlow.subscribeNavigationEvent(
@@ -95,15 +101,23 @@ fun GwasuwonNavGraph(
         }
         with(GwasuwonPath.LessonsPath) {
             composable(getDestination(), arguments) {
-                LessonsRoute(
-                    viewModel = viewModel(
-                        factory = LessonsViewModel.provideFactory(
-                            navigateFlow = AppContainer.navigateEventFlow,
-                            loadLessonsUseCase = AppContainer.loadLessonsUseCase,
-                            commonLessonEvent = AppContainer.commonLessonEvent
+                when (AppContainer.accountInfoManager.getAccountInfo()?.role) {
+                    AccountRole.STUDENT -> {
+                        Text(text = "haha im student")
+                    }
+
+                    else -> {
+                        LessonsRoute(
+                            viewModel = viewModel(
+                                factory = LessonsViewModel.provideFactory(
+                                    navigateFlow = AppContainer.navigateEventFlow,
+                                    loadLessonsUseCase = AppContainer.loadLessonsUseCase,
+                                    commonLessonEvent = AppContainer.commonLessonEvent
+                                )
+                            )
                         )
-                    )
-                )
+                    }
+                }
             }
         }
         with(GwasuwonPath.CrateLessonPath) {

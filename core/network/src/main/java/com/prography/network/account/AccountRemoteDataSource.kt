@@ -1,10 +1,10 @@
 package com.prography.network.account
 
 import com.prography.domain.account.AccountDataSource
+import com.prography.domain.account.AccountInfoManager
 import com.prography.domain.account.model.AccountInfo
+import com.prography.domain.account.model.AccountRole
 import com.prography.domain.account.model.AccountStatus
-import com.prography.domain.account.model.AccountType
-import com.prography.domain.account.model.TokenType
 import com.prography.domain.account.request.SignInRequestOption
 import com.prography.domain.account.request.SignUpRequestOption
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +14,8 @@ import kotlinx.coroutines.flow.flow
  * Created by MyeongKi.
  */
 class AccountRemoteDataSource(
-    private val httpClient: AccountHttpClient
+    private val httpClient: AccountHttpClient,
+    private val accountInfoManager: AccountInfoManager,
 ) : AccountDataSource {
     override fun signIn(requestOption: SignInRequestOption): Flow<AccountInfo> = flow {
         val result = httpClient.requestSignIn(
@@ -26,9 +27,8 @@ class AccountRemoteDataSource(
                 accessToken = result.accessToken,
                 email = result.email,
                 refreshToken = result.refreshToken,
-                accountType = AccountType.valueOf(result.accountType),
+                role = AccountRole.valueOf(result.role),
                 status = AccountStatus.valueOf(result.status),
-                tokenType = TokenType.valueOf(result.tokenType)
             )
         )
     }
@@ -38,15 +38,16 @@ class AccountRemoteDataSource(
             val result = httpClient.requestSignUp(
                 requestOption
             )
+            val refreshToken = accountInfoManager.getAccountInfo()?.refreshToken ?: ""
+            val accessToken = accountInfoManager.getAccountInfo()?.accessToken ?: ""
             emit(
                 AccountInfo(
                     id = result.id,
-                    accessToken = result.accessToken,
+                    accessToken = accessToken,
                     email = result.email,
-                    refreshToken = result.refreshToken,
-                    accountType = AccountType.valueOf(result.accountType),
+                    refreshToken = refreshToken,
+                    role = AccountRole.valueOf(result.role),
                     status = AccountStatus.valueOf(result.status),
-                    tokenType = TokenType.valueOf(result.tokenType)
                 )
             )
         }

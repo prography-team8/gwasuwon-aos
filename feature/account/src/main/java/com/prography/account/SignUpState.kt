@@ -1,6 +1,6 @@
 package com.prography.account
 
-import com.prography.domain.account.model.AccountType
+import com.prography.domain.account.model.AccountRole
 import com.prography.usm.state.MachineInternalState
 import com.prography.usm.state.UiState
 
@@ -11,7 +11,7 @@ data class SignUpMachineState(
     val signUpScreenType: SignUpScreenType,
     val isPersonalInformationAgreement: Boolean,
     val isGwasuwonServiceAgreement: Boolean,
-    val accountType: AccountType? = null,
+    val roleType: AccountRole? = null,
     val isLoading: Boolean = false
 ) : MachineInternalState<SignUpUiState> {
     override fun toUiState(): SignUpUiState {
@@ -26,7 +26,7 @@ data class SignUpMachineState(
             }
 
             SignUpScreenType.SELECT_ROLE -> {
-                SignUpUiState.SelectRole(accountType = accountType)
+                SignUpUiState.SelectRole(roleType = roleType)
             }
         }
     }
@@ -45,7 +45,7 @@ sealed interface SignUpUiState : UiState {
     ) : SignUpUiState
 
     data class SelectRole(
-        val accountType: AccountType? = null
+        val roleType: AccountRole? = null
     ) : SignUpUiState
 }
 

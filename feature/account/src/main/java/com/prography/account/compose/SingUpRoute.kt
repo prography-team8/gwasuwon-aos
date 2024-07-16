@@ -33,13 +33,13 @@ import androidx.compose.ui.unit.dp
 import com.prography.account.SignUpIntent
 import com.prography.account.SignUpUiState
 import com.prography.account.SignUpViewModel
-import com.prography.ui.R
-import com.prography.ui.configuration.toColor
-import com.prography.ui.component.GwasuwonConfigurationManager
-import com.prography.ui.component.CommonButton
 import com.prography.ui.GwasuwonTypography
+import com.prography.ui.R
+import com.prography.ui.component.CommonButton
+import com.prography.ui.component.GwasuwonConfigurationManager
 import com.prography.ui.component.SpaceHeight
 import com.prography.ui.component.SpaceWidth
+import com.prography.ui.configuration.toColor
 
 /**
  * Created by MyeongKi.
@@ -122,16 +122,24 @@ private fun SignUpAgreementBottom(
         }
         AgreementButton(
             textResId = R.string.personal_information_agreement,
-            isAgreement = uiState.isPersonalInformationAgreement
-        ) {
-            intent(SignUpIntent.ClickPersonalInformationAgreement)
-        }
+            isAgreement = uiState.isPersonalInformationAgreement,
+            onCheck = {
+                intent(SignUpIntent.CheckPersonalInformationAgreement)
+            },
+            onClickArrow = {
+                intent(SignUpIntent.ClickArrowPersonalInformationAgreement)
+            }
+        )
         AgreementButton(
             textResId = R.string.gwasuwon_agreement,
-            isAgreement = uiState.isGwasuwonServiceAgreement
-        ) {
-            intent(SignUpIntent.ClickGwasuwonServiceAgreement)
-        }
+            isAgreement = uiState.isGwasuwonServiceAgreement,
+            onCheck = {
+                intent(SignUpIntent.CheckGwasuwonServiceAgreement)
+            },
+            onClickArrow = {
+                intent(SignUpIntent.ClickArrowGwasuwonServiceAgreement)
+            }
+        )
         Spacer(modifier = Modifier.height(16.dp))
 
         CommonButton(
@@ -160,7 +168,6 @@ private fun AllAgreementButton(
                 GwasuwonConfigurationManager.colors.backgroundElevatedAlternative.toColor()
             )
             .padding(dimensionResource(id = R.dimen.common_large_padding))
-            .clickable(onClick = onClick)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -176,7 +183,8 @@ private fun AllAgreementButton(
                 painter = painterResource(id = R.drawable.material_symbols_check),
                 contentDescription = "check",
                 modifier = Modifier
-                    .size(dimensionResource(id = R.dimen.common_icon_small_size)),
+                    .size(dimensionResource(id = R.dimen.common_icon_small_size))
+                    .clickable(onClick = onClick),
             )
             SpaceWidth(width = 12)
             Text(
@@ -196,14 +204,14 @@ private fun AllAgreementButton(
 private fun AgreementButton(
     @StringRes textResId: Int,
     isAgreement: Boolean,
-    onClick: () -> Unit
+    onCheck: () -> Unit,
+    onClickArrow: () -> Unit
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(dimensionResource(id = R.dimen.common_large_padding))
-            .clickable(onClick = onClick)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -219,7 +227,8 @@ private fun AgreementButton(
                 painter = painterResource(id = R.drawable.material_symbols_check),
                 contentDescription = "check",
                 modifier = Modifier
-                    .size(dimensionResource(id = R.dimen.common_icon_small_size)),
+                    .size(dimensionResource(id = R.dimen.common_icon_small_size))
+                    .clickable(onClick = onCheck),
             )
             SpaceWidth(width = 12)
             Text(
@@ -233,7 +242,8 @@ private fun AgreementButton(
                 painter = painterResource(id = R.drawable.icon_more),
                 contentDescription = "navigate",
                 modifier = Modifier
-                    .size(dimensionResource(id = R.dimen.common_icon_small_size)),
+                    .size(dimensionResource(id = R.dimen.common_icon_small_size))
+                    .clickable(onClick = onClickArrow),
             )
         }
 

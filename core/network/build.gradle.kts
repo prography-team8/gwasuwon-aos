@@ -19,4 +19,6 @@ dependencies {
     implementation(libs.ktor.client.negotiation)
     implementation(libs.ktor.client.serialization)
     implementation(libs.ktor.client.okhttp)
+    implementation(libs.ktor.client.auth)
+
 }

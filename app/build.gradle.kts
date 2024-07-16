@@ -35,6 +35,7 @@ dependencies {
     implementation(libs.androidx.compose.viewModel)
     implementation(libs.androidx.navigation)
     implementation(libs.ktor.client.core)
+    implementation(libs.kakao.login)
 
     testImplementation(libs.junit)
 }

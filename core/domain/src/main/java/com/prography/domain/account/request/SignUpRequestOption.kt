@@ -1,11 +1,12 @@
 package com.prography.domain.account.request
 
-import com.prography.domain.account.model.AccountType
-import com.prography.domain.account.model.SocialLoginType
+import com.prography.domain.account.model.AccountRole
 
 /**
  * Created by MyeongKi.
  */
 data class SignUpRequestOption(
-    val accountType: AccountType
+    val roleType: AccountRole,
+    val privacyPolicyAgreement: Boolean,
+    val termsOfServiceAgreement: Boolean
 )

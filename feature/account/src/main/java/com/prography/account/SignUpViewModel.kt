@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
  */
 class SignUpViewModel(
     navigateFlow: MutableSharedFlow<NavigationEvent>,
-    signUpUseCase: SignUpUseCase
+    signUpUseCase: SignUpUseCase,
 ) : ViewModel() {
     val machine = SignUpUiMachine(
         coroutineScope = viewModelScope,

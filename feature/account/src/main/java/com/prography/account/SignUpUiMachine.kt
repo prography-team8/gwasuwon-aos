@@ -1,8 +1,8 @@
 package com.prography.account
 
 import NavigationEvent
+import com.prography.domain.account.model.AccountRole
 import com.prography.domain.account.model.AccountStatus
-import com.prography.domain.account.model.AccountType
 import com.prography.domain.account.request.SignUpRequestOption
 import com.prography.domain.account.usecase.SignUpUseCase
 import com.prography.usm.holder.UiStateMachine
@@ -68,7 +68,7 @@ class SignUpUiMachine(
         .filterIsInstance<SignUpActionEvent.SelectTeacher>()
         .map {
             machineInternalState.copy(
-                accountType = AccountType.TEACHER
+                roleType = AccountRole.TEACHER
             )
         }
         .onEach {
@@ -78,7 +78,7 @@ class SignUpUiMachine(
         .filterIsInstance<SignUpActionEvent.SelectStudent>()
         .map {
             machineInternalState.copy(
-                accountType = AccountType.STUDENT
+                roleType = AccountRole.STUDENT
             )
         }
         .onEach {
@@ -86,11 +86,15 @@ class SignUpUiMachine(
         }
     private val requestSignUpFlow = actionFlow
         .filterIsInstance<SignUpActionEvent.RequestSignUp>()
-        .mapNotNull { machineInternalState.accountType }
+        .mapNotNull { machineInternalState.roleType }
         .transform {
             emitAll(
                 signUpUseCase(
-                    SignUpRequestOption(it)
+                    SignUpRequestOption(
+                        roleType = it,
+                        privacyPolicyAgreement = machineInternalState.isPersonalInformationAgreement,
+                        termsOfServiceAgreement = machineInternalState.isGwasuwonServiceAgreement
+                    )
                 ).asResult()
             )
         }
@@ -135,8 +139,15 @@ class SignUpUiMachine(
             navigateFlow.emit(NavigationEvent.NavigateLessonsRoute)
         }
 
+    private val showAgreementPage = actionFlow
+        .filterIsInstance<SignUpActionEvent.ShowAgreementPage>()
+        .onEach {
+            navigateFlow.emit(NavigationEvent.NavigateWeb(it.url))
+        }
+
     override val outerNotifyScenarioActionFlow = merge(
         navigateLessonRouteFlow,
+        showAgreementPage
     )
 
     init {

@@ -1,17 +1,22 @@
 package com.prography.gwasuwon
 
+import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.kakao.sdk.user.UserApiClient
 import com.prography.account.RootSocialLoginManager
 import com.prography.domain.account.SocialLoginEvent
 import com.prography.gwasuwon.navigate.GwasuwonNavGraph
+import com.prography.ui.component.RootBackground
 import com.prography.ui.configuration.ConfigurationStateViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+
 
 class MainActivity : ComponentActivity() {
 
@@ -25,12 +30,17 @@ class MainActivity : ComponentActivity() {
                     themePreference = AppContainer.themePreference
                 )
             )
-            com.prography.ui.component.RootBackground(configurationViewModel) {
+            RootBackground(configurationViewModel) {
                 GwasuwonNavGraph(
-                    accountInfoManager = AppContainer.accountInfoManager
-                ) {
-                    moveTaskToBack(true)
-                }
+                    accountInfoManager = AppContainer.accountInfoManager,
+                    navigateWeb = {
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.setData(Uri.parse(it))
+                        startActivity(intent)                    },
+                    onEmptyBackStack = {
+                        moveTaskToBack(true)
+                    }
+                )
             }
         }
         observeEvent()
@@ -46,5 +56,9 @@ class MainActivity : ComponentActivity() {
                 else->Unit
             }
         }.launchIn(lifecycleScope)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
     }
 }

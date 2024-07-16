@@ -5,7 +5,9 @@ import androidx.navigation.NavHostController
  * Created by MyeongKi.
  */
 class NavigationActions(
-    private val navController: NavHostController, private val onEmptyBackStack: () -> Unit
+    private val navController: NavHostController,
+    private val navigateWebDelegator: (String) -> Unit,
+    private val onEmptyBackStack: () -> Unit
 ) {
     fun navigateSignUpRoute() {
         navController.navigate(GwasuwonPath.SingUpPath.getNavigation()) {
@@ -97,6 +99,10 @@ class NavigationActions(
                 saveState = true
             }
         }
+    }
+
+    fun navigateWeb(url: String) {
+        navigateWebDelegator(url)
     }
 
     fun popBackStack() {

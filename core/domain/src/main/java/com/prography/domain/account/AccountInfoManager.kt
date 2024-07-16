@@ -12,12 +12,12 @@ interface AccountInfoManager {
     fun init(
         accessTokenHelper: CryptoHelper,
         refreshTokenHelper: CryptoHelper,
-        accountPreference: AccountPreference
-
+        accountPreference: AccountPreference,
+        notifyAccountChange: () -> Unit
     )
 
     fun update(accountInfo: AccountInfo)
-    fun refrehToken(refreshToken: RefreshToken)
+    fun updateRefreshToken(refreshToken: RefreshToken)
     fun getAccountInfo(): AccountInfo?
     fun clear()
     fun isRequireSyncAccountInfo(): Boolean
