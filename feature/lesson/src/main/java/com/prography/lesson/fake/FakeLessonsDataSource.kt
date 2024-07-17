@@ -141,4 +141,18 @@ class FakeLessonsDataSource : LessonDataSource {
             emit(updatedLesson)
         }
     }
+
+    override fun participateLesson(lessonId: Long): Flow<Lesson> {
+        return flow {
+            val lesson = lessons.find { it.lessonId == lessonId }
+            if (lesson == null) {
+                throw IllegalArgumentException("lesson not found")
+            }
+            val updatedLesson = lesson.copy(
+                lessonNumberOfProgress = lesson.lessonNumberOfProgress + 1
+            )
+            lessons[lessons.indexOf(lesson)] = updatedLesson
+            emit(updatedLesson)
+        }
+    }
 }

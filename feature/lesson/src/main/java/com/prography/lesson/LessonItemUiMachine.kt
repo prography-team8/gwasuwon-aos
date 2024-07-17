@@ -27,7 +27,7 @@ class LessonItemUiMachine(
     private val navigateLessonDetailFlow = actionFlow
         .filterIsInstance<LessonItemActionEvent.NavigateManagingLesson>()
         .onEach {
-            navigateFlow.emit(NavigationEvent.NavigateManagingLessonRoute(lessonId = machineInternalState.lesson.lessonId))
+            navigateFlow.emit(NavigationEvent.NavigateLessonDeatailRoute(lessonId = machineInternalState.lesson.lessonId))
         }
     override val outerNotifyScenarioActionFlow = merge(
         navigateLessonDetailFlow
