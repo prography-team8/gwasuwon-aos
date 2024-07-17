@@ -54,7 +54,7 @@ object AppContainer {
         GwasuwonRefreshTokenHelper(GwasuwonApplication.currentApplication)
     }
 
-    private val accountPreference by lazy {
+    val accountPreference by lazy {
         AccountPreferenceImpl(GwasuwonApplication.currentApplication)
     }
     val accountInfoManager: AccountInfoManager by lazy {

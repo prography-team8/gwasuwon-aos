@@ -2,7 +2,6 @@ package com.prography.account
 
 import NavigationEvent
 import com.prography.domain.account.model.AccountRole
-import com.prography.domain.account.model.AccountStatus
 import com.prography.domain.account.request.SignUpRequestOption
 import com.prography.domain.account.usecase.SignUpUseCase
 import com.prography.usm.holder.UiStateMachine
@@ -119,9 +118,12 @@ class SignUpUiMachine(
         }
 
     private val navigateLessonRouteFlow = actionFlow
-        .filterIsInstance<SignUpActionEvent.NavigateLessonRoute>()
+        .filterIsInstance<SignUpActionEvent.NavigateHome>()
         .onEach {
-            navigateFlow.emit(NavigationEvent.NavigateLessonsRoute)
+            if (machineInternalState.roleType == AccountRole.STUDENT)
+                navigateFlow.emit(NavigationEvent.NavigateLessonInvitedRoute)
+            else
+                navigateFlow.emit(NavigationEvent.NavigateLessonsRoute)
         }
 
     private val showAgreementPage = actionFlow

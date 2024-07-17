@@ -46,7 +46,10 @@ sealed interface GwasuwonPath {
         override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.LESSONS
         override val arguments: List<NamedNavArgument> = listOf()
     }
-
+    data object LessonInvitedPath : GwasuwonPath {
+        override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.LESSON_INVITED
+        override val arguments: List<NamedNavArgument> = listOf()
+    }
     data object CrateLessonPath : GwasuwonPath {
         override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.CREATE_LESSON
         override val arguments: List<NamedNavArgument> = listOf()

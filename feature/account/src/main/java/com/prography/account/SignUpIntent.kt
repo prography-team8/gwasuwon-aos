@@ -52,7 +52,7 @@ sealed interface SignUpIntent : Intent<SignUpActionEvent> {
             }
 
             is ClickStartLesson->{
-                SignUpActionEvent.NavigateLessonRoute
+                SignUpActionEvent.NavigateHome
             }
         }
     }
@@ -65,7 +65,7 @@ sealed interface SignUpActionEvent : ActionEvent {
     data object SelectTeacher : SignUpActionEvent
     data object SelectStudent : SignUpActionEvent
     data object GoToNextSignUpPage : SignUpActionEvent
-    data object NavigateLessonRoute : SignUpActionEvent
+    data object NavigateHome : SignUpActionEvent
     data object RequestSignUp : SignUpActionEvent
     data class ShowAgreementPage(val url: String) : SignUpActionEvent
 }

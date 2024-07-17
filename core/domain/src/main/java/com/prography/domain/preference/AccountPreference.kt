@@ -11,5 +11,6 @@ interface AccountPreference {
     fun setAccountStatus(accountStatus: AccountStatus)
     fun getAccountRole(): AccountRole
     fun setAccountRole(role: AccountRole)
-
+    fun setInvitedLessonId(lessonId: Long)
+    fun getInvitedLessonId(): Long?
 }

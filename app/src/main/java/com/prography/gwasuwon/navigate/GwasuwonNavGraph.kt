@@ -64,8 +64,16 @@ fun GwasuwonNavGraph(
         navController = navController,
         startDestination = when (accountInfoManager.getAccountInfo()?.status) {
             AccountStatus.ACTIVE -> {
-                //TODO 캐싱된 active 상태로 lesson 페이지로 랜딩을 유도하고, 해당 페이지에서 refresh token까지 로그인을 실패한 경우에 다시 로그인 페이지로 랜딩하게 수정이 필요.
-                GwasuwonPath.LessonsPath.getDestination()
+                if (accountInfoManager.getAccountInfo()?.role == AccountRole.STUDENT) {
+                    val invitedLessonId = AppContainer.accountPreference.getInvitedLessonId()
+                    if (invitedLessonId == null) {
+                        GwasuwonPath.LessonInvitedPath.getDestination()
+                    } else {
+                        GwasuwonPath.LessonDetailPath(invitedLessonId).getDestination()
+                    }
+                } else {
+                    GwasuwonPath.LessonsPath.getDestination()
+                }
             }
 
             else -> {
@@ -101,23 +109,20 @@ fun GwasuwonNavGraph(
         }
         with(GwasuwonPath.LessonsPath) {
             composable(getDestination(), arguments) {
-                when (AppContainer.accountInfoManager.getAccountInfo()?.role) {
-                    AccountRole.STUDENT -> {
-                        Text(text = "haha im student")
-                    }
-
-                    else -> {
-                        LessonsRoute(
-                            viewModel = viewModel(
-                                factory = LessonsViewModel.provideFactory(
-                                    navigateFlow = AppContainer.navigateEventFlow,
-                                    loadLessonsUseCase = AppContainer.loadLessonsUseCase,
-                                    commonLessonEvent = AppContainer.commonLessonEvent
-                                )
-                            )
+                LessonsRoute(
+                    viewModel = viewModel(
+                        factory = LessonsViewModel.provideFactory(
+                            navigateFlow = AppContainer.navigateEventFlow,
+                            loadLessonsUseCase = AppContainer.loadLessonsUseCase,
+                            commonLessonEvent = AppContainer.commonLessonEvent
                         )
-                    }
-                }
+                    )
+                )
+            }
+        }
+        with(GwasuwonPath.LessonInvitedPath) {
+            composable(getDestination(), arguments) {
+                Text("LessonInvitedPath")
             }
         }
         with(GwasuwonPath.CrateLessonPath) {
