@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -29,6 +28,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.prography.account.SignUpIntent
 import com.prography.account.SignUpUiState
@@ -53,7 +53,7 @@ fun SignUpRoute(
     when (uiState) {
         is SignUpUiState.Agreement -> SignUpAgreementScreen(uiState, intentInvoker)
         is SignUpUiState.SelectRole -> SignUpSelectRoleScreen(intentInvoker)
-
+        is SignUpUiState.Complete -> SignUpCompleteRoute(intentInvoker)
     }
 }
 
@@ -256,33 +256,32 @@ private fun SignUpSelectRoleScreen(
     intent: (SignUpIntent) -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .padding(
+                horizontal = dimensionResource(id = R.dimen.common_large_padding)
+            )
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = stringResource(id = R.string.sign_up_select_role_title),
             color = GwasuwonConfigurationManager.colors.labelNormal.toColor(),
-            style = GwasuwonTypography.Title2Bold.textStyle
+            style = GwasuwonTypography.Title2Bold.textStyle,
+            textAlign = TextAlign.Center
 
         )
-        SpaceHeight(height = 8)
-        Text(
-            text = stringResource(id = R.string.sign_up_select_role_desc),
-            color = GwasuwonConfigurationManager.colors.labelAlternative.toColor(),
-            style = GwasuwonTypography.Label1NormalRegular.textStyle
-        )
-        SpaceHeight(height = 78.5f)
+        SpaceHeight(height = 72)
         SignUpSelectRoleButton(
             textResId = R.string.sign_up_select_teacher,
-            iconResId = R.drawable.teacher,
+            iconResId = R.drawable.icon_teacher,
         ) {
             intent(SignUpIntent.ClickTeacher)
         }
         SpaceHeight(height = 8)
         SignUpSelectRoleButton(
             textResId = R.string.sign_up_select_student,
-            iconResId = R.drawable.student,
+            iconResId = R.drawable.icon_student,
         ) {
             intent(SignUpIntent.ClickStudent)
         }
@@ -303,31 +302,65 @@ private fun SignUpSelectRoleButton(
                 RoundedCornerShape(dimensionResource(id = R.dimen.common_btn_conner))
             )
             .background(
-                colorResource(id = R.color.blue_90)
+                GwasuwonConfigurationManager.colors.backgroundElevatedAlternative.toColor()
             )
             .padding(dimensionResource(id = R.dimen.common_medium_padding))
             .clickable(onClick = onClick)
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
-                painter = painterResource(id = iconResId),
-                contentDescription = "role icon",
-                modifier = Modifier
-                    .size(dimensionResource(id = R.dimen.common_icon_large_size)),
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight(),
-                text = stringResource(id = textResId),
-                color = GwasuwonConfigurationManager.colors.staticBlack.toColor(),
-                style = GwasuwonTypography.Headline1Bold.textStyle
-            )
-        }
+        Image(
+            painter = painterResource(id = iconResId),
+            contentDescription = "role icon",
+            modifier = Modifier
+                .size(dimensionResource(id = R.dimen.common_icon_large_size))
+                .align(Alignment.CenterStart),
+        )
+        Text(
+            modifier = Modifier
+                .wrapContentHeight()
+                .align(Alignment.Center),
+            text = stringResource(id = textResId),
+            color = GwasuwonConfigurationManager.colors.staticBlack.toColor(),
+            style = GwasuwonTypography.Headline1Bold.textStyle
+        )
 
     }
 }
 
+@Composable
+private fun SignUpCompleteRoute(
+    intent: (SignUpIntent) -> Unit
+) {
+    Box(
+        modifier = Modifier.padding(
+            horizontal = dimensionResource(id = R.dimen.common_large_padding)
+        )
+    ) {
+        Column(
+            modifier = Modifier.align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.logo_large),
+                contentDescription = "logo",
+                modifier = Modifier
+                    .size(64.dp),
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            Text(
+                text = stringResource(id = R.string.sign_up_complete),
+                color = GwasuwonConfigurationManager.colors.labelNormal.toColor(),
+                style = GwasuwonTypography.Title3Bold.textStyle
+
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = stringResource(id = R.string.sign_up_complete_desc),
+                color = GwasuwonConfigurationManager.colors.labelNeutral.toColor(),
+                style = GwasuwonTypography.Label1NormalRegular.textStyle
+            )
+        }
+        CommonButton(modifier = Modifier.align(Alignment.BottomCenter), textResId = R.string.sign_up_complete_btn, isAvailable = true) {
+            intent(SignUpIntent.ClickStartLesson)
+        }
+    }
+}

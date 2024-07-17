@@ -98,28 +98,10 @@ class SignUpUiMachine(
                 ).asResult()
             )
         }
-        .onEach {
-            when (it) {
-                is Result.Error -> {
-                    val exception = it.exception
-                    //TODO dialog error
-                }
-
-                is Result.Success -> {
-                    if (it.data.status == AccountStatus.ACTIVE) {
-                        eventInvoker(SignUpActionEvent.NavigateLessonRoute)
-                    } else {
-                        //TODO dialog error 응답은 성공했지만 가입에서 active가 아닌 경우는 없음.
-                    }
-
-                }
-
-                else -> Unit
-            }
-        }
         .map {
             when (it) {
                 is Result.Error -> {
+                    //TODO dialog error
                     machineInternalState.copy(isLoading = false)
                 }
 
@@ -128,7 +110,10 @@ class SignUpUiMachine(
                 }
 
                 is Result.Success -> {
-                    machineInternalState.copy(isLoading = false)
+                    machineInternalState.copy(
+                        isLoading = false,
+                        signUpScreenType = SignUpScreenType.COMPLETE
+                    )
                 }
             }
         }

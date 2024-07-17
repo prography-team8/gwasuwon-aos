@@ -17,9 +17,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.prography.ui.GwasuwonTypography
 import com.prography.ui.R
 import com.prography.ui.configuration.toColor
-import com.prography.ui.GwasuwonTypography
 
 /**
  * Created by MyeongKi.
@@ -57,12 +57,13 @@ fun CommonBorderButton(
 
 @Composable
 fun CommonButton(
+    modifier: Modifier = Modifier,
     @StringRes textResId: Int,
     isAvailable: Boolean,
     onClickNext: () -> Unit
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .clip(RoundedCornerShape(dimensionResource(id = R.dimen.common_btn_conner)))
