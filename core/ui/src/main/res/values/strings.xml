@@ -34,7 +34,7 @@
     <string name="all_agreement">약관 전체동의</string>
     <string name="personal_information_agreement">개인정보 수집 및 이용동의(필수)</string>
     <string name="gwasuwon_agreement">과수원 약관(필수)</string>
-    <string name="sign_up_select_role_title">역할을 알려주세요 ✅</string>
+    <string name="sign_up_select_role_title">수업에서 당신의\n역할을 알려주세요</string>
     <string name="sign_up_select_role_desc">*학부모님은 가입이 필요없어요</string>
     <string name="sign_up_select_teacher">선생님이에요</string>
     <string name="sign_up_select_student">학생이에요</string>
