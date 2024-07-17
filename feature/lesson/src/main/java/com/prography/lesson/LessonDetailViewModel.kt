@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
  */
 class LessonDetailViewModel(
     lessonId: Long,
+    isTeacher: Boolean,
     navigateFlow: MutableSharedFlow<NavigationEvent>,
     commonLessonEvent: MutableSharedFlow<CommonLessonEvent>,
     commonQrFlow: MutableSharedFlow<CommonQrEvent>,
@@ -30,10 +31,10 @@ class LessonDetailViewModel(
     isShowingNotifyLessonDeductedDialogUseCase: IsShowingNotifyLessonDeductedDialogUseCase,
     updateShownNotifyLessonDeductedDialogUseCase: UpdateShownNotifyLessonDeductedDialogUseCase,
     certificateLessonUseCase: CertificateLessonUseCase
-
 ) : ViewModel() {
     val machine = LessonDetailUiMachine(
         lessonId = lessonId,
+        isTeacher = isTeacher,
         coroutineScope = viewModelScope,
         navigateFlow = navigateFlow,
         commonQrFlow = commonQrFlow,
@@ -50,6 +51,7 @@ class LessonDetailViewModel(
     companion object {
         fun provideFactory(
             lessonId: Long,
+            isTeacher: Boolean,
             navigateFlow: MutableSharedFlow<NavigationEvent>,
             commonQrFlow: MutableSharedFlow<CommonQrEvent>,
             commonLessonEvent: MutableSharedFlow<CommonLessonEvent>,
@@ -65,6 +67,7 @@ class LessonDetailViewModel(
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return LessonDetailViewModel(
                     lessonId,
+                    isTeacher,
                     navigateFlow,
                     commonLessonEvent,
                     commonQrFlow,

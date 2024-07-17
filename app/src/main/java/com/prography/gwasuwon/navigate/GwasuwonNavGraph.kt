@@ -227,6 +227,7 @@ fun GwasuwonNavGraph(
                     viewModel = viewModel(
                         factory = LessonDetailViewModel.provideFactory(
                             lessonId = lessonId,
+                            isTeacher = accountInfoManager.getAccountInfo()?.role == AccountRole.TEACHER,
                             commonQrFlow = AppContainer.qrEventFlow,
                             navigateFlow = AppContainer.navigateEventFlow,
                             commonLessonEvent = AppContainer.commonLessonEvent,

@@ -41,6 +41,7 @@ import kotlin.math.max
  */
 class LessonDetailUiMachine(
     lessonId: Long,
+    isTeacher: Boolean,
     coroutineScope: CoroutineScope,
     navigateFlow: MutableSharedFlow<NavigationEvent>,
     commonQrFlow: MutableSharedFlow<CommonQrEvent>,
@@ -212,6 +213,7 @@ class LessonDetailUiMachine(
         }
     private val showNotifyLessonDeductedDialogFlow = actionFlow
         .filterIsInstance<LessonDetailActionEvent.ShowNotifyLessonDeductedDialog>()
+        .map { isTeacher }
         .map {
             machineInternalState.copy(
                 dialog = LessonDetailDialog.NotifyLessonDeducted
