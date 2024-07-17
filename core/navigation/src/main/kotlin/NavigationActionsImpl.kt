@@ -37,6 +37,16 @@ class NavigationActions(
         }
     }
 
+    fun navigateLessonInvitedRoute() {
+        navController.navigate(GwasuwonPath.LessonInvitedPath.getNavigation()) {
+            launchSingleTop = true
+            popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
+                inclusive = true
+                saveState = true
+            }
+        }
+    }
+
     fun navigateCreateLessonRoute() {
         navController.navigate(GwasuwonPath.CrateLessonPath.getNavigation()) {
             launchSingleTop = true

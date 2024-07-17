@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.gwasuwon.lib.android.core)
+    kotlin("plugin.serialization")
+
 }
 
 android {
@@ -13,5 +15,6 @@ dependencies {
     implementation(libs.androidx.compose.paging)
     implementation(libs.kotlin.coroutines)
     implementation(libs.kotlin.date)
+    implementation(libs.ktor.client.serialization)
 
 }

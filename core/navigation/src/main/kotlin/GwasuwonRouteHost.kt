@@ -5,6 +5,7 @@ enum class GwasuwonRouteHost {
     SIGN_IN,
     SIGN_UP,
     LESSONS,
+    LESSON_INVITED,
     CREATE_LESSON,
     LESSON_DETAIL,
     SUCCESS_CREATE_LESSON,

@@ -1,9 +1,9 @@
 package com.prography.qr.domain
 
 import android.graphics.Bitmap
-import com.prography.qr.domain.model.GwasuwonQr
-import com.prography.qr.domain.model.GwasuwonQrType
-import com.prography.qr.domain.model.LessonCertificationData
+import com.prography.domain.qr.model.GwasuwonQr
+import com.prography.domain.qr.model.GwasuwonQrType
+import com.prography.domain.qr.model.LessonCertificationData
 import com.prography.utils.date.DateUtils
 import kotlinx.coroutines.flow.Flow
 

@@ -1,4 +1,4 @@
-package com.prography.qr.domain.model
+package com.prography.domain.qr.model
 
 import kotlinx.serialization.Serializable
 

@@ -8,10 +8,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.kakao.sdk.user.UserApiClient
 import com.prography.account.RootSocialLoginManager
 import com.prography.domain.account.SocialLoginEvent
 import com.prography.gwasuwon.navigate.GwasuwonNavGraph
+import com.prography.qr.ShowQrScannerSubscriber
 import com.prography.ui.component.RootBackground
 import com.prography.ui.configuration.ConfigurationStateViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -19,10 +19,10 @@ import kotlinx.coroutines.flow.onEach
 
 
 class MainActivity : ComponentActivity() {
-
+    private lateinit var qrScannerSubscriber: ShowQrScannerSubscriber
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        qrScannerSubscriber = ShowQrScannerSubscriber(this, AppContainer.qrEventFlow)
         setContent {
             val configurationViewModel: ConfigurationStateViewModel = viewModel(
                 factory = ConfigurationStateViewModel.provideFactory(
@@ -36,7 +36,8 @@ class MainActivity : ComponentActivity() {
                     navigateWeb = {
                         val intent = Intent(Intent.ACTION_VIEW)
                         intent.setData(Uri.parse(it))
-                        startActivity(intent)                    },
+                        startActivity(intent)
+                    },
                     onEmptyBackStack = {
                         moveTaskToBack(true)
                     }
@@ -48,17 +49,15 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun observeEvent() {
+        qrScannerSubscriber.observeEvent()
         AppContainer.socialLoginEventFlow.onEach {
-            when(it){
-                is SocialLoginEvent.RequestSocialLoginAccessKey->{
+            when (it) {
+                is SocialLoginEvent.RequestSocialLoginAccessKey -> {
                     RootSocialLoginManager.requestAccessToken(it.type, this, lifecycleScope)
                 }
-                else->Unit
+
+                else -> Unit
             }
         }.launchIn(lifecycleScope)
-    }
-
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
     }
 }
