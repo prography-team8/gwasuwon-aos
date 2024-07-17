@@ -14,6 +14,7 @@ import com.prography.domain.dialog.usecase.IsShowingNotifyLessonDeductedDialogUs
 import com.prography.domain.dialog.usecase.UpdateShownNotifyLessonDeductedDialogUseCase
 import com.prography.domain.lesson.CommonLessonEvent
 import com.prography.domain.lesson.respository.LessonRepositoryImpl
+import com.prography.domain.lesson.usecase.CertificateLessonUseCase
 import com.prography.domain.lesson.usecase.CheckLessonByAttendanceUseCase
 import com.prography.domain.lesson.usecase.CreateLessonUseCase
 import com.prography.domain.lesson.usecase.DeleteLessonUseCase
@@ -167,6 +168,11 @@ object AppContainer {
     }
     val participateLessonUseCase by lazy {
         ParticipateLessonUseCase(
+            lessonRepository
+        )
+    }
+    val certificateLessonUseCase by lazy {
+        CertificateLessonUseCase(
             lessonRepository
         )
     }

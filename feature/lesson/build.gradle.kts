@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.gwasuwon.lib.android.core)
     alias(libs.plugins.gwasuwon.lib.compose)
+    kotlin("plugin.serialization")
+
 }
 
 android {
@@ -19,4 +21,6 @@ dependencies {
     implementation(libs.kotlin.collections)
     implementation(libs.kotlin.date)
     implementation(libs.kizitonwose.calendar)
+    implementation(libs.ktor.client.serialization)
+
 }

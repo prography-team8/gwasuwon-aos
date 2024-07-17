@@ -155,4 +155,18 @@ class FakeLessonsDataSource : LessonDataSource {
             emit(updatedLesson)
         }
     }
+
+    override fun certificateLesson(lessonId: Long): Flow<Lesson> {
+        return flow {
+            val lesson = lessons.find { it.lessonId == lessonId }
+            if (lesson == null) {
+                throw IllegalArgumentException("lesson not found")
+            }
+            val updatedLesson = lesson.copy(
+                lessonNumberOfPostpone = lesson.lessonNumberOfPostpone + 1
+            )
+            lessons[lessons.indexOf(lesson)] = updatedLesson
+            emit(updatedLesson)
+        }
+    }
 }

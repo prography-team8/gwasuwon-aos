@@ -227,6 +227,7 @@ fun GwasuwonNavGraph(
                     viewModel = viewModel(
                         factory = LessonDetailViewModel.provideFactory(
                             lessonId = lessonId,
+                            commonQrFlow = AppContainer.qrEventFlow,
                             navigateFlow = AppContainer.navigateEventFlow,
                             commonLessonEvent = AppContainer.commonLessonEvent,
                             loadLessonUseCase = AppContainer.loadLessonUseCase,
@@ -234,7 +235,8 @@ fun GwasuwonNavGraph(
                             deleteLessonUseCase = AppContainer.deleteLessonUseCase,
                             checkLessonByAttendanceUseCase = AppContainer.checkLessonByAttendanceUseCase,
                             isShowingNotifyLessonDeductedDialogUseCase = AppContainer.isShowingNotifyLessonDeductedDialogUseCase,
-                            updateShownNotifyLessonDeductedDialogUseCase = AppContainer.updateShownNotifyLessonDeductedDialogUseCase
+                            updateShownNotifyLessonDeductedDialogUseCase = AppContainer.updateShownNotifyLessonDeductedDialogUseCase,
+                            certificateLessonUseCase = AppContainer.certificateLessonUseCase
                         )
                     ),
                     isTeacher = accountInfoManager.getAccountInfo()?.role == AccountRole.TEACHER

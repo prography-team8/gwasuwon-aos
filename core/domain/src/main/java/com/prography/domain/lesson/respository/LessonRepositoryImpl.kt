@@ -93,4 +93,8 @@ class LessonRepositoryImpl(
     override fun participateLesson(lessonId: Long): Flow<Lesson> {
         return remoteSource.participateLesson(lessonId)
     }
+
+    override fun certificateLesson(lessonId: Long): Flow<Lesson> {
+        return remoteSource.certificateLesson(lessonId)
+    }
 }

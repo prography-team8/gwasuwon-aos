@@ -19,4 +19,5 @@ interface LessonRepository {
     fun deleteLesson(lessonId: Long): Flow<Unit>
     fun checkLessonByAttendance(requestOption: CheckLessonByAttendanceRequestOption): Flow<Lesson>
     fun participateLesson(lessonId: Long): Flow<Lesson>
+    fun certificateLesson(lessonId: Long): Flow<Lesson>
 }

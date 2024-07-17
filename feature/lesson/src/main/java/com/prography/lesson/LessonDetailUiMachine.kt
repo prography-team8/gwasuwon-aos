@@ -6,10 +6,15 @@ import com.prography.domain.dialog.usecase.IsShowingNotifyLessonDeductedDialogUs
 import com.prography.domain.dialog.usecase.UpdateShownNotifyLessonDeductedDialogUseCase
 import com.prography.domain.lesson.CommonLessonEvent
 import com.prography.domain.lesson.request.CheckLessonByAttendanceRequestOption
+import com.prography.domain.lesson.usecase.CertificateLessonUseCase
 import com.prography.domain.lesson.usecase.CheckLessonByAttendanceUseCase
 import com.prography.domain.lesson.usecase.DeleteLessonUseCase
 import com.prography.domain.lesson.usecase.LoadLessonDatesUseCase
 import com.prography.domain.lesson.usecase.LoadLessonUseCase
+import com.prography.domain.qr.CommonQrEvent
+import com.prography.domain.qr.model.GwasuwonQr
+import com.prography.domain.qr.model.GwasuwonQrType
+import com.prography.domain.qr.model.LessonCertificationData
 import com.prography.usm.holder.UiStateMachine
 import com.prography.usm.result.Result
 import com.prography.usm.result.asResult
@@ -24,9 +29,11 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.transform
+import kotlinx.serialization.json.Json
 import kotlin.math.max
 
 /**
@@ -36,19 +43,21 @@ class LessonDetailUiMachine(
     lessonId: Long,
     coroutineScope: CoroutineScope,
     navigateFlow: MutableSharedFlow<NavigationEvent>,
+    commonQrFlow: MutableSharedFlow<CommonQrEvent>,
     commonLessonEvent: MutableSharedFlow<CommonLessonEvent>,
     loadLessonUseCase: LoadLessonUseCase,
     loadLessonDatesUseCase: LoadLessonDatesUseCase,
     deleteLessonUseCase: DeleteLessonUseCase,
     checkLessonByAttendanceUseCase: CheckLessonByAttendanceUseCase,
     isShowingNotifyLessonDeductedDialogUseCase: IsShowingNotifyLessonDeductedDialogUseCase,
-    updateShownNotifyLessonDeductedDialogUseCase: UpdateShownNotifyLessonDeductedDialogUseCase
+    updateShownNotifyLessonDeductedDialogUseCase: UpdateShownNotifyLessonDeductedDialogUseCase,
+    certificateLessonUseCase: CertificateLessonUseCase
 ) : UiStateMachine<
         LessonDetailUiState,
         LessonDetailMachineState,
         LessonDetailActionEvent,
         LessonDetailIntent
-        >(coroutineScope) {
+        >(coroutineScope, commonQrFlow.toLessonDetailAction()) {
     override var machineInternalState: LessonDetailMachineState = LessonDetailMachineState()
 
     private val popBackFlow = actionFlow
@@ -221,12 +230,55 @@ class LessonDetailUiMachine(
                 ).asResult()
             )
         }
+    private val recognizeQrFlow = actionFlow
+        .filterIsInstance<LessonDetailActionEvent.RecognizeQr>()
+        .onEach {
+            commonQrFlow.emit(CommonQrEvent.RequestQrScan)
+        }
+
+    private val certificateLessonFlow = actionFlow
+        .filterIsInstance<LessonDetailActionEvent.CertificateLesson>()
+        .transform {
+            if (it.qrLessonId == lessonId) {
+                emitAll(certificateLessonUseCase(it.qrLessonId).asResult())
+            } else {
+                //show error dialog invliad lesson id
+            }
+        }
+        .onEach {
+            if (it is Result.Success) {
+                eventInvoker(LessonDetailActionEvent.Refresh)
+            }
+        }
+        .map {
+            when (it) {
+                is Result.Success -> {
+                    machineInternalState.copy(
+                        isLoading = false
+                    )
+                }
+
+                is Result.Error -> {
+                    machineInternalState.copy(
+                        isLoading = false
+                    )
+                }
+
+                is Result.Loading -> {
+                    machineInternalState.copy(
+                        isLoading = true
+                    )
+                }
+            }
+        }
+
     override val outerNotifyScenarioActionFlow = merge(
         popBackFlow,
         navigateLessonCertificationQrFlow,
         navigateLessonInfoDetailFlow,
         deleteLessonFlow,
-        updateLessonDeducted
+        updateLessonDeducted,
+        recognizeQrFlow
     )
 
     init {
@@ -241,7 +293,31 @@ class LessonDetailUiMachine(
             hideDialogFlow,
             showDeleteLessonDialogFlow,
             hideNotifyLessonDeductedDialog,
-            showNotifyLessonDeductedDialogFlow
+            showNotifyLessonDeductedDialogFlow,
+            certificateLessonFlow
         )
+    }
+}
+
+private fun MutableSharedFlow<CommonQrEvent>.toLessonDetailAction(): Flow<LessonDetailActionEvent> = this.mapNotNull {
+    when (it) {
+        is CommonQrEvent.GetOnSuccessQr -> {
+            val jsonString: GwasuwonQr? = try {
+                Json.decodeFromString(GwasuwonQr.serializer(), it.raw)
+            } catch (e: Exception) {
+                null
+            }
+            jsonString?.let { gwasuwonQr ->
+                if (gwasuwonQr.type == GwasuwonQrType.LESSON_CERTIFICATION) {
+                    (gwasuwonQr.data as? LessonCertificationData)?.lessonId?.let { lessonId ->
+                        LessonDetailActionEvent.CertificateLesson(lessonId)
+
+                    }
+                }
+            }
+            null
+        }
+
+        else -> null
     }
 }

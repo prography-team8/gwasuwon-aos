@@ -3,9 +3,9 @@ package com.prography.qr
 import NavigationEvent
 import com.prography.domain.lesson.usecase.ParticipateLessonUseCase
 import com.prography.domain.qr.CommonQrEvent
-import com.prography.qr.domain.model.GwasuwonQr
-import com.prography.qr.domain.model.GwasuwonQrType
-import com.prography.qr.domain.model.InviteStudentData
+import com.prography.domain.qr.model.GwasuwonQr
+import com.prography.domain.qr.model.GwasuwonQrType
+import com.prography.domain.qr.model.InviteStudentData
 import com.prography.usm.holder.UiStateMachine
 import com.prography.usm.result.Result
 import com.prography.usm.result.asResult
