@@ -28,6 +28,10 @@ data class SignUpMachineState(
             SignUpScreenType.SELECT_ROLE -> {
                 SignUpUiState.SelectRole(roleType = roleType)
             }
+
+            SignUpScreenType.COMPLETE -> {
+                SignUpUiState.Complete
+            }
         }
     }
 
@@ -47,11 +51,14 @@ sealed interface SignUpUiState : UiState {
     data class SelectRole(
         val roleType: AccountRole? = null
     ) : SignUpUiState
+
+    data object Complete : SignUpUiState
 }
 
 enum class SignUpScreenType(val page: Int) {
     AGREEMENT(1),
-    SELECT_ROLE(2)
+    SELECT_ROLE(2),
+    COMPLETE(3)
     ;
 
     fun next(): SignUpScreenType? {

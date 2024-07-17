@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -54,7 +53,7 @@ fun SignUpRoute(
     when (uiState) {
         is SignUpUiState.Agreement -> SignUpAgreementScreen(uiState, intentInvoker)
         is SignUpUiState.SelectRole -> SignUpSelectRoleScreen(intentInvoker)
-
+        is SignUpUiState.Complete -> SignUpCompleteRoute(intentInvoker)
     }
 }
 
@@ -327,3 +326,41 @@ private fun SignUpSelectRoleButton(
     }
 }
 
+@Composable
+private fun SignUpCompleteRoute(
+    intent: (SignUpIntent) -> Unit
+) {
+    Box(
+        modifier = Modifier.padding(
+            horizontal = dimensionResource(id = R.dimen.common_large_padding)
+        )
+    ) {
+        Column(
+            modifier = Modifier.align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.logo_large),
+                contentDescription = "logo",
+                modifier = Modifier
+                    .size(64.dp),
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            Text(
+                text = stringResource(id = R.string.sign_up_complete),
+                color = GwasuwonConfigurationManager.colors.labelNormal.toColor(),
+                style = GwasuwonTypography.Title3Bold.textStyle
+
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = stringResource(id = R.string.sign_up_complete_desc),
+                color = GwasuwonConfigurationManager.colors.labelNeutral.toColor(),
+                style = GwasuwonTypography.Label1NormalRegular.textStyle
+            )
+        }
+        CommonButton(modifier = Modifier.align(Alignment.BottomCenter), textResId = R.string.sign_up_complete_btn, isAvailable = true) {
+            intent(SignUpIntent.ClickStartLesson)
+        }
+    }
+}

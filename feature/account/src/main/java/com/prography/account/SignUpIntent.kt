@@ -15,6 +15,7 @@ sealed interface SignUpIntent : Intent<SignUpActionEvent> {
     data object ClickTeacher : SignUpIntent
     data object ClickStudent : SignUpIntent
     data object ClickNextButton : SignUpIntent
+    data object ClickStartLesson : SignUpIntent
 
     override fun toActionEvent(): SignUpActionEvent {
         return when (this) {
@@ -49,6 +50,10 @@ sealed interface SignUpIntent : Intent<SignUpActionEvent> {
             is ClickNextButton -> {
                 SignUpActionEvent.GoToNextSignUpPage
             }
+
+            is ClickStartLesson->{
+                SignUpActionEvent.NavigateLessonRoute
+            }
         }
     }
 }
@@ -62,5 +67,5 @@ sealed interface SignUpActionEvent : ActionEvent {
     data object GoToNextSignUpPage : SignUpActionEvent
     data object NavigateLessonRoute : SignUpActionEvent
     data object RequestSignUp : SignUpActionEvent
-    data class ShowAgreementPage(val url:String):SignUpActionEvent
+    data class ShowAgreementPage(val url: String) : SignUpActionEvent
 }

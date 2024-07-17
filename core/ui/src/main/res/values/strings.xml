@@ -38,6 +38,11 @@
     <string name="sign_up_select_role_desc">*학부모님은 가입이 필요없어요</string>
     <string name="sign_up_select_teacher">선생님이에요</string>
     <string name="sign_up_select_student">학생이에요</string>
+    <string name="sign_up_complete">회원가입이 완료되었어요</string>
+    <string name="sign_up_complete_desc">과수원과 함께 수업을 시작해볼까요?</string>
+    <string name="sign_up_complete_btn">수업 시작하기</string>
+
+
     <string name="lessons_title">수업 목록</string>
     <string name="lessons_empty_desc">아직 개설된 수업이 없어요</string>
     <string name="add_lesson">수업 추가하기</string>
