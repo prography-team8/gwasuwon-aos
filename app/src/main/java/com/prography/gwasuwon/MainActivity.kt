@@ -8,7 +8,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.kakao.sdk.user.UserApiClient
 import com.prography.account.RootSocialLoginManager
 import com.prography.domain.account.SocialLoginEvent
 import com.prography.gwasuwon.navigate.GwasuwonNavGraph
@@ -36,7 +35,8 @@ class MainActivity : ComponentActivity() {
                     navigateWeb = {
                         val intent = Intent(Intent.ACTION_VIEW)
                         intent.setData(Uri.parse(it))
-                        startActivity(intent)                    },
+                        startActivity(intent)
+                    },
                     onEmptyBackStack = {
                         moveTaskToBack(true)
                     }
@@ -49,16 +49,13 @@ class MainActivity : ComponentActivity() {
 
     private fun observeEvent() {
         AppContainer.socialLoginEventFlow.onEach {
-            when(it){
-                is SocialLoginEvent.RequestSocialLoginAccessKey->{
+            when (it) {
+                is SocialLoginEvent.RequestSocialLoginAccessKey -> {
                     RootSocialLoginManager.requestAccessToken(it.type, this, lifecycleScope)
                 }
-                else->Unit
+
+                else -> Unit
             }
         }.launchIn(lifecycleScope)
-    }
-
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
     }
 }
