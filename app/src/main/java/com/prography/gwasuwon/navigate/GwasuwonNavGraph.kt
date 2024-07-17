@@ -227,7 +227,8 @@ fun GwasuwonNavGraph(
                             isShowingNotifyLessonDeductedDialogUseCase = AppContainer.isShowingNotifyLessonDeductedDialogUseCase,
                             updateShownNotifyLessonDeductedDialogUseCase = AppContainer.updateShownNotifyLessonDeductedDialogUseCase
                         )
-                    )
+                    ),
+                    isTeacher = accountInfoManager.getAccountInfo()?.role == AccountRole.TEACHER
                 )
             }
         }
