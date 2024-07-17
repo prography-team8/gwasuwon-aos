@@ -21,9 +21,11 @@ import com.prography.domain.lesson.usecase.LoadLessonContractUrlUseCase
 import com.prography.domain.lesson.usecase.LoadLessonDatesUseCase
 import com.prography.domain.lesson.usecase.LoadLessonUseCase
 import com.prography.domain.lesson.usecase.LoadLessonsUseCase
+import com.prography.domain.lesson.usecase.ParticipateLessonUseCase
 import com.prography.domain.lesson.usecase.UpdateLessonUseCase
 import com.prography.domain.preference.AccountPreferenceImpl
 import com.prography.domain.preference.ThemePreferenceImpl
+import com.prography.domain.qr.CommonQrEvent
 import com.prography.lesson.fake.FakeLessonsDataSource
 import com.prography.network.HttpClientFactory
 import com.prography.network.account.AccountHttpClient
@@ -41,6 +43,8 @@ object AppContainer {
 
     val configurationEvent: MutableSharedFlow<ConfigurationEvent> = MutableSharedFlow()
     val navigateEventFlow: MutableSharedFlow<NavigationEvent> = MutableSharedFlow()
+    val qrEventFlow: MutableSharedFlow<CommonQrEvent> = MutableSharedFlow()
+
     val socialLoginEventFlow: MutableSharedFlow<SocialLoginEvent> = MutableSharedFlow()
 
     val clipboardHelper by lazy {
@@ -159,6 +163,11 @@ object AppContainer {
     val updateShownNotifyLessonDeductedDialogUseCase by lazy {
         UpdateShownNotifyLessonDeductedDialogUseCase(
             dialogDataSource
+        )
+    }
+    val participateLessonUseCase by lazy {
+        ParticipateLessonUseCase(
+            lessonRepository
         )
     }
 }

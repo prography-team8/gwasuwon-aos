@@ -105,5 +105,11 @@
 
     <string name="lesson_deducted_title">미루기 횟수 초과</string>
     <string name="lesson_deducted_title_desc">미루기 횟수가 초과하여\n수업 횟수가 1회 차감됩니다</string>
+    <string name="lesson_invited_toolbar">수업 초대받기</string>
+    <string name="lesson_invited_desc">선생님의 QR 코드를 인식해주세요.</string>
+    <string name="qr_recognition">QR 인식하기</string>
+    <string name="navigate_calendar">캘린더로 이동</string>
+    <string name="invite_complete">수업에 정상 초대되었습니다</string>
+    <string name="invite_complete_desc">캘린더에서 수업 일정을 확인하고 관리해보세요</string>
 
 </resources>

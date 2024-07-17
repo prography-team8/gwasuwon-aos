@@ -2,7 +2,6 @@ package com.prography.gwasuwon.navigate
 
 import GwasuwonPath
 import NavigationActions
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -32,9 +31,11 @@ import com.prography.lesson.compose.create.CreateLessonRoute
 import com.prography.qr.InviteStudentQrViewModel
 import com.prography.qr.LessonCertificationQrViewModel
 import com.prography.qr.LessonContractQrViewModel
+import com.prography.qr.LessonInvitedViewModel
 import com.prography.qr.compose.InviteStudentQrRoute
 import com.prography.qr.compose.LessonCertificationQrRoute
 import com.prography.qr.compose.LessonContractQrRoute
+import com.prography.qr.compose.LessonInvitedRoute
 import subscribeNavigationEvent
 
 /**
@@ -122,7 +123,15 @@ fun GwasuwonNavGraph(
         }
         with(GwasuwonPath.LessonInvitedPath) {
             composable(getDestination(), arguments) {
-                Text("LessonInvitedPath")
+                LessonInvitedRoute(
+                    viewModel = viewModel(
+                        factory = LessonInvitedViewModel.provideFactory(
+                            navigateFlow = AppContainer.navigateEventFlow,
+                            commonQrFlow = AppContainer.qrEventFlow,
+                            participateLessonUseCase = AppContainer.participateLessonUseCase
+                        )
+                    )
+                )
             }
         }
         with(GwasuwonPath.CrateLessonPath) {
