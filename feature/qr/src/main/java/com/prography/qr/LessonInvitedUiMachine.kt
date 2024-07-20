@@ -86,7 +86,7 @@ class LessonInvitedUiMachine(
         .filterIsInstance<LessonInvitedActionEvent.NavigateLessonDetail>()
         .onEach {
             machineInternalState.lessonId?.let {
-                navigateFlow.emit(NavigationEvent.NavigateLessonDeatailRoute(it))
+                navigateFlow.emit(NavigationEvent.NavigateLessonDetailRoute(it))
             }
         }
 

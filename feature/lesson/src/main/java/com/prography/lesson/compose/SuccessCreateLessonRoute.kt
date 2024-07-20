@@ -63,11 +63,7 @@ private fun SuccessCreateLessonScreen(
         )
         SpaceHeight(height = 22)
         SuccessCreateLessonTitle()
-        SpaceHeight(height = 8)
-        SuccessCreateLessonSubtitle {
-            intent(SuccessCreateLessonIntent.ClickLessonInfoDetail)
-        }
-        SpaceHeight(height = 24)
+        SpaceHeight(height = 60)
         DescriptionBox(
             title = "1. ",
             descriptionResId = R.string.success_create_lesson_desc_1
@@ -83,16 +79,12 @@ private fun SuccessCreateLessonScreen(
             descriptionResId = R.string.success_create_lesson_desc_3
         )
         Spacer(modifier = Modifier.weight(1f))
-        CommonButton(textResId = R.string.invite_student_qr, isAvailable = true) {
-            intent(SuccessCreateLessonIntent.ClickInviteStudent)
-        }
-        SpaceHeight(height = 8)
         CommonButton(textResId = R.string.lesson_contract, isAvailable = true) {
             intent(SuccessCreateLessonIntent.ClickLessonContract)
         }
         SpaceHeight(height = 8)
-        CommonBorderButton(textResId = R.string.navigate_home) {
-            intent(SuccessCreateLessonIntent.ClickHome)
+        CommonBorderButton(textResId = R.string.show_lesson_detail) {
+            intent(SuccessCreateLessonIntent.ClickLessonDetail)
         }
     }
 }
@@ -103,20 +95,6 @@ private fun SuccessCreateLessonTitle() {
         text = stringResource(id = R.string.success_create_lesson_title),
         style = GwasuwonTypography.Headline1Bold.textStyle,
         color = GwasuwonConfigurationManager.colors.labelNormal.toColor()
-    )
-}
-
-@Composable
-private fun SuccessCreateLessonSubtitle(
-    onClick: () -> Unit
-) {
-    Text(
-        modifier = Modifier.clickable(onClick = onClick),
-        text = stringResource(id = R.string.success_create_lesson_subtitle),
-        style = GwasuwonTypography.Headline1Bold.textStyle.copy(
-            textDecoration = TextDecoration.Underline
-        ),
-        color = GwasuwonConfigurationManager.colors.primaryNormal.toColor()
     )
 }
 

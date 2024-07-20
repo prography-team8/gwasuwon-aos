@@ -6,8 +6,15 @@ import com.prography.usm.state.UiState
 /**
  * Created by MyeongKi.
  */
-object SuccessCreateLessonMachineState : MachineInternalState<SuccessCreateLessonUiState> {
-    override fun toUiState(): SuccessCreateLessonUiState = SuccessCreateLessonUiState
+data class SuccessCreateLessonMachineState(
+    val contractUrl: String = "",
+    val isLoading: Boolean = false
+) : MachineInternalState<SuccessCreateLessonUiState> {
+    override fun toUiState(): SuccessCreateLessonUiState = SuccessCreateLessonUiState(
+        isLoading = isLoading
+    )
 }
 
-object SuccessCreateLessonUiState : UiState
+data class SuccessCreateLessonUiState(
+    val isLoading: Boolean = false
+) : UiState

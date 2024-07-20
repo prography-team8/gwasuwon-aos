@@ -156,6 +156,8 @@ fun GwasuwonNavGraph(
                         factory = SuccessCreateLessonViewModel.provideFactory(
                             lessonId = lessonId,
                             navigateFlow = AppContainer.navigateEventFlow,
+                            clipboardHelper = AppContainer.clipboardHelper,
+                            loadContractUrlUseCase = AppContainer.loadLessonContractUrlUseCase
                         )
                     )
                 )
