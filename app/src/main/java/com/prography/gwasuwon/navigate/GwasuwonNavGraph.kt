@@ -128,7 +128,8 @@ fun GwasuwonNavGraph(
                         factory = LessonInvitedViewModel.provideFactory(
                             navigateFlow = AppContainer.navigateEventFlow,
                             commonQrFlow = AppContainer.qrEventFlow,
-                            participateLessonUseCase = AppContainer.participateLessonUseCase
+                            participateLessonUseCase = AppContainer.participateLessonUseCase,
+                            accountPreference = AppContainer.accountPreference
                         )
                     )
                 )
