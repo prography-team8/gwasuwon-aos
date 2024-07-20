@@ -3,7 +3,6 @@ package com.prography.lesson.compose
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,23 +13,25 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import com.prography.ui.R
-import com.prography.ui.configuration.toColor
-import com.prography.ui.component.GwasuwonConfigurationManager
+import com.prography.lesson.SuccessCreateLessonDialog
 import com.prography.lesson.SuccessCreateLessonIntent
 import com.prography.lesson.SuccessCreateLessonViewModel
+import com.prography.ui.GwasuwonTypography
+import com.prography.ui.R
 import com.prography.ui.component.CommonBorderButton
 import com.prography.ui.component.CommonButton
-import com.prography.ui.GwasuwonTypography
+import com.prography.ui.component.CommonDialog
+import com.prography.ui.component.GwasuwonConfigurationManager
 import com.prography.ui.component.SpaceHeight
+import com.prography.ui.configuration.toColor
 
 /**
  * Created by MyeongKi.
@@ -39,9 +40,38 @@ import com.prography.ui.component.SpaceHeight
 fun SuccessCreateLessonRoute(
     viewModel: SuccessCreateLessonViewModel
 ) {
+    val uiState = viewModel.machine.uiState.collectAsState().value
     SuccessCreateLessonScreen(
         intent = viewModel.machine.intentInvoker
     )
+    SuccessCreateLessonDialog(
+        dialog = uiState.dialog,
+        intent = viewModel.machine.intentInvoker
+    )
+}
+
+@Composable
+private fun SuccessCreateLessonDialog(
+    dialog: SuccessCreateLessonDialog,
+    intent: (SuccessCreateLessonIntent) -> Unit
+) {
+    when (dialog) {
+        is SuccessCreateLessonDialog.SuccessCopy -> {
+            CommonDialog(
+                titleResId = R.string.success_create_lesson_copy_title,
+                contentResId = R.string.success_create_lesson_copy_content,
+                positiveResId = R.string.common_confirm,
+                onClickPositive = {
+                    intent(SuccessCreateLessonIntent.ClickDialog)
+                },
+                onClickBackground = {
+                    intent(SuccessCreateLessonIntent.ClickDialog)
+                }
+            )
+        }
+
+        else -> Unit
+    }
 }
 
 @Composable

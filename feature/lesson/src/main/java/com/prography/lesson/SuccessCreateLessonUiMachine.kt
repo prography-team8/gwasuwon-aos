@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.transform
+
 /**
  * Created by MyeongKi.
  */
@@ -37,18 +38,20 @@ class SuccessCreateLessonUiMachine(
             emitAll(loadContractUrlUseCase(lessonId).asResult())
         }
         .map {
-            when(it){
+            when (it) {
                 is Result.Success -> {
                     machineInternalState.copy(
                         contractUrl = it.data,
                         isLoading = false
                     )
                 }
+
                 is Result.Loading -> {
                     machineInternalState.copy(
                         isLoading = true
                     )
                 }
+
                 is Result.Error -> {
                     machineInternalState.copy(
                         isLoading = false
@@ -56,11 +59,22 @@ class SuccessCreateLessonUiMachine(
                 }
             }
         }
-
+    private val hideDialogFlow = actionFlow
+        .filterIsInstance<SuccessCreateLessonActionEvent.HideDialog>()
+        .map {
+            machineInternalState.copy(
+                dialog = SuccessCreateLessonDialog.None
+            )
+        }
     private val copyLessonContractQr = actionFlow
         .filterIsInstance<SuccessCreateLessonActionEvent.CopyLessonContractQr>()
         .onEach {
-            clipboardHelper.copyToClipboard(machineInternalState.contractUrl, com.prography.ui.R.string.complete_copy)
+            clipboardHelper.copyToClipboard(machineInternalState.contractUrl)
+        }
+        .map {
+            machineInternalState.copy(
+                dialog = SuccessCreateLessonDialog.SuccessCopy
+            )
         }
     private val navigateLessonDetailFlow = actionFlow
         .filterIsInstance<SuccessCreateLessonActionEvent.NavigateLessonDetail>()
@@ -70,7 +84,6 @@ class SuccessCreateLessonUiMachine(
 
         }
     override val outerNotifyScenarioActionFlow = merge(
-        copyLessonContractQr,
         navigateLessonDetailFlow,
     )
 
@@ -81,7 +94,9 @@ class SuccessCreateLessonUiMachine(
 
     override fun mergeStateChangeScenarioActionsFlow(): Flow<SuccessCreateLessonMachineState> {
         return merge(
-            loadLessonContractUrlFlow
+            loadLessonContractUrlFlow,
+            copyLessonContractQr,
+            hideDialogFlow
         )
     }
 }

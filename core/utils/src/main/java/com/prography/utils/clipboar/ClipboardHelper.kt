@@ -6,5 +6,5 @@ import androidx.annotation.StringRes
  * Created by MyeongKi.
  */
 interface ClipboardHelper {
-    fun copyToClipboard(copyText: String?, @StringRes resId: Int)
+    fun copyToClipboard(copyText: String?)
 }

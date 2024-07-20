@@ -114,4 +114,7 @@
     <string name="invite_complete">수업에 정상 초대되었습니다</string>
     <string name="invite_complete_desc">캘린더에서 수업 일정을 확인하고 관리해보세요</string>
 
+    <string name="success_create_lesson_copy_title">링크 복사</string>
+    <string name="success_create_lesson_copy_content">링크가 클립보드에 복사되었습니다</string>
+
 </resources>
