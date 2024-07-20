@@ -8,6 +8,7 @@ data class Lesson(
     val studentName: String,
     val schoolYear: String,
     val memo: String,
+    val hasStudent: Boolean,
     val lessonSubject: LessonSubject,
     val lessonDay: List<LessonDay>,
     val lessonDuration: LessonDuration,

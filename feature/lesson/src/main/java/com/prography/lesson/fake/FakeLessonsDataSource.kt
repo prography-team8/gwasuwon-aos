@@ -42,7 +42,8 @@ class FakeLessonsDataSource : LessonDataSource {
                 lessonContractUrl = "test url",
                 lessonNumberOfPostpone = 0,
                 lessonAttendanceDates = listOf(attendance.time, attendance2.time),
-                lessonAbsentDates = listOf(absent.time)
+                lessonAbsentDates = listOf(absent.time),
+                hasStudent = true
             )
         )
     }
@@ -77,7 +78,8 @@ class FakeLessonsDataSource : LessonDataSource {
                 lessonContractUrl = "test url",
                 lessonNumberOfPostpone = requestOption.lessonNumberOfPostpone,
                 lessonAttendanceDates = emptyList(),
-                lessonAbsentDates = emptyList()
+                lessonAbsentDates = emptyList(),
+                hasStudent = false
             )
             lessons.add(lesson)
             emit(lesson)
