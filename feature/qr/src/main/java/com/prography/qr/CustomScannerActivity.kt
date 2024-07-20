@@ -2,6 +2,7 @@ package com.prography.qr
 
 import android.app.Activity
 import android.os.Bundle
+import android.widget.ImageView
 import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.BarcodeView
@@ -13,6 +14,7 @@ import com.journeyapps.barcodescanner.DecoratedBarcodeView
 class CustomScannerActivity : Activity() {
 
     private lateinit var barcodeView: BarcodeView
+    private lateinit var backView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +22,10 @@ class CustomScannerActivity : Activity() {
 
         barcodeView = findViewById(R.id.zxing_barcode_scanner)
         barcodeView.decodeContinuous(callback)
+        backView = findViewById(R.id.back)
+        backView.setOnClickListener {
+            finish()
+        }
     }
 
     private val callback = BarcodeCallback { result: BarcodeResult ->
