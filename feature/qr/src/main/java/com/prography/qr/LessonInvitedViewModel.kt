@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.prography.domain.lesson.usecase.ParticipateLessonUseCase
+import com.prography.domain.preference.AccountPreference
 import com.prography.domain.qr.CommonQrEvent
 import kotlinx.coroutines.flow.MutableSharedFlow
 
@@ -14,27 +15,31 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 class LessonInvitedViewModel(
     navigateFlow: MutableSharedFlow<NavigationEvent>,
     commonQrFlow: MutableSharedFlow<CommonQrEvent>,
-    participateLessonUseCase: ParticipateLessonUseCase
+    participateLessonUseCase: ParticipateLessonUseCase,
+    accountPreference: AccountPreference
 ) : ViewModel() {
     val machine = LessonInvitedUiMachine(
         coroutineScope = viewModelScope,
         navigateFlow = navigateFlow,
         commonQrFlow = commonQrFlow,
         participateLessonUseCase = participateLessonUseCase,
+        accountPreference = accountPreference
     )
 
     companion object {
         fun provideFactory(
             navigateFlow: MutableSharedFlow<NavigationEvent>,
             commonQrFlow: MutableSharedFlow<CommonQrEvent>,
-            participateLessonUseCase: ParticipateLessonUseCase
+            participateLessonUseCase: ParticipateLessonUseCase,
+            accountPreference: AccountPreference
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return LessonInvitedViewModel(
                     navigateFlow,
                     commonQrFlow,
-                    participateLessonUseCase
+                    participateLessonUseCase,
+                    accountPreference
                 ) as T
             }
         }

@@ -2,6 +2,7 @@ package com.prography.qr
 
 import NavigationEvent
 import com.prography.domain.lesson.usecase.ParticipateLessonUseCase
+import com.prography.domain.preference.AccountPreference
 import com.prography.domain.qr.CommonQrEvent
 import com.prography.domain.qr.model.GwasuwonQr
 import com.prography.domain.qr.model.GwasuwonQrType
@@ -28,7 +29,8 @@ class LessonInvitedUiMachine(
     coroutineScope: CoroutineScope,
     navigateFlow: MutableSharedFlow<NavigationEvent>,
     commonQrFlow: MutableSharedFlow<CommonQrEvent>,
-    participateLessonUseCase: ParticipateLessonUseCase
+    participateLessonUseCase: ParticipateLessonUseCase,
+    accountPreference: AccountPreference
 ) : UiStateMachine<
         LessonInvitedUiState,
         LessonInvitedMachineState,
@@ -44,6 +46,11 @@ class LessonInvitedUiMachine(
         .filterIsInstance<LessonInvitedActionEvent.ParticipateLesson>()
         .transform {
             emitAll(participateLessonUseCase(it.lessonId).asResult())
+        }
+        .onEach {
+            if (it is Result.Success) {
+                accountPreference.setInvitedLessonId(it.data.lessonId)
+            }
         }
         .map {
             when (it) {
