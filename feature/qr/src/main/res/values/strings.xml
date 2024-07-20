@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="back">back</string>
     <string name="qr_scanner">qr_scanner</string>
     <string name="qr_desc">QR 코드를 인식해주세요</string>
 
