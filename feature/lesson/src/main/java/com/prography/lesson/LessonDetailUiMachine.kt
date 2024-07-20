@@ -106,6 +106,7 @@ class LessonDetailUiMachine(
                     val dates = it.data.second
                     LessonDetailMachineState(
                         isLoading = false,
+                        hasStudent = lesson.hasStudent,
                         lessonDates = dates.toPersistentSet(),
                         studentName = lesson.studentName,
                         lessonNumberOfProgress = lesson.lessonNumberOfProgress,
@@ -274,13 +275,20 @@ class LessonDetailUiMachine(
             }
         }
 
+    private val navigateInviteStudentQrFlow = actionFlow
+        .filterIsInstance<LessonDetailActionEvent.NavigateInviteStudentQr>()
+        .onEach {
+            navigateFlow.emit(NavigationEvent.NavigateInviteStudentQrRoute(lessonId = lessonId))
+        }
+
     override val outerNotifyScenarioActionFlow = merge(
         popBackFlow,
         navigateLessonCertificationQrFlow,
         navigateLessonInfoDetailFlow,
         deleteLessonFlow,
         updateLessonDeducted,
-        recognizeQrFlow
+        recognizeQrFlow,
+        navigateInviteStudentQrFlow
     )
 
     init {

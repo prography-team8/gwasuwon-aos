@@ -12,6 +12,7 @@ sealed interface LessonDetailIntent : Intent<LessonDetailActionEvent> {
     data class ClickDate(val date: Long) : LessonDetailIntent
     data object ClickCheckByAttendance : LessonDetailIntent
     data object ClickRecognizeQr : LessonDetailIntent
+    data object ClickInviteStudent : LessonDetailIntent
     data object ClickLessonInfoDetail : LessonDetailIntent
     data object ClickDeleteLesson : LessonDetailIntent
     data object ClickDialogCancel : LessonDetailIntent
@@ -60,6 +61,10 @@ sealed interface LessonDetailIntent : Intent<LessonDetailActionEvent> {
             is ClickRecognizeQr -> {
                 LessonDetailActionEvent.RecognizeQr
             }
+
+            is ClickInviteStudent -> {
+                LessonDetailActionEvent.NavigateInviteStudentQr
+            }
         }
     }
 }
@@ -79,4 +84,5 @@ sealed interface LessonDetailActionEvent : ActionEvent {
     data object RecognizeQr : LessonDetailActionEvent
     data object UpdateLessonDeducted : LessonDetailActionEvent
     data class CertificateLesson(val qrLessonId: Long) : LessonDetailActionEvent
+    data object NavigateInviteStudentQr : LessonDetailActionEvent
 }

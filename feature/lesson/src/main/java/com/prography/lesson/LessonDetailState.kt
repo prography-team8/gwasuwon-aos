@@ -19,6 +19,7 @@ data class LessonDetailMachineState(
     val lessonAttendanceDates: List<Long> = listOf(),
     val lessonAbsentDates: List<Long> = listOf(),
     val isLoading: Boolean = false,
+    val hasStudent: Boolean = false,
     val dialog: LessonDetailDialog = LessonDetailDialog.None
 ) : MachineInternalState<LessonDetailUiState> {
     override fun toUiState(): LessonDetailUiState {
@@ -43,7 +44,8 @@ data class LessonDetailMachineState(
             lessonAttendanceDates = lessonAttendanceDatesKr,
             lessonAbsentDates = lessonAbsentDatesKr,
             isLoading = isLoading,
-            dialog = dialog
+            dialog = dialog,
+            hasStudent = hasStudent
         )
     }
 }
@@ -56,6 +58,7 @@ data class LessonDetailUiState(
     val lessonAttendanceDates: ImmutableSet<Long>,
     val lessonAbsentDates: ImmutableSet<Long>,
     val isLoading: Boolean,
+    val hasStudent: Boolean,
     val dialog: LessonDetailDialog
 ) : UiState
 
