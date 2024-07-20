@@ -65,14 +65,16 @@
     <string name="lesson_start_date">수업 시작일</string>
     <string name="success_create_lesson_title">수업 생성이 완료되었어요!</string>
     <string name="success_create_lesson_subtitle">수업 정보 보기</string>
-    <string name="success_create_lesson_desc_1">QR 코드를 통해 학생을 과수원 앱에 초대하세요.</string>
-    <string name="success_create_lesson_desc_2">학부모님과 같이 계시다면 QR 코드를 통해, 같이 계시지  않다면 링크 공유를 통해 과외 계약서를 전달하세요.</string>
+    <string name="success_create_lesson_desc_1">링크 공유를 통해 과외 계약서를 전달하세요.</string>
+    <string name="success_create_lesson_desc_2">QR 코드를 통해 학생을 과수원 앱에 초대하세요.</string>
     <string name="success_create_lesson_desc_3">학생 초대, 계약 진행이 완료된 이후 수업을 진행하세요.</string>
     <string name="navigate_home">홈으로</string>
+    <string name="show_lesson_detail">수업 정보 보기</string>
+
     <string name="invite_student_qr">학생 초대 QR</string>
     <string name="invite_student_qr_desc">수업을 함께 진행하는 학생이 앱을 설치한 상태에서\nQR 코드를 스캔하면 선생님의 수업에 초대됩니다.</string>
 
-    <string name="lesson_contract">과외 계약서</string>
+    <string name="lesson_contract">과외 계약서 보내기</string>
     <string name="lesson_contract_qr_desc">아래 QR 코드를 스캔하거나 링크 공유를\n선택하면 과외 계약서 페이지로 이동합니다</string>
     <string name="common_confirm">확인</string>
     <string name="share_link">링크 공유</string>
@@ -111,5 +113,8 @@
     <string name="navigate_calendar">캘린더로 이동</string>
     <string name="invite_complete">수업에 정상 초대되었습니다</string>
     <string name="invite_complete_desc">캘린더에서 수업 일정을 확인하고 관리해보세요</string>
+
+    <string name="success_create_lesson_copy_title">링크 복사</string>
+    <string name="success_create_lesson_copy_content">링크가 클립보드에 복사되었습니다</string>
 
 </resources>

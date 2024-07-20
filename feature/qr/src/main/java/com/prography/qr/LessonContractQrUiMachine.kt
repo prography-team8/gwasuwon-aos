@@ -48,10 +48,11 @@ class LessonContractQrUiMachine(
         .onEach {
             navigateFlow.emit(NavigationEvent.NavigateLessonsRoute)
         }
+    //FIXME
     private val copyQrDataFlow = actionFlow
         .filterIsInstance<LessonContractQrActionEvent.CopyQrData>()
         .onEach {
-            clipboardHelper.copyToClipboard(machineInternalState.url, com.prography.ui.R.string.complete_copy)
+            clipboardHelper.copyToClipboard(machineInternalState.url)
         }
 
     private val generateQrFlow = actionFlow

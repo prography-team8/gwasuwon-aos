@@ -1,14 +1,20 @@
 package com.prography.lesson
 
 import NavigationEvent
+import com.prography.domain.lesson.usecase.LoadLessonContractUrlUseCase
 import com.prography.usm.holder.UiStateMachine
+import com.prography.usm.result.Result
+import com.prography.usm.result.asResult
+import com.prography.utils.clipboar.ClipboardHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.transform
 
 /**
  * Created by MyeongKi.
@@ -16,49 +22,81 @@ import kotlinx.coroutines.flow.onEach
 class SuccessCreateLessonUiMachine(
     coroutineScope: CoroutineScope,
     lessonId: Long,
-    navigateFlow: MutableSharedFlow<NavigationEvent>
+    navigateFlow: MutableSharedFlow<NavigationEvent>,
+    clipboardHelper: ClipboardHelper,
+    loadContractUrlUseCase: LoadLessonContractUrlUseCase
 ) : UiStateMachine<
         SuccessCreateLessonUiState,
         SuccessCreateLessonMachineState,
         SuccessCreateLessonActionEvent,
         SuccessCreateLessonIntent>(coroutineScope) {
-    override var machineInternalState: SuccessCreateLessonMachineState = SuccessCreateLessonMachineState
+    override var machineInternalState: SuccessCreateLessonMachineState = SuccessCreateLessonMachineState()
 
-    private val navigateLessonContractQrFlow = actionFlow
-        .filterIsInstance<SuccessCreateLessonActionEvent.NavigateLessonContractQr>()
-        .onEach {
-            navigateFlow.emit(NavigationEvent.NavigateLessonContractQrRoute(lessonId = lessonId))
+    private val loadLessonContractUrlFlow = actionFlow
+        .filterIsInstance<SuccessCreateLessonActionEvent.LoadLessonContractUrl>()
+        .transform {
+            emitAll(loadContractUrlUseCase(lessonId).asResult())
         }
-    private val navigateInviteStudentQrFlow = actionFlow
-        .filterIsInstance<SuccessCreateLessonActionEvent.NavigateInviteStudentQr>()
-        .onEach {
-            navigateFlow.emit(NavigationEvent.NavigateInviteStudentQrRoute(lessonId = lessonId))
+        .map {
+            when (it) {
+                is Result.Success -> {
+                    machineInternalState.copy(
+                        contractUrl = it.data,
+                        isLoading = false
+                    )
+                }
+
+                is Result.Loading -> {
+                    machineInternalState.copy(
+                        isLoading = true
+                    )
+                }
+
+                is Result.Error -> {
+                    machineInternalState.copy(
+                        isLoading = false
+                    )
+                }
+            }
         }
-    private val navigateHomeFlow = actionFlow
-        .filterIsInstance<SuccessCreateLessonActionEvent.NavigateHome>()
-        .onEach {
-            navigateFlow.emit(NavigationEvent.NavigateLessonsRoute)
+    private val hideDialogFlow = actionFlow
+        .filterIsInstance<SuccessCreateLessonActionEvent.HideDialog>()
+        .map {
+            machineInternalState.copy(
+                dialog = SuccessCreateLessonDialog.None
+            )
         }
-    private val navigateLessonInfoDetailFlow = actionFlow
-        .filterIsInstance<SuccessCreateLessonActionEvent.NavigateLessonInfoDetail>()
+    private val copyLessonContractQr = actionFlow
+        .filterIsInstance<SuccessCreateLessonActionEvent.CopyLessonContractQr>()
         .onEach {
-            navigateFlow.emit(NavigationEvent.NavigateLessonInfoDetailRoute(lessonId = lessonId))
+            clipboardHelper.copyToClipboard(machineInternalState.contractUrl)
+        }
+        .map {
+            machineInternalState.copy(
+                dialog = SuccessCreateLessonDialog.SuccessCopy
+            )
+        }
+    private val navigateLessonDetailFlow = actionFlow
+        .filterIsInstance<SuccessCreateLessonActionEvent.NavigateLessonDetail>()
+        .onEach {
+            navigateFlow.emit(NavigationEvent.PopBack)
+            navigateFlow.emit(NavigationEvent.NavigateLessonDetailRoute(lessonId = lessonId))
 
         }
     override val outerNotifyScenarioActionFlow = merge(
-        navigateLessonContractQrFlow,
-        navigateInviteStudentQrFlow,
-        navigateHomeFlow,
-        navigateLessonInfoDetailFlow
+        navigateLessonDetailFlow,
     )
 
     init {
         initMachine()
+        eventInvoker(SuccessCreateLessonActionEvent.LoadLessonContractUrl)
     }
 
     override fun mergeStateChangeScenarioActionsFlow(): Flow<SuccessCreateLessonMachineState> {
-        return flow {
-            emit(SuccessCreateLessonMachineState)
-        }
+        return merge(
+            loadLessonContractUrlFlow,
+            copyLessonContractQr,
+            hideDialogFlow
+        )
     }
 }

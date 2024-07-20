@@ -3,7 +3,6 @@ package com.prography.lesson.compose
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,23 +13,25 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import com.prography.ui.R
-import com.prography.ui.configuration.toColor
-import com.prography.ui.component.GwasuwonConfigurationManager
+import com.prography.lesson.SuccessCreateLessonDialog
 import com.prography.lesson.SuccessCreateLessonIntent
 import com.prography.lesson.SuccessCreateLessonViewModel
+import com.prography.ui.GwasuwonTypography
+import com.prography.ui.R
 import com.prography.ui.component.CommonBorderButton
 import com.prography.ui.component.CommonButton
-import com.prography.ui.GwasuwonTypography
+import com.prography.ui.component.CommonDialog
+import com.prography.ui.component.GwasuwonConfigurationManager
 import com.prography.ui.component.SpaceHeight
+import com.prography.ui.configuration.toColor
 
 /**
  * Created by MyeongKi.
@@ -39,9 +40,38 @@ import com.prography.ui.component.SpaceHeight
 fun SuccessCreateLessonRoute(
     viewModel: SuccessCreateLessonViewModel
 ) {
+    val uiState = viewModel.machine.uiState.collectAsState().value
     SuccessCreateLessonScreen(
         intent = viewModel.machine.intentInvoker
     )
+    SuccessCreateLessonDialog(
+        dialog = uiState.dialog,
+        intent = viewModel.machine.intentInvoker
+    )
+}
+
+@Composable
+private fun SuccessCreateLessonDialog(
+    dialog: SuccessCreateLessonDialog,
+    intent: (SuccessCreateLessonIntent) -> Unit
+) {
+    when (dialog) {
+        is SuccessCreateLessonDialog.SuccessCopy -> {
+            CommonDialog(
+                titleResId = R.string.success_create_lesson_copy_title,
+                contentResId = R.string.success_create_lesson_copy_content,
+                positiveResId = R.string.common_confirm,
+                onClickPositive = {
+                    intent(SuccessCreateLessonIntent.ClickDialog)
+                },
+                onClickBackground = {
+                    intent(SuccessCreateLessonIntent.ClickDialog)
+                }
+            )
+        }
+
+        else -> Unit
+    }
 }
 
 @Composable
@@ -63,11 +93,7 @@ private fun SuccessCreateLessonScreen(
         )
         SpaceHeight(height = 22)
         SuccessCreateLessonTitle()
-        SpaceHeight(height = 8)
-        SuccessCreateLessonSubtitle {
-            intent(SuccessCreateLessonIntent.ClickLessonInfoDetail)
-        }
-        SpaceHeight(height = 24)
+        SpaceHeight(height = 60)
         DescriptionBox(
             title = "1. ",
             descriptionResId = R.string.success_create_lesson_desc_1
@@ -83,16 +109,12 @@ private fun SuccessCreateLessonScreen(
             descriptionResId = R.string.success_create_lesson_desc_3
         )
         Spacer(modifier = Modifier.weight(1f))
-        CommonButton(textResId = R.string.invite_student_qr, isAvailable = true) {
-            intent(SuccessCreateLessonIntent.ClickInviteStudent)
-        }
-        SpaceHeight(height = 8)
         CommonButton(textResId = R.string.lesson_contract, isAvailable = true) {
             intent(SuccessCreateLessonIntent.ClickLessonContract)
         }
         SpaceHeight(height = 8)
-        CommonBorderButton(textResId = R.string.navigate_home) {
-            intent(SuccessCreateLessonIntent.ClickHome)
+        CommonBorderButton(textResId = R.string.show_lesson_detail) {
+            intent(SuccessCreateLessonIntent.ClickLessonDetail)
         }
     }
 }
@@ -103,20 +125,6 @@ private fun SuccessCreateLessonTitle() {
         text = stringResource(id = R.string.success_create_lesson_title),
         style = GwasuwonTypography.Headline1Bold.textStyle,
         color = GwasuwonConfigurationManager.colors.labelNormal.toColor()
-    )
-}
-
-@Composable
-private fun SuccessCreateLessonSubtitle(
-    onClick: () -> Unit
-) {
-    Text(
-        modifier = Modifier.clickable(onClick = onClick),
-        text = stringResource(id = R.string.success_create_lesson_subtitle),
-        style = GwasuwonTypography.Headline1Bold.textStyle.copy(
-            textDecoration = TextDecoration.Underline
-        ),
-        color = GwasuwonConfigurationManager.colors.primaryNormal.toColor()
     )
 }
 

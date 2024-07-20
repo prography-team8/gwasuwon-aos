@@ -36,6 +36,70 @@ import com.prography.ui.configuration.toColor
  * Created by MyeongKi.
  */
 
+@Composable
+fun CommonDialog(
+    @StringRes titleResId: Int,
+    @StringRes contentResId: Int,
+    @StringRes positiveResId: Int,
+    onClickPositive: () -> Unit,
+    onClickBackground: () -> Unit
+) {
+    DimScreen(
+        modifier = Modifier
+            .pointerInput(onClickBackground) {
+                detectTapGestures(
+                    onTap = { onClickBackground() }
+                )
+            }
+    ) {
+        Surface(
+            modifier = Modifier
+                .pointerInput(Unit) { detectTapGestures() }
+                .padding(horizontal = 28.dp)
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            shape = RoundedCornerShape(16.dp),
+            color = GwasuwonConfigurationManager.colors.backgroundElevatedAlternative.toColor()
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(
+                        top = 24.dp,
+                        bottom = 16.dp,
+                        start = 16.dp,
+                        end = 16.dp
+                    )
+                    .wrapContentHeight()
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = stringResource(id = titleResId),
+                    style = GwasuwonTypography.Heading1Bold.textStyle,
+                    textAlign = TextAlign.Center,
+                    color = GwasuwonConfigurationManager.colors.labelStrong.toColor()
+                )
+                SpaceHeight(height = 8)
+                Text(
+                    text = stringResource(id = contentResId),
+                    style = GwasuwonTypography.Label1NormalRegular.textStyle,
+                    textAlign = TextAlign.Center,
+                    color = GwasuwonConfigurationManager.colors.labelNeutral.toColor()
+                )
+                SpaceHeight(height = 32)
+                DialogColorButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    textRes = positiveResId,
+                    color = GwasuwonConfigurationManager.colors.primaryNormal.toColor(),
+                    onClick = onClickPositive
+                )
+            }
+        }
+    }
+    BackHandler {
+        onClickBackground()
+    }
+}
 
 @Composable
 fun ErrorDialog(

@@ -12,11 +12,10 @@ import androidx.annotation.StringRes
  */
 class ClipboardHelperImpl(private val context: Context) : ClipboardHelper {
 
-    override fun copyToClipboard(copyText: String?, @StringRes resId: Int) {
+    override fun copyToClipboard(copyText: String?) {
         val clipboard: ClipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText(LABEL, copyText)
         clipboard.setPrimaryClip(clip)
-        Toast.makeText(context, context.resources.getText(resId), Toast.LENGTH_SHORT).show();
     }
 
     companion object {

@@ -7,35 +7,28 @@ import com.prography.usm.action.Intent
  * Created by MyeongKi.
  */
 sealed interface SuccessCreateLessonIntent : Intent<SuccessCreateLessonActionEvent> {
-    data object ClickLessonInfoDetail : SuccessCreateLessonIntent
-    data object ClickInviteStudent : SuccessCreateLessonIntent
     data object ClickLessonContract : SuccessCreateLessonIntent
-    data object ClickHome : SuccessCreateLessonIntent
-
+    data object ClickLessonDetail:SuccessCreateLessonIntent
+    data object ClickDialog:SuccessCreateLessonIntent
     override fun toActionEvent(): SuccessCreateLessonActionEvent {
         return when (this) {
-            is ClickLessonInfoDetail -> {
-                SuccessCreateLessonActionEvent.NavigateLessonInfoDetail
-            }
 
             is ClickLessonContract -> {
-                SuccessCreateLessonActionEvent.NavigateLessonContractQr
+                SuccessCreateLessonActionEvent.CopyLessonContractQr
             }
-
-            is ClickInviteStudent -> {
-                SuccessCreateLessonActionEvent.NavigateInviteStudentQr
+            is ClickLessonDetail -> {
+                SuccessCreateLessonActionEvent.NavigateLessonDetail
             }
-
-            is ClickHome -> {
-                SuccessCreateLessonActionEvent.NavigateHome
+            is ClickDialog ->{
+                SuccessCreateLessonActionEvent.HideDialog
             }
         }
     }
 }
 
 sealed interface SuccessCreateLessonActionEvent : ActionEvent {
-    data object NavigateHome : SuccessCreateLessonActionEvent
-    data object NavigateLessonContractQr : SuccessCreateLessonActionEvent
-    data object NavigateInviteStudentQr : SuccessCreateLessonActionEvent
-    data object NavigateLessonInfoDetail : SuccessCreateLessonActionEvent
+    data object CopyLessonContractQr : SuccessCreateLessonActionEvent
+    data object NavigateLessonDetail : SuccessCreateLessonActionEvent
+    data object LoadLessonContractUrl : SuccessCreateLessonActionEvent
+    data object HideDialog : SuccessCreateLessonActionEvent
 }
