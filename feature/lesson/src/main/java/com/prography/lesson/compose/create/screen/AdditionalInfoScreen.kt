@@ -100,6 +100,19 @@ internal fun AdditionalInfoScreen(
             SpaceHeight(height = 32)
             CreateLessonInfoTitle(R.string.lesson_schedule)
             SpaceHeight(height = 32)
+            CreateLessonInfoSmallTitle(textResId = R.string.lesson_start_date)
+            SpaceHeight(height = 8)
+
+            DatePickerButton(
+                selectedDate = uiState.lessonStartDateTime ?: -1,
+                onClickConfirm = {
+                    intent(CreateLessonIntent.ClickLessonDate(it))
+                },
+                onExpandPicker = {
+                    focusManager.clearFocus()
+                }
+            )
+            SpaceHeight(height = 24)
             CreateLessonInfoSmallTitle(textResId = R.string.lesson_duration_title)
             SpaceHeight(height = 8)
             val lessonDuration = remember { LessonDuration.entries.toList() }
@@ -133,19 +146,6 @@ internal fun AdditionalInfoScreen(
                             it.toIntOrNull() ?: 1
                         )
                     )
-                }
-            )
-            SpaceHeight(height = 24)
-            CreateLessonInfoSmallTitle(textResId = R.string.lesson_start_date)
-            SpaceHeight(height = 8)
-
-            DatePickerButton(
-                selectedDate = uiState.lessonStartDateTime ?: -1,
-                onClickConfirm = {
-                    intent(CreateLessonIntent.ClickLessonDate(it))
-                },
-                onExpandPicker = {
-                    focusManager.clearFocus()
                 }
             )
             SpaceHeight(height = 24)
