@@ -30,6 +30,7 @@ import com.prography.ui.R
 import com.prography.ui.configuration.toColor
 import com.prography.ui.component.GwasuwonConfigurationManager
 import com.prography.ui.GwasuwonTypography
+import com.prography.ui.component.LoadingTransparentScreen
 
 /**
  * Created by MyeongKi.
@@ -42,6 +43,9 @@ fun SignInRoute(
     val uiState = viewModel.machine.uiState.collectAsState().value
     val intentInvoker = viewModel.machine.intentInvoker
     SignInScreen(intentInvoker)
+    if (uiState.isLoading) {
+        LoadingTransparentScreen()
+    }
 }
 
 @Composable
