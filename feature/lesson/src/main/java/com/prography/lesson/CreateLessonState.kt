@@ -23,7 +23,8 @@ data class CreateLessonMachineState(
     val lessonNumberOfPostpone: Int? = null,
     val lessonStartDateTime: Long? = null,
     val lessonContractUrl: String = "",
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val dialog: CreateLessonDialog = CreateLessonDialog.None
 ) : MachineInternalState<CreateLessonUiState> {
     fun availableDefaultInfo() = studentName.isNotEmpty() && schoolYear.isNotEmpty()
     fun availableAdditionalInfo() = lessonSubject != null
@@ -53,7 +54,8 @@ data class CreateLessonMachineState(
                     lessonNumberOfProgress = lessonNumberOfProgress,
                     lessonNumberOfPostpone = lessonNumberOfPostpone,
                     lessonStartDateTime = lessonStartDateTime,
-                    availableNextBtn = availableAdditionalInfo()
+                    availableNextBtn = availableAdditionalInfo(),
+                    dialog = dialog
                 )
             }
         }
@@ -76,7 +78,8 @@ sealed interface CreateLessonUiState : UiState {
         val lessonNumberOfPostpone: Int? = null,
         val lessonStartDateTime: Long? = null,
         val availableNextBtn: Boolean,
-        val isLoading: Boolean = false
+        val isLoading: Boolean = false,
+        val dialog: CreateLessonDialog = CreateLessonDialog.None
     ) : CreateLessonUiState
 }
 
@@ -94,4 +97,9 @@ enum class CreateLessonScreenType(val page: Int) {
     fun prev(): CreateLessonScreenType? {
         return entries.find { (this.page - 1) == it.page }
     }
+}
+
+sealed interface CreateLessonDialog {
+    data object None:CreateLessonDialog
+    data object PostponeInformation:CreateLessonDialog
 }
