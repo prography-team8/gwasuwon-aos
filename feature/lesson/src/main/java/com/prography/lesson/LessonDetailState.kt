@@ -25,14 +25,15 @@ data class LessonDetailMachineState(
         val focusDateKr = focusDate.toKrMonthDateTime()
         val lessonAttendanceDatesKr = lessonAttendanceDates.asSequence().map { it.toKrMonthDateTime() }.toImmutableSet()
         val lessonAbsentDatesKr = lessonAbsentDates.asSequence().map { it.toKrMonthDateTime() }.toImmutableSet()
-        val lessonDateInfoUiState = if (lessonDates.contains(focusDateKr).not()) {
-            LessonDateInfoUiState.NoLesson
+        val lessonDateInfoUiState = if (lessonDates.contains(focusDateKr)) {
+            LessonDateInfoUiState.ScheduleLesson
         } else if (lessonAbsentDatesKr.contains(focusDateKr)) {
             LessonDateInfoUiState.AbsentLesson
         } else if (lessonAttendanceDatesKr.contains(focusDateKr)) {
             LessonDateInfoUiState.CompletedLesson
         } else {
-            LessonDateInfoUiState.ScheduleLesson
+            LessonDateInfoUiState.NoLesson
+
         }
         return LessonDetailUiState(
             studentName = studentName,
