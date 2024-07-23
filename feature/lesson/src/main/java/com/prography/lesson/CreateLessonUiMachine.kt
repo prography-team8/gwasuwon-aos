@@ -176,6 +176,22 @@ class CreateLessonUiMachine(
                 lessonStartDateTime = it.lessonStartDateTime
             )
         }
+
+    private val hideDialogFlow = actionFlow
+        .filterIsInstance<CreateLessonActionEvent.HideDialog>()
+        .map {
+            machineInternalState.copy(
+                dialog = CreateLessonDialog.None
+            )
+        }
+
+    private val showPostponeInformationDialogFlow = actionFlow
+        .filterIsInstance<CreateLessonActionEvent.ShowPostponeInformationDialog>()
+        .map {
+            machineInternalState.copy(
+                dialog = CreateLessonDialog.PostponeInformation
+            )
+        }
     override val outerNotifyScenarioActionFlow = null
 
     init {
@@ -195,7 +211,9 @@ class CreateLessonUiMachine(
             updateLessonNumberOfProgressFlow,
             updateLessonStartDateFlow,
             updateLessonNumberOfPostponeFlow,
-            popBackFlow
+            popBackFlow,
+            hideDialogFlow,
+            showPostponeInformationDialogFlow
         )
     }
 }

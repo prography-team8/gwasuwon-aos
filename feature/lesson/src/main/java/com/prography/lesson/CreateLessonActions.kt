@@ -18,6 +18,8 @@ sealed interface CreateLessonIntent : Intent<CreateLessonActionEvent> {
     data class ClickLessonNumberOfPostpone(val lessonNumberOfPostpone: Int) : CreateLessonIntent
     data class ClickLessonSubject(val lessonSubject: LessonSubject) : CreateLessonIntent
     data class ClickLessonDate(val lessonStartDateTime: Long) : CreateLessonIntent
+    data object ClickPostponeInformationIcon : CreateLessonIntent
+    data object ClickDialog : CreateLessonIntent
 
     override fun toActionEvent(): CreateLessonActionEvent {
         return when (this) {
@@ -32,7 +34,8 @@ sealed interface CreateLessonIntent : Intent<CreateLessonActionEvent> {
             is ClickLessonSubject -> {
                 CreateLessonActionEvent.UpdateLessonSubject(lessonSubject)
             }
-            is ClickLessonNumberOfPostpone->{
+
+            is ClickLessonNumberOfPostpone -> {
                 CreateLessonActionEvent.UpdateLessonNumberOfPostpone(lessonNumberOfPostpone)
             }
 
@@ -50,6 +53,14 @@ sealed interface CreateLessonIntent : Intent<CreateLessonActionEvent> {
 
             is ClickBack -> {
                 CreateLessonActionEvent.PopBack
+            }
+
+            is ClickPostponeInformationIcon -> {
+                CreateLessonActionEvent.ShowPostponeInformationDialog
+            }
+
+            is ClickDialog -> {
+                CreateLessonActionEvent.HideDialog
             }
         }
     }
@@ -95,4 +106,7 @@ sealed interface CreateLessonActionEvent : ActionEvent {
     data class UpdateLessonStartDate(
         val lessonStartDateTime: Long
     ) : CreateLessonActionEvent
+
+    data object ShowPostponeInformationDialog : CreateLessonActionEvent
+    data object HideDialog : CreateLessonActionEvent
 }

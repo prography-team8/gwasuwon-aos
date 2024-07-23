@@ -29,18 +29,21 @@ import com.prography.domain.lesson.model.LessonDay
 import com.prography.domain.lesson.model.LessonDuration
 import com.prography.domain.lesson.model.LessonSubject
 import com.prography.lesson.CreateLessonActionEvent
+import com.prography.lesson.CreateLessonDialog
 import com.prography.lesson.CreateLessonIntent
 import com.prography.lesson.CreateLessonUiState
+import com.prography.lesson.compose.LessonInfoInputItem
 import com.prography.lesson.compose.create.CreateLessonHeader
+import com.prography.lesson.compose.create.CreateLessonInfoSmallExclamationTitle
 import com.prography.lesson.compose.create.CreateLessonInfoSmallTitle
 import com.prography.lesson.compose.create.CreateLessonInfoTitle
-import com.prography.lesson.compose.LessonInfoInputItem
 import com.prography.lesson.utils.getLessonDayStringRes
 import com.prography.lesson.utils.getLessonDurationStringRes
 import com.prography.lesson.utils.getLessonSubjectStringRes
 import com.prography.ui.GwasuwonTypography
 import com.prography.ui.R
 import com.prography.ui.component.CommonButton
+import com.prography.ui.component.CommonDialog
 import com.prography.ui.component.DatePickerButton
 import com.prography.ui.component.DropdownMenuComponent
 import com.prography.ui.component.GwasuwonConfigurationManager
@@ -146,7 +149,9 @@ internal fun AdditionalInfoScreen(
                 }
             )
             SpaceHeight(height = 24)
-            CreateLessonInfoSmallTitle(textResId = R.string.postpone_lesson_title)
+            CreateLessonInfoSmallExclamationTitle(textResId = R.string.postpone_lesson_title) {
+                intent(CreateLessonIntent.ClickPostponeInformationIcon)
+            }
             SpaceHeight(height = 8)
             SelectLessonNumberOfPostpone(
                 uiState.lessonNumberOfPostpone
@@ -162,6 +167,19 @@ internal fun AdditionalInfoScreen(
                 intent(CreateLessonIntent.ClickCreateLesson)
             }
         }
+    }
+    if (uiState.dialog == CreateLessonDialog.PostponeInformation) {
+        CommonDialog(
+            titleResId = R.string.lesson_postpone_title,
+            contentResId = R.string.lesson_postpone_content,
+            positiveResId = R.string.common_confirm,
+            onClickPositive = {
+                intent(CreateLessonIntent.ClickDialog)
+            },
+            onClickBackground = {
+                intent(CreateLessonIntent.ClickDialog)
+            }
+        )
     }
 }
 
