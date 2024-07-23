@@ -4,6 +4,7 @@ androidTools = "31.4.0"
 kotlin = "1.9.0"
 kotlinCollections = "0.3.5"
 kotlinDateTime = "0.6.0"
+splash = "1.0.1"
 
 kotlinCoroutines = "1.8.1"
 coreKtx = "1.13.1"
@@ -20,7 +21,7 @@ appcompat = "1.6.1"
 material = "1.12.0"
 jetbrainsKotlinJvm = "1.9.0"
 androidCompileSdk = "34"
-androidMinSdk = "26"
+androidMinSdk = "31"
 androidTargetSdk = "34"
 androidxJunit = "1.1.5"
 espressoCoreVersion = "3.5.1"
@@ -50,6 +51,8 @@ material = { group = "com.google.android.material", name = "material", version.r
 security-crypto = {group = "androidx.security", name = "security-crypto", version.ref = "security"}
 androidx-navigation = {group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation"}
 android-systemuicontroller = {group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist-systemuicontroller"}
+androidx-splash = {group = "androidx.core", name = "core-splashscreen", version.ref = "splash"}
+
 #kotlin
 kotlin-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
 kotlin-collections = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinCollections" }

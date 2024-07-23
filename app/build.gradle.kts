@@ -36,6 +36,7 @@ dependencies {
     implementation(libs.androidx.navigation)
     implementation(libs.ktor.client.core)
     implementation(libs.kakao.login)
+    implementation(libs.androidx.splash)
 
     testImplementation(libs.junit)
 }
