@@ -51,11 +51,7 @@ class LessonRepositoryImpl(
     }
 
     override fun updateLesson(requestOption: UpdateLessonRequestOption): Flow<Lesson> {
-        return remoteSource.updateLesson(
-            requestOption.copy(
-                lessonStartDateTime = requestOption.lessonStartDateTime.toUtcTimeMillis(),
-            )
-        )
+        return remoteSource.updateLesson(requestOption)
     }
 
     override fun deleteLesson(lessonId: Long): Flow<Unit> {
