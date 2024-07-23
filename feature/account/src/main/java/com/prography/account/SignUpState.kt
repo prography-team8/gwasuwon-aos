@@ -26,7 +26,7 @@ data class SignUpMachineState(
             }
 
             SignUpScreenType.SELECT_ROLE -> {
-                SignUpUiState.SelectRole(roleType = roleType)
+                SignUpUiState.SelectRole(roleType = roleType, isLoading = isLoading)
             }
 
             SignUpScreenType.COMPLETE -> {
@@ -49,7 +49,8 @@ sealed interface SignUpUiState : UiState {
     ) : SignUpUiState
 
     data class SelectRole(
-        val roleType: AccountRole? = null
+        val roleType: AccountRole? = null,
+        val isLoading: Boolean
     ) : SignUpUiState
 
     data object Complete : SignUpUiState
