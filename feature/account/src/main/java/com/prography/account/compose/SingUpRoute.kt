@@ -37,6 +37,7 @@ import com.prography.ui.GwasuwonTypography
 import com.prography.ui.R
 import com.prography.ui.component.CommonButton
 import com.prography.ui.component.GwasuwonConfigurationManager
+import com.prography.ui.component.LoadingTransparentScreen
 import com.prography.ui.component.SpaceHeight
 import com.prography.ui.component.SpaceWidth
 import com.prography.ui.configuration.toColor
@@ -52,7 +53,7 @@ fun SignUpRoute(
     val intentInvoker = viewModel.machine.intentInvoker
     when (uiState) {
         is SignUpUiState.Agreement -> SignUpAgreementScreen(uiState, intentInvoker)
-        is SignUpUiState.SelectRole -> SignUpSelectRoleScreen(intentInvoker)
+        is SignUpUiState.SelectRole -> SignUpSelectRoleScreen(uiState, intentInvoker)
         is SignUpUiState.Complete -> SignUpCompleteRoute(intentInvoker)
     }
 }
@@ -253,6 +254,7 @@ private fun AgreementButton(
 
 @Composable
 private fun SignUpSelectRoleScreen(
+    uiState: SignUpUiState.SelectRole,
     intent: (SignUpIntent) -> Unit
 ) {
     Column(
@@ -285,6 +287,9 @@ private fun SignUpSelectRoleScreen(
         ) {
             intent(SignUpIntent.ClickStudent)
         }
+    }
+    if (uiState.isLoading) {
+        LoadingTransparentScreen()
     }
 }
 
