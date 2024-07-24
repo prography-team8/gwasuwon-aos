@@ -6,6 +6,6 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowSplashScreenBackground">@color/blue_50</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_logo</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_inset</item>
     </style>
 </resources>
