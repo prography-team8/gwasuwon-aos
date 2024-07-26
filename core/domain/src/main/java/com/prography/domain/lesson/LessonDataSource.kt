@@ -3,7 +3,6 @@ package com.prography.domain.lesson
 import com.prography.domain.lesson.model.Lesson
 import com.prography.domain.lesson.model.LessonCard
 import com.prography.domain.lesson.model.LessonSchedules
-import com.prography.domain.lesson.request.CheckLessonByAttendanceRequestOption
 import com.prography.domain.lesson.request.CreateLessonRequestOption
 import com.prography.domain.lesson.request.UpdateLessonRequestOption
 import kotlinx.coroutines.flow.Flow
@@ -16,10 +15,10 @@ interface LessonDataSource {
     fun loadLessonCards(): Flow<List<LessonCard>>
     fun createLesson(requestOption: CreateLessonRequestOption): Flow<Lesson>
     fun loadLessonSchedules(lessonId: Long): Flow<LessonSchedules>
-    fun loadLessonInfoDetail(lessonId: Long): Flow<Lesson>
+    fun loadLesson(lessonId: Long): Flow<Lesson>
     fun updateLesson(requestOption: UpdateLessonRequestOption): Flow<Lesson>
     fun deleteLesson(lessonId: Long): Flow<Unit>
-    fun checkLessonByAttendance(requestOption: CheckLessonByAttendanceRequestOption): Flow<LessonSchedules>
+    fun updateForceAttendanceLesson(scheduleId: Long): Flow<Long>
     fun joinLesson(lessonId: Long): Flow<Long>
-    fun certificateLesson(lessonId: Long): Flow<Lesson>
+    fun updateAttendanceLesson(lessonId: Long): Flow<Long>
 }

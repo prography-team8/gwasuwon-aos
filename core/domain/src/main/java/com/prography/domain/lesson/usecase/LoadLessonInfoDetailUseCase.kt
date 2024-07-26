@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 class LoadLessonInfoDetailUseCase (private val repository: LessonRepository) {
     operator fun invoke(lessonId: Long): Flow<Lesson> {
-        return repository.loadLessonInfoDetail(lessonId)
+        return repository.loadLesson(lessonId)
     }
 }

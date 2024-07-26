@@ -2,6 +2,7 @@ package com.prography.lesson
 
 import NavigationEvent
 import com.prography.domain.lesson.CommonLessonEvent
+import com.prography.domain.lesson.request.CreateLessonRequestOption
 import com.prography.domain.lesson.request.UpdateLessonRequestOption
 import com.prography.domain.lesson.usecase.LoadLessonInfoDetailUseCase
 import com.prography.domain.lesson.usecase.UpdateLessonUseCase
@@ -72,15 +73,17 @@ class LessonInfoDetailUiMachine(
             emitAll(
                 updateLessonUseCase(
                     UpdateLessonRequestOption(
-                        studentName = machineInternalState.studentName,
-                        schoolYear = machineInternalState.schoolYear,
-                        memo = machineInternalState.originalLessonInfo?.memo ?: "",
-                        lessonSubject = machineInternalState.lessonSubject!!,
-                        lessonDay = machineInternalState.lessonDay.toList(),
-                        lessonDuration = machineInternalState.lessonDuration!!,
-                        lessonNumberOfProgress = machineInternalState.lessonNumberOfProgress!!,
-                        lessonStartDateTime = machineInternalState.lessonStartDateTime!!,
-                        lessonNumberOfPostpone = machineInternalState.lessonNumberOfPostpone!!,
+                        updateOption = CreateLessonRequestOption(
+                            studentName = machineInternalState.studentName,
+                            grade = machineInternalState.schoolYear,
+                            memo = machineInternalState.originalLessonInfo?.memo ?: "",
+                            subject = machineInternalState.lessonSubject!!,
+                            lessonDays = machineInternalState.lessonDay.toList(),
+                            sessionDuration = machineInternalState.lessonDuration!!,
+                            numberOfSessions = machineInternalState.lessonNumberOfProgress!!,
+                            startDate = machineInternalState.lessonStartDateTime!!,
+                            rescheduleCount = machineInternalState.lessonNumberOfPostpone!!,
+                        ),
                         lessonId = machineInternalState.originalLessonInfo?.lessonId!!
                     )
                 ).asResult()

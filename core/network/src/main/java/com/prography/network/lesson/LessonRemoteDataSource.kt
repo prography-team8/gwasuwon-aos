@@ -9,7 +9,6 @@ import com.prography.domain.lesson.model.LessonSchedule
 import com.prography.domain.lesson.model.LessonScheduleStatus
 import com.prography.domain.lesson.model.LessonSchedules
 import com.prography.domain.lesson.model.LessonSubject
-import com.prography.domain.lesson.request.CheckLessonByAttendanceRequestOption
 import com.prography.domain.lesson.request.CreateLessonRequestOption
 import com.prography.domain.lesson.request.UpdateLessonRequestOption
 import kotlinx.coroutines.flow.Flow
@@ -62,7 +61,7 @@ class LessonRemoteDataSource(
     }
 
     override fun loadLessonSchedules(lessonId: Long): Flow<LessonSchedules> = flow {
-        val result = httpClient.requestLessonSchedules(lessonId)
+        val result = httpClient.requestLessonDetail(lessonId)
         emit(
             LessonSchedules(
                 id = result.id,
@@ -80,20 +79,49 @@ class LessonRemoteDataSource(
         )
     }
 
-    override fun loadLessonInfoDetail(lessonId: Long): Flow<Lesson> {
-        throw NotImplementedError()
+    override fun loadLesson(lessonId: Long): Flow<Lesson> = flow {
+        val result = httpClient.requestLessonDetail(lessonId)
+        emit(
+            Lesson(
+                lessonId = result.id,
+                studentName = result.studentName,
+                grade = result.grade,
+                memo = result.memo,
+                subject = LessonSubject.valueOf(result.subject),
+                classDays = result.classDays.map { LessonDay.valueOf(it) },
+                sessionDuration = LessonDuration.valueOf(result.sessionDuration),
+                numberOfSessions = result.numberOfSessions,
+                rescheduleCount = result.rescheduleCount,
+                startDate = result.startDate
+            )
+        )
     }
 
-    override fun updateLesson(requestOption: UpdateLessonRequestOption): Flow<Lesson> {
-        throw NotImplementedError()
+    override fun updateLesson(requestOption: UpdateLessonRequestOption): Flow<Lesson> = flow {
+        val result = httpClient.requestUpdateLesson(requestOption)
+        emit(
+            Lesson(
+                lessonId = result.id,
+                studentName = result.studentName,
+                grade = result.grade,
+                memo = result.memo,
+                subject = LessonSubject.valueOf(result.subject),
+                classDays = result.classDays.map { LessonDay.valueOf(it) },
+                sessionDuration = LessonDuration.valueOf(result.sessionDuration),
+                numberOfSessions = result.numberOfSessions,
+                rescheduleCount = result.rescheduleCount,
+                startDate = result.startDate
+            )
+        )
+    }
+    override fun deleteLesson(lessonId: Long): Flow<Unit> = flow {
+        httpClient.requestDeleteLesson(lessonId)
+        emit(Unit)
     }
 
-    override fun deleteLesson(lessonId: Long): Flow<Unit> {
-        throw NotImplementedError()
-    }
-
-    override fun checkLessonByAttendance(requestOption: CheckLessonByAttendanceRequestOption): Flow<LessonSchedules> {
-        throw NotImplementedError()
+    override fun updateForceAttendanceLesson(scheduleId: Long): Flow<Long>  = flow {
+        httpClient.requestForceAttendanceLesson(scheduleId)
+        emit(scheduleId)
     }
 
     override fun joinLesson(lessonId: Long): Flow<Long> = flow {
@@ -101,8 +129,8 @@ class LessonRemoteDataSource(
         emit(result.id)
     }
 
-    override fun certificateLesson(lessonId: Long): Flow<Lesson> {
-        throw NotImplementedError()
+    override fun updateAttendanceLesson(lessonId: Long): Flow<Long> = flow {
+        httpClient.requestAttendanceLesson(lessonId)
+        emit(lessonId)
     }
-
 }

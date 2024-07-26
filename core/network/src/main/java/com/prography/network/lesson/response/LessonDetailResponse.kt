@@ -6,15 +6,24 @@ import kotlinx.serialization.Serializable
  * Created by MyeongKi.
  */
 @Serializable
-data class LessonDetailInfoResponse(
+data class LessonDetailResponse(
     val id: Long,
     val studentName: String,
     val grade: String,
     val memo: String,
     val subject: String,
     val sessionDuration: String,
-    val startDate: Long,
-    val classDays: List<String>,
+    val classDays:List<String>,
     val numberOfSessions: Int,
-    val rescheduleCount: Int
+    val startDate: Long,
+    val rescheduleCount: Int,
+    val hasStudent: Boolean,
+    val schedules: List<ScheduleResponse>,
+)
+
+@Serializable
+data class ScheduleResponse(
+    val id: Long,
+    val date: Long,
+    val status: String,
 )

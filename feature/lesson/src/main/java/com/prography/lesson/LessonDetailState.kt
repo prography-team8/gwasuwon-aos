@@ -16,7 +16,7 @@ data class LessonDetailMachineState(
     val focusDate: Long = -1,
     val lessonDates: ImmutableSet<Long> = persistentSetOf(),
     val lessonAttendanceDates: List<Long> = listOf(),
-    val lessonAbsentDates: List<Long> = listOf(),
+    val lessonAbsentDates: List<LessonAbsentDate> = listOf(),
     val isLoading: Boolean = false,
     val hasStudent: Boolean = false,
     val dialog: LessonDetailDialog = LessonDetailDialog.None
@@ -24,7 +24,7 @@ data class LessonDetailMachineState(
     override fun toUiState(): LessonDetailUiState {
         val focusDateKr = focusDate.toKrMonthDateTime()
         val lessonAttendanceDatesKr = lessonAttendanceDates.asSequence().map { it.toKrMonthDateTime() }.toImmutableSet()
-        val lessonAbsentDatesKr = lessonAbsentDates.asSequence().map { it.toKrMonthDateTime() }.toImmutableSet()
+        val lessonAbsentDatesKr = lessonAbsentDates.asSequence().map { it.date.toKrMonthDateTime() }.toImmutableSet()
         val lessonDateInfoUiState = if (lessonDates.contains(focusDateKr)) {
             LessonDateInfoUiState.ScheduleLesson
         } else if (lessonAbsentDatesKr.contains(focusDateKr)) {
@@ -48,6 +48,11 @@ data class LessonDetailMachineState(
         )
     }
 }
+
+data class LessonAbsentDate(
+    val date: Long,
+    val scheduleId: Long
+)
 
 data class LessonDetailUiState(
     val studentName: String,

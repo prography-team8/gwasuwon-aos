@@ -9,7 +9,6 @@ import com.prography.domain.lesson.PAGE_SIZE
 import com.prography.domain.lesson.model.Lesson
 import com.prography.domain.lesson.model.LessonCard
 import com.prography.domain.lesson.model.LessonSchedules
-import com.prography.domain.lesson.request.CheckLessonByAttendanceRequestOption
 import com.prography.domain.lesson.request.CreateLessonRequestOption
 import com.prography.domain.lesson.request.UpdateLessonRequestOption
 import com.prography.utils.date.toUtcTimeMillis
@@ -46,8 +45,8 @@ class LessonRepositoryImpl(
         return remoteSource.loadLessonSchedules(lessonId)
     }
 
-    override fun loadLessonInfoDetail(lessonId: Long): Flow<Lesson> {
-        return remoteSource.loadLessonInfoDetail(lessonId)
+    override fun loadLesson(lessonId: Long): Flow<Lesson> {
+        return remoteSource.loadLesson(lessonId)
     }
 
     override fun updateLesson(requestOption: UpdateLessonRequestOption): Flow<Lesson> {
@@ -58,19 +57,15 @@ class LessonRepositoryImpl(
         return remoteSource.deleteLesson(lessonId)
     }
 
-    override fun checkLessonByAttendance(requestOption: CheckLessonByAttendanceRequestOption): Flow<LessonSchedules> {
-        return remoteSource.checkLessonByAttendance(
-            requestOption.copy(
-                lessonAbsentDate = requestOption.lessonAbsentDate.toUtcTimeMillis(),
-            )
-        )
+    override fun updateForceAttendanceLesson(scheduleId: Long): Flow<Long> {
+        return remoteSource.updateForceAttendanceLesson(scheduleId)
     }
 
     override fun joinLesson(lessonId: Long): Flow<Long> {
         return remoteSource.joinLesson(lessonId)
     }
 
-    override fun certificateLesson(lessonId: Long): Flow<Lesson> {
-        return remoteSource.certificateLesson(lessonId)
+    override fun updateAttendanceLesson(lessonId: Long): Flow<Long> {
+        return remoteSource.updateAttendanceLesson(lessonId)
     }
 }

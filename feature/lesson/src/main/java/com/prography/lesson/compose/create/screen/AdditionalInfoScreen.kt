@@ -47,6 +47,7 @@ import com.prography.ui.component.CommonDialog
 import com.prography.ui.component.DatePickerButton
 import com.prography.ui.component.DropdownMenuComponent
 import com.prography.ui.component.GwasuwonConfigurationManager
+import com.prography.ui.component.LoadingTransparentScreen
 import com.prography.ui.component.SpaceHeight
 import com.prography.ui.configuration.toColor
 import kotlinx.collections.immutable.ImmutableSet
@@ -180,6 +181,9 @@ internal fun AdditionalInfoScreen(
                 intent(CreateLessonIntent.ClickDialog)
             }
         )
+    }
+    if (uiState.isLoading) {
+        LoadingTransparentScreen()
     }
 }
 

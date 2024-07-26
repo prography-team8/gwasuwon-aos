@@ -61,17 +61,22 @@ class LessonContractQrUiMachine(
         .map {
             when (it) {
                 is Result.Error -> {
-                    machineInternalState
+                    machineInternalState.copy(
+                        isLoading = false
+                    )
                 }
 
                 is Result.Loading -> {
-                    machineInternalState
+                    machineInternalState.copy(
+                        isLoading = true
+                    )
                 }
 
                 is Result.Success -> {
                     machineInternalState.copy(
                         qr = it.data.first,
-                        url = it.data.second
+                        url = it.data.second,
+                        isLoading = false
                     )
                 }
             }

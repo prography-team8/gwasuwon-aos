@@ -236,10 +236,10 @@ fun GwasuwonNavGraph(
                             commonLessonEvent = AppContainer.commonLessonEvent,
                             loadLessonSchedulesUseCase = AppContainer.loadLessonSchedulesUseCase,
                             deleteLessonUseCase = AppContainer.deleteLessonUseCase,
-                            checkLessonByAttendanceUseCase = AppContainer.checkLessonByAttendanceUseCase,
+                            updateForceAttendanceLessonUseCase = AppContainer.updateForceAttendanceLessonUseCase,
                             isShowingNotifyLessonDeductedDialogUseCase = AppContainer.isShowingNotifyLessonDeductedDialogUseCase,
                             updateShownNotifyLessonDeductedDialogUseCase = AppContainer.updateShownNotifyLessonDeductedDialogUseCase,
-                            certificateLessonUseCase = AppContainer.certificateLessonUseCase
+                            updateAttendanceLessonUseCase = AppContainer.updateAttendanceLessonUseCase
                         )
                     ),
                     isTeacher = accountInfoManager.getAccountInfo()?.role == AccountRole.TEACHER

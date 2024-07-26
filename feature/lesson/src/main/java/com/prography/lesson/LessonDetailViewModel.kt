@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.prography.domain.dialog.usecase.IsShowingNotifyLessonDeductedDialogUseCase
 import com.prography.domain.dialog.usecase.UpdateShownNotifyLessonDeductedDialogUseCase
 import com.prography.domain.lesson.CommonLessonEvent
-import com.prography.domain.lesson.usecase.CertificateLessonUseCase
-import com.prography.domain.lesson.usecase.CheckLessonByAttendanceUseCase
+import com.prography.domain.lesson.usecase.UpdateAttendanceLessonUseCase
+import com.prography.domain.lesson.usecase.UpdateForceAttendanceLessonUseCase
 import com.prography.domain.lesson.usecase.DeleteLessonUseCase
 import com.prography.domain.lesson.usecase.LoadLessonSchedulesUseCase
 import com.prography.domain.qr.CommonQrEvent
@@ -25,10 +25,10 @@ class LessonDetailViewModel(
     commonQrFlow: MutableSharedFlow<CommonQrEvent>,
     loadLessonSchedulesUseCase: LoadLessonSchedulesUseCase,
     deleteLessonUseCase: DeleteLessonUseCase,
-    checkLessonByAttendanceUseCase: CheckLessonByAttendanceUseCase,
+    updateForceAttendanceLessonUseCase: UpdateForceAttendanceLessonUseCase,
     isShowingNotifyLessonDeductedDialogUseCase: IsShowingNotifyLessonDeductedDialogUseCase,
     updateShownNotifyLessonDeductedDialogUseCase: UpdateShownNotifyLessonDeductedDialogUseCase,
-    certificateLessonUseCase: CertificateLessonUseCase
+    updateAttendanceLessonUseCase: UpdateAttendanceLessonUseCase
 ) : ViewModel() {
     val machine = LessonDetailUiMachine(
         lessonId = lessonId,
@@ -39,10 +39,10 @@ class LessonDetailViewModel(
         commonLessonEvent = commonLessonEvent,
         loadLessonSchedulesUseCase = loadLessonSchedulesUseCase,
         deleteLessonUseCase = deleteLessonUseCase,
-        checkLessonByAttendanceUseCase = checkLessonByAttendanceUseCase,
+        updateForceAttendanceLessonUseCase = updateForceAttendanceLessonUseCase,
         isShowingNotifyLessonDeductedDialogUseCase = isShowingNotifyLessonDeductedDialogUseCase,
         updateShownNotifyLessonDeductedDialogUseCase = updateShownNotifyLessonDeductedDialogUseCase,
-        certificateLessonUseCase = certificateLessonUseCase
+        updateAttendanceLessonUseCase = updateAttendanceLessonUseCase
     )
 
     companion object {
@@ -54,10 +54,10 @@ class LessonDetailViewModel(
             commonLessonEvent: MutableSharedFlow<CommonLessonEvent>,
             loadLessonSchedulesUseCase: LoadLessonSchedulesUseCase,
             deleteLessonUseCase: DeleteLessonUseCase,
-            checkLessonByAttendanceUseCase: CheckLessonByAttendanceUseCase,
+            updateForceAttendanceLessonUseCase: UpdateForceAttendanceLessonUseCase,
             isShowingNotifyLessonDeductedDialogUseCase: IsShowingNotifyLessonDeductedDialogUseCase,
             updateShownNotifyLessonDeductedDialogUseCase: UpdateShownNotifyLessonDeductedDialogUseCase,
-            certificateLessonUseCase: CertificateLessonUseCase
+            updateAttendanceLessonUseCase: UpdateAttendanceLessonUseCase
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -69,10 +69,10 @@ class LessonDetailViewModel(
                     commonQrFlow,
                     loadLessonSchedulesUseCase,
                     deleteLessonUseCase,
-                    checkLessonByAttendanceUseCase,
+                    updateForceAttendanceLessonUseCase,
                     isShowingNotifyLessonDeductedDialogUseCase,
                     updateShownNotifyLessonDeductedDialogUseCase,
-                    certificateLessonUseCase
+                    updateAttendanceLessonUseCase
                 ) as T
             }
         }

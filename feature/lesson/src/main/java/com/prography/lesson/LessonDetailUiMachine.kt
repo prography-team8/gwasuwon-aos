@@ -6,11 +6,10 @@ import com.prography.domain.dialog.usecase.IsShowingNotifyLessonDeductedDialogUs
 import com.prography.domain.dialog.usecase.UpdateShownNotifyLessonDeductedDialogUseCase
 import com.prography.domain.lesson.CommonLessonEvent
 import com.prography.domain.lesson.model.LessonScheduleStatus
-import com.prography.domain.lesson.request.CheckLessonByAttendanceRequestOption
-import com.prography.domain.lesson.usecase.CertificateLessonUseCase
-import com.prography.domain.lesson.usecase.CheckLessonByAttendanceUseCase
 import com.prography.domain.lesson.usecase.DeleteLessonUseCase
 import com.prography.domain.lesson.usecase.LoadLessonSchedulesUseCase
+import com.prography.domain.lesson.usecase.UpdateAttendanceLessonUseCase
+import com.prography.domain.lesson.usecase.UpdateForceAttendanceLessonUseCase
 import com.prography.domain.qr.CommonQrEvent
 import com.prography.domain.qr.model.GwasuwonQr
 import com.prography.domain.qr.model.GwasuwonQrType
@@ -19,7 +18,6 @@ import com.prography.usm.holder.UiStateMachine
 import com.prography.usm.result.Result
 import com.prography.usm.result.asResult
 import com.prography.utils.date.DateUtils
-import com.prography.utils.date.toKrMonthDateTime
 import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -48,10 +46,10 @@ class LessonDetailUiMachine(
     commonLessonEvent: MutableSharedFlow<CommonLessonEvent>,
     loadLessonSchedulesUseCase: LoadLessonSchedulesUseCase,
     deleteLessonUseCase: DeleteLessonUseCase,
-    checkLessonByAttendanceUseCase: CheckLessonByAttendanceUseCase,
+    updateForceAttendanceLessonUseCase: UpdateForceAttendanceLessonUseCase,
     isShowingNotifyLessonDeductedDialogUseCase: IsShowingNotifyLessonDeductedDialogUseCase,
     updateShownNotifyLessonDeductedDialogUseCase: UpdateShownNotifyLessonDeductedDialogUseCase,
-    certificateLessonUseCase: CertificateLessonUseCase
+    updateAttendanceLessonUseCase: UpdateAttendanceLessonUseCase
 ) : UiStateMachine<
         LessonDetailUiState,
         LessonDetailMachineState,
@@ -85,9 +83,12 @@ class LessonDetailUiMachine(
                     }.map {
                         lessonSchedule
                     }
-            }.asResult())
+            }.map { result ->
+                Pair(result, it.nextEvent)
+            }
+                .asResult())
         }
-        .map {result->
+        .map { result ->
             when (result) {
                 is Result.Error -> {
                     machineInternalState.copy(isLoading = false)
@@ -100,21 +101,25 @@ class LessonDetailUiMachine(
                 is Result.Success -> {
                     LessonDetailMachineState(
                         isLoading = false,
-                        hasStudent = result.data.hasStudent,
-                        lessonDates = result.data.schedules
+                        hasStudent = result.data.first.hasStudent,
+                        lessonDates = result.data.first.schedules
                             .filter { it.status == LessonScheduleStatus.SCHEDULED }
                             .map { it.date }
                             .toPersistentSet(),
-                        studentName = result.data.studentName,
-                        lessonNumberOfPostpone = result.data.rescheduleCount,
+                        studentName = result.data.first.studentName,
+                        lessonNumberOfPostpone = result.data.first.rescheduleCount,
                         focusDate = DateUtils.getCurrentDateTime(),
-                        lessonAttendanceDates = result.data.schedules
+                        lessonAttendanceDates = result.data.first.schedules
                             .filter { it.status == LessonScheduleStatus.COMPLETED }
                             .map { it.date },
-                        lessonAbsentDates = result.data.schedules
+                        lessonAbsentDates = result.data.first.schedules
                             .filter { it.status == LessonScheduleStatus.CANCELED }
-                            .map { it.date }
-                    )
+                            .map { LessonAbsentDate(date = it.date, it.id) }
+                    ).also {
+                        result.data.second?.let{
+                            eventInvoker(it)
+                        }
+                    }
                 }
             }
         }
@@ -125,20 +130,15 @@ class LessonDetailUiMachine(
                 focusDate = it.date
             )
         }
-    private val checkByAttendanceFlow = actionFlow
-        .filterIsInstance<LessonDetailActionEvent.CheckByAttendance>()
+    private val updateForceAttendanceLessonFlow = actionFlow
+        .filterIsInstance<LessonDetailActionEvent.UpdateForceAttendanceLesson>()
         .transform {
-            val lessonAbsentDatesKr = machineInternalState.lessonAbsentDates.asSequence().map { it.toKrMonthDateTime() }.toSet()
-            lessonAbsentDatesKr
-                .indexOf(machineInternalState.focusDate)
-                .takeIf { it != -1 }
+            machineInternalState.lessonAbsentDates
+                .find { it.date == machineInternalState.focusDate }
                 ?.run {
                     emitAll(
-                        checkLessonByAttendanceUseCase(
-                            CheckLessonByAttendanceRequestOption(
-                                lessonId = lessonId,
-                                lessonAbsentDate = machineInternalState.lessonAbsentDates[this]
-                            )
+                        updateForceAttendanceLessonUseCase(
+                            scheduleId = scheduleId
                         ).asResult()
                     )
                 }
@@ -154,20 +154,12 @@ class LessonDetailUiMachine(
                 }
 
                 is Result.Success -> {
-                    machineInternalState.copy(
-                        isLoading = false,
-                        lessonAbsentDates = it.data.schedules
-                            .filter { it.status == LessonScheduleStatus.CANCELED }
-                            .map { it.date },
-                        lessonAttendanceDates = it.data.schedules
-                            .filter { it.status == LessonScheduleStatus.COMPLETED }
-                            .map { it.date }
-                    )
+                    machineInternalState.copy(isLoading = false)
                 }
             }
         }
         .onEach {
-            eventInvoker(LessonDetailActionEvent.UpdateLessonDeducted)
+            eventInvoker(LessonDetailActionEvent.Refresh(LessonDetailActionEvent.UpdateLessonDeducted))
         }
 
     private val navigateLessonInfoDetailFlow = actionFlow
@@ -243,18 +235,18 @@ class LessonDetailUiMachine(
             commonQrFlow.emit(CommonQrEvent.RequestQrScan)
         }
 
-    private val certificateLessonFlow = actionFlow
-        .filterIsInstance<LessonDetailActionEvent.CertificateLesson>()
+    private val updateAttendanceLessonFlow = actionFlow
+        .filterIsInstance<LessonDetailActionEvent.UpdateAttendanceLesson>()
         .transform {
             if (it.qrLessonId == lessonId) {
-                emitAll(certificateLessonUseCase(it.qrLessonId).asResult())
+                emitAll(updateAttendanceLessonUseCase(it.qrLessonId).asResult())
             } else {
                 //show error dialog invliad lesson id
             }
         }
         .onEach {
             if (it is Result.Success) {
-                eventInvoker(LessonDetailActionEvent.Refresh)
+                eventInvoker(LessonDetailActionEvent.Refresh())
             }
         }
         .map {
@@ -303,12 +295,12 @@ class LessonDetailUiMachine(
         return merge(
             refreshFlow,
             focusDateFlow,
-            checkByAttendanceFlow,
+            updateForceAttendanceLessonFlow,
             hideDialogFlow,
             showDeleteLessonDialogFlow,
             hideNotifyLessonDeductedDialog,
             showNotifyLessonDeductedDialogFlow,
-            certificateLessonFlow
+            updateAttendanceLessonFlow
         )
     }
 }
@@ -324,7 +316,7 @@ private fun MutableSharedFlow<CommonQrEvent>.toLessonDetailAction(): Flow<Lesson
             jsonString?.let { gwasuwonQr ->
                 if (gwasuwonQr.type == GwasuwonQrType.LESSON_CERTIFICATION) {
                     (gwasuwonQr.data as? LessonCertificationData)?.lessonId?.let { lessonId ->
-                        LessonDetailActionEvent.CertificateLesson(lessonId)
+                        LessonDetailActionEvent.UpdateAttendanceLesson(lessonId)
 
                     }
                 }
