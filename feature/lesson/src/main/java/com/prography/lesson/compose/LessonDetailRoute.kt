@@ -360,17 +360,17 @@ private fun ScheduleLessonItem(
         Spacer(modifier = Modifier.weight(1f))
         if (available) {
             if (isTeacher) {
-                if (focusDate == DateUtils.getCurrentLocalDate().toKrTime()) {
-                    CommonButton(
-                        textResId = R.string.lesson_certification_qr,
-                        isAvailable = true,
-                        onClickNext = onClickLessonCertification
-                    )
-                } else if (hasStudent.not()) {
+                if (hasStudent.not()) {
                     CommonButton(
                         textResId = R.string.invite_student_qr,
                         isAvailable = true,
                         onClickNext = onClickInviteStudent
+                    )
+                } else if (focusDate == DateUtils.getCurrentLocalDate().toKrTime()) {
+                    CommonButton(
+                        textResId = R.string.lesson_certification_qr,
+                        isAvailable = true,
+                        onClickNext = onClickLessonCertification
                     )
                 }
 
@@ -457,12 +457,14 @@ private fun CompletedLessonItem(
                 onClickNext = onClickRecognizeQr
             )
         } else {
-            if (hasStudent.not()) {
-                CommonButton(
-                    textResId = R.string.invite_student_qr,
-                    isAvailable = true,
-                    onClickNext = onClickInviteStudent
-                )
+            if (available) {
+                if (hasStudent.not()) {
+                    CommonButton(
+                        textResId = R.string.invite_student_qr,
+                        isAvailable = true,
+                        onClickNext = onClickInviteStudent
+                    )
+                }
             }
         }
     }
