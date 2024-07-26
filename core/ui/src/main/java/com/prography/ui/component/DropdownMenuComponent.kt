@@ -33,9 +33,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.prography.ui.GwasuwonTypography
 import com.prography.ui.R
 import com.prography.ui.configuration.toColor
-import com.prography.ui.GwasuwonTypography
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
@@ -47,12 +47,14 @@ fun DropdownMenuComponent(
     @StringRes defaultOptionTextResId: Int,
     @StringRes selectedOptionTextResId: Int?,
     optionResIds: ImmutableList<Int>,
+    available: Boolean = true,
     onOptionSelected: (Int) -> Unit,
 ) {
     DropdownMenuComponent(
         defaultOptionText = stringResource(id = defaultOptionTextResId),
         selectedOptionText = selectedOptionTextResId?.let { stringResource(id = it) },
         option = optionResIds.map { stringResource(id = it) }.toImmutableList(),
+        available = available,
         onOptionSelected = onOptionSelected
 
     )
@@ -64,6 +66,7 @@ fun DropdownMenuComponent(
     defaultOptionText: String,
     selectedOptionText: String?,
     option: ImmutableList<String>,
+    available: Boolean = true,
     onOptionSelected: (Int) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -95,7 +98,9 @@ fun DropdownMenuComponent(
                 )
                 .padding(vertical = 12.dp, horizontal = 16.dp)
                 .clickable {
-                    expanded = true
+                    if (available) {
+                        expanded = true
+                    }
                 }
 
         ) {

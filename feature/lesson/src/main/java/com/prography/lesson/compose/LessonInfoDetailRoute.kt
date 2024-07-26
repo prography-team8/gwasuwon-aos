@@ -70,7 +70,7 @@ private fun LessonInfoDetailScreen(
             .fillMaxSize()
     ) {
         LessonInfoToolbar(
-            isVisibleUpdateBtn = uiState.isVisibleUpdateBtn,
+            isVisibleUpdateBtn = if (uiState.available) uiState.isVisibleUpdateBtn else false,
             onClickUpdate = { intent(LessonInfoDetailIntent.ClickUpdateLesson) },
             onClickBack = { intent(LessonInfoDetailIntent.ClickBack) }
         )
@@ -86,6 +86,7 @@ private fun LessonInfoDetailScreen(
                 titleRes = R.string.default_info_student_name,
                 hintRes = R.string.default_info_student_name_hint,
                 inputText = uiState.studentName,
+                available = uiState.available,
                 onValueChange = { event(LessonInfoDetailActionEvent.UpdateStudentName(it)) }
             )
             SpaceHeight(height = 32)
@@ -93,6 +94,7 @@ private fun LessonInfoDetailScreen(
                 titleRes = R.string.default_info_school_year,
                 hintRes = R.string.default_info_school_year_hint,
                 inputText = uiState.schoolYear,
+                available = uiState.available,
                 onValueChange = { event(LessonInfoDetailActionEvent.UpdateSchoolYear(it)) }
             )
             SpaceHeight(height = 32)
@@ -103,6 +105,7 @@ private fun LessonInfoDetailScreen(
                 defaultOptionTextResId = R.string.select_subject,
                 selectedOptionTextResId = uiState.lessonSubject?.getLessonSubjectStringRes(),
                 optionResIds = lessonSubjects.map { it.getLessonSubjectStringRes() }.toPersistentList(),
+                available = uiState.available,
                 onOptionSelected = { index ->
                     lessonSubjects.getOrNull(index)?.let {
                         intent(LessonInfoDetailIntent.ClickLessonSubject(it))
@@ -117,6 +120,7 @@ private fun LessonInfoDetailScreen(
                 defaultOptionTextResId = R.string.lesson_duration,
                 selectedOptionTextResId = uiState.lessonDuration?.getLessonDurationStringRes(),
                 optionResIds = lessonDuration.map { it.getLessonDurationStringRes() }.toPersistentList(),
+                available = uiState.available,
                 onOptionSelected = { index ->
                     lessonDuration.getOrNull(index)?.let {
                         intent(LessonInfoDetailIntent.ClickLessonDuration(it))
@@ -129,7 +133,9 @@ private fun LessonInfoDetailScreen(
             SelectLessonDay(
                 uiState.lessonDay
             ) {
-                intent(LessonInfoDetailIntent.ClickLessonDay(it))
+                if (uiState.available) {
+                    intent(LessonInfoDetailIntent.ClickLessonDay(it))
+                }
             }
             SpaceHeight(height = 32)
             LessonInfoInputItem(
@@ -137,6 +143,7 @@ private fun LessonInfoDetailScreen(
                 hintRes = R.string.lesson_progress_time_hint,
                 inputText = uiState.lessonNumberOfProgress?.toString() ?: "",
                 keyboardType = KeyboardType.Number,
+                available = uiState.available,
                 onValueChange = {
                     event(
                         LessonInfoDetailActionEvent.UpdateLessonNumberOfProgress(
@@ -151,6 +158,7 @@ private fun LessonInfoDetailScreen(
 
             DatePickerButton(
                 selectedDate = uiState.lessonStartDateTime ?: -1,
+                available = uiState.available,
                 onClickConfirm = {
                     intent(LessonInfoDetailIntent.ClickLessonDate(it))
                 },
@@ -164,11 +172,13 @@ private fun LessonInfoDetailScreen(
             SelectLessonNumberOfPostpone(
                 uiState.lessonNumberOfPostpone
             ) {
-                intent(
-                    LessonInfoDetailIntent.ClickLessonNumberOfPostpone(
-                        it
+                if (uiState.available) {
+                    intent(
+                        LessonInfoDetailIntent.ClickLessonNumberOfPostpone(
+                            it
+                        )
                     )
-                )
+                }
             }
         }
     }

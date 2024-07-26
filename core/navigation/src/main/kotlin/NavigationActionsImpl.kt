@@ -65,6 +65,15 @@ class NavigationActions(
         }
     }
 
+    fun navigateExtensionLessonRoute(lessonId: Long) {
+        navController.navigate(GwasuwonPath.ExtensionLessonPath(lessonId).getNavigation()) {
+            launchSingleTop = true
+            popUpTo(navController.currentDestination?.id ?: navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+        }
+    }
+
     fun navigateSuccessCreateLessonRoute(lessonId: Long) {
         navController.navigate(GwasuwonPath.SuccessCreateLessonPath(lessonId).getNavigation()) {
             launchSingleTop = true

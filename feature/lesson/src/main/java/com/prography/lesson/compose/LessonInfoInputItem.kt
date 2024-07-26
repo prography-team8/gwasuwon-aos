@@ -22,10 +22,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.prography.lesson.compose.create.CreateLessonInfoSmallTitle
-import com.prography.ui.R
-import com.prography.ui.configuration.toColor
-import com.prography.ui.component.GwasuwonConfigurationManager
 import com.prography.ui.GwasuwonTypography
+import com.prography.ui.R
+import com.prography.ui.component.GwasuwonConfigurationManager
+import com.prography.ui.configuration.toColor
 
 /**
  * Created by MyeongKi.
@@ -36,6 +36,7 @@ internal fun LessonInfoInputItem(
     @StringRes hintRes: Int,
     inputText: String,
     keyboardType: KeyboardType = KeyboardType.Text,
+    available: Boolean = true,
     onValueChange: (String) -> Unit,
 ) {
     Column(
@@ -71,6 +72,7 @@ internal fun LessonInfoInputItem(
             )
             BasicTextField(
                 value = inputText,
+                readOnly = available.not(),
                 onValueChange = onValueChange,
                 textStyle = GwasuwonTypography.Body1NormalRegular.textStyle.copy(
                     color = GwasuwonConfigurationManager.colors.labelNormal.toColor()

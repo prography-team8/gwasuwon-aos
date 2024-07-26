@@ -8,16 +8,22 @@ import com.prography.usm.action.Intent
  */
 sealed interface LessonItemIntent : Intent<LessonItemActionEvent> {
     data object ClickLesson : LessonItemIntent
+    data object ClickExtensionRequired : LessonItemIntent
 
     override fun toActionEvent(): LessonItemActionEvent {
         return when (this) {
             is ClickLesson -> {
-                LessonItemActionEvent.NavigateManagingLesson
+                LessonItemActionEvent.NavigateLessonDetail
+            }
+
+            is ClickExtensionRequired -> {
+                LessonItemActionEvent.NavigateExtensionLesson
             }
         }
     }
 }
 
 sealed interface LessonItemActionEvent : ActionEvent {
-    data object NavigateManagingLesson : LessonItemActionEvent
+    data object NavigateLessonDetail : LessonItemActionEvent
+    data object NavigateExtensionLesson : LessonItemActionEvent
 }

@@ -45,6 +45,7 @@ import com.prography.utils.date.toLocalDateTime
 fun DatePickerButton(
     onClickConfirm: (dateMillisSelected: Long) -> Unit,
     selectedDate: Long = -1L,
+    available: Boolean = true,
     onExpandPicker: () -> Unit
 ) {
     val initialSelectedDateMillis = remember {
@@ -64,8 +65,10 @@ fun DatePickerButton(
             )
             .padding(vertical = 12.dp, horizontal = 16.dp)
             .clickable {
-                onExpandPicker()
-                expanded = true
+                if (available) {
+                    onExpandPicker()
+                    expanded = true
+                }
             }
 
     ) {

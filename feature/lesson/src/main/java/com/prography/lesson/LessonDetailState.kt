@@ -44,6 +44,7 @@ data class LessonDetailMachineState(
             lessonAbsentDates = lessonAbsentDatesKr,
             isLoading = isLoading,
             dialog = dialog,
+            available = lessonDates.isNotEmpty(),
             hasStudent = hasStudent
         )
     }
@@ -63,6 +64,7 @@ data class LessonDetailUiState(
     val lessonAbsentDates: ImmutableSet<Long>,
     val isLoading: Boolean,
     val hasStudent: Boolean,
+    val available: Boolean,
     val dialog: LessonDetailDialog
 ) : UiState
 

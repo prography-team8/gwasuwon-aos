@@ -14,6 +14,7 @@ sealed interface NavigationEvent {
     data object NavigateLessonInvitedRoute : NavigationEvent
     data object NavigateCreateLessonRoute : NavigationEvent
     data class NavigateLessonDetailRoute(val lessonId: Long) : NavigationEvent
+    data class NavigateExtensionLessonRoute(val lessonId: Long) : NavigationEvent
     data class NavigateSuccessCreateLessonRoute(val lessonId: Long) : NavigationEvent
     data class NavigateLessonInfoDetailRoute(val lessonId: Long) : NavigationEvent
     data class NavigateInviteStudentQrRoute(val lessonId: Long) : NavigationEvent
@@ -54,6 +55,10 @@ fun MutableSharedFlow<NavigationEvent>.subscribeNavigationEvent(
 
                 is NavigationEvent.NavigateLessonDetailRoute -> {
                     navActions.navigateLessonDetailRoute(it.lessonId)
+                }
+
+                is NavigationEvent.NavigateExtensionLessonRoute -> {
+                    navActions.navigateExtensionLessonRoute(it.lessonId)
                 }
 
                 is NavigationEvent.NavigateSuccessCreateLessonRoute -> {
