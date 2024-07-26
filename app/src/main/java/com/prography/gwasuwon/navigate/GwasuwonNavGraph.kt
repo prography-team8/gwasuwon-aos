@@ -1,6 +1,7 @@
 package com.prography.gwasuwon.navigate
 
 import GwasuwonPath
+import GwasuwonPath.LessonDetailPath.Companion.INVALID_ID
 import NavigationActions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -72,7 +73,7 @@ fun GwasuwonNavGraph(
                     if (invitedLessonId == null) {
                         GwasuwonPath.LessonInvitedPath.getDestination()
                     } else {
-                        GwasuwonPath.LessonDetailPath(invitedLessonId).getDestination()
+                        GwasuwonPath.LessonDetailPath().getDestination()
                     }
                 } else {
                     GwasuwonPath.LessonsPath.getDestination()
@@ -242,7 +243,11 @@ fun GwasuwonNavGraph(
 
         with(GwasuwonPath.LessonDetailPath()) {
             composable(getDestination(), arguments) {
-                val lessonId = it.arguments?.getLong(GwasuwonPath.LessonDetailPath.ArgumentName.LESSON_ID.name) ?: 0L
+                var lessonId = it.arguments?.getLong(GwasuwonPath.LessonDetailPath.ArgumentName.LESSON_ID.name) ?: INVALID_ID
+                val lessonIdSaved = AppContainer.accountPreference.getInvitedLessonId()
+                if (lessonId == INVALID_ID) {
+                    lessonId = lessonIdSaved ?: INVALID_ID
+                }
                 LessonDetailRoute(
                     viewModel = viewModel(
                         factory = LessonDetailViewModel.provideFactory(
