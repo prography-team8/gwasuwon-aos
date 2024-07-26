@@ -45,21 +45,32 @@ data class CreateLessonMachineState(
             }
 
             CreateLessonScreenType.ADDITIONAL_INFO -> {
-                CreateLessonUiState.AdditionalInfo(
+                CreateLessonUiState.CreateAdditionalInfo(
+                    additionalInfo = AdditionalInfo(
+                        lessonSubject = lessonSubject,
+                        lessonDuration = lessonDuration,
+                        lessonDay = lessonDay,
+                        lessonNumberOfProgress = lessonNumberOfProgress,
+                        lessonNumberOfPostpone = lessonNumberOfPostpone,
+                        lessonStartDateTime = lessonStartDateTime,
+                    ),
+                    dialog = dialog,
                     isLoading = isLoading,
-                    lessonSubject = lessonSubject,
-                    lessonDuration = lessonDuration,
-                    lessonDay = lessonDay,
-                    lessonNumberOfProgress = lessonNumberOfProgress,
-                    lessonNumberOfPostpone = lessonNumberOfPostpone,
-                    lessonStartDateTime = lessonStartDateTime,
                     availableNextBtn = availableAdditionalInfo(),
-                    dialog = dialog
                 )
             }
         }
     }
 }
+
+data class AdditionalInfo(
+    val lessonSubject: LessonSubject? = null,
+    val lessonDuration: LessonDuration? = null,
+    val lessonDay: ImmutableSet<LessonDay> = persistentSetOf(),
+    val lessonNumberOfProgress: Int? = null,
+    val lessonNumberOfPostpone: Int? = null,
+    val lessonStartDateTime: Long? = null
+)
 
 sealed interface CreateLessonUiState : UiState {
     data class DefaultInfo(
@@ -69,13 +80,8 @@ sealed interface CreateLessonUiState : UiState {
         val availableNextBtn: Boolean
     ) : CreateLessonUiState
 
-    data class AdditionalInfo(
-        val lessonSubject: LessonSubject? = null,
-        val lessonDuration: LessonDuration? = null,
-        val lessonDay: ImmutableSet<LessonDay> = persistentSetOf(),
-        val lessonNumberOfProgress: Int? = null,
-        val lessonNumberOfPostpone: Int? = null,
-        val lessonStartDateTime: Long? = null,
+    data class CreateAdditionalInfo(
+        val additionalInfo: AdditionalInfo,
         val availableNextBtn: Boolean,
         val isLoading: Boolean = false,
         val dialog: CreateLessonDialog = CreateLessonDialog.None

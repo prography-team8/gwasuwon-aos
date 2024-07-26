@@ -13,5 +13,6 @@ data class Lesson(
     val sessionDuration: LessonDuration,
     val numberOfSessions: Int,
     val rescheduleCount: Int,
-    val startDate: Long
+    val startDate: Long,
+    val available: Boolean
 )

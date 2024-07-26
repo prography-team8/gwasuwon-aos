@@ -25,10 +25,9 @@ fun CreateLessonRoute(
             )
         }
 
-        is CreateLessonUiState.AdditionalInfo -> {
+        is CreateLessonUiState.CreateAdditionalInfo -> {
             AdditionalInfoScreen(
                 uiState,
-                viewModel.machine.eventInvoker,
                 viewModel.machine.intentInvoker
             )
         }

@@ -23,7 +23,7 @@ data class LessonInfoDetailMachineState(
     val lessonNumberOfProgress: Int? = originalLessonInfo?.numberOfSessions,
     val lessonNumberOfPostpone: Int? = originalLessonInfo?.rescheduleCount,
     val lessonStartDateTime: Long? = originalLessonInfo?.startDate,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
 ) : MachineInternalState<LessonInfoDetailUiState> {
     private fun isDiffFromOriginal(): Boolean {
         return studentName != originalLessonInfo?.studentName
@@ -56,6 +56,7 @@ data class LessonInfoDetailMachineState(
             lessonDay = lessonDay,
             lessonNumberOfProgress = lessonNumberOfProgress,
             lessonNumberOfPostpone = lessonNumberOfPostpone,
+            available = originalLessonInfo?.available ?: true,
             lessonStartDateTime = lessonStartDateTime,
         )
     }
@@ -71,5 +72,6 @@ data class LessonInfoDetailUiState(
     val lessonNumberOfProgress: Int?,
     val lessonNumberOfPostpone: Int?,
     val lessonStartDateTime: Long?,
+    val available: Boolean,
     val isLoading: Boolean = false
 ) : UiState

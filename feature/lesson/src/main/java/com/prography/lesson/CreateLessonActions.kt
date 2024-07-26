@@ -9,40 +9,25 @@ import com.prography.usm.action.Intent
 /**
  * Created by MyeongKi.
  */
+sealed interface AdditionalInfoIntent {
+    data class ClickLessonDay(val lessonDay: LessonDay) : AdditionalInfoIntent
+    data class ClickLessonDuration(val lessonDuration: LessonDuration) : AdditionalInfoIntent
+    data class ClickLessonNumberOfPostpone(val lessonNumberOfPostpone: Int) : AdditionalInfoIntent
+    data class ClickLessonSubject(val lessonSubject: LessonSubject) : AdditionalInfoIntent
+    data class ClickLessonDate(val lessonStartDateTime: Long) : AdditionalInfoIntent
+    data object ClickPostponeInformationIcon : AdditionalInfoIntent
+    data class InputLessonNumberOfProgress(val lessonNumberOfProgress: Int) : AdditionalInfoIntent
+}
+
 sealed interface CreateLessonIntent : Intent<CreateLessonActionEvent> {
     data object ClickNext : CreateLessonIntent
     data object ClickCreateLesson : CreateLessonIntent
     data object ClickBack : CreateLessonIntent
-    data class ClickLessonDay(val lessonDay: LessonDay) : CreateLessonIntent
-    data class ClickLessonDuration(val lessonDuration: LessonDuration) : CreateLessonIntent
-    data class ClickLessonNumberOfPostpone(val lessonNumberOfPostpone: Int) : CreateLessonIntent
-    data class ClickLessonSubject(val lessonSubject: LessonSubject) : CreateLessonIntent
-    data class ClickLessonDate(val lessonStartDateTime: Long) : CreateLessonIntent
-    data object ClickPostponeInformationIcon : CreateLessonIntent
+    data class AdditionalInfo(val additionalInfoIntent: AdditionalInfoIntent) : CreateLessonIntent
     data object ClickDialog : CreateLessonIntent
 
     override fun toActionEvent(): CreateLessonActionEvent {
         return when (this) {
-            is ClickLessonDate -> {
-                CreateLessonActionEvent.UpdateLessonStartDate(lessonStartDateTime)
-            }
-
-            is ClickLessonDuration -> {
-                CreateLessonActionEvent.UpdateLessonDuration(lessonDuration)
-            }
-
-            is ClickLessonSubject -> {
-                CreateLessonActionEvent.UpdateLessonSubject(lessonSubject)
-            }
-
-            is ClickLessonNumberOfPostpone -> {
-                CreateLessonActionEvent.UpdateLessonNumberOfPostpone(lessonNumberOfPostpone)
-            }
-
-            is ClickLessonDay -> {
-                CreateLessonActionEvent.ToggleLessonDay(lessonDay)
-            }
-
             is ClickNext -> {
                 CreateLessonActionEvent.GoToNextPage
             }
@@ -54,13 +39,34 @@ sealed interface CreateLessonIntent : Intent<CreateLessonActionEvent> {
             is ClickBack -> {
                 CreateLessonActionEvent.PopBack
             }
-
-            is ClickPostponeInformationIcon -> {
-                CreateLessonActionEvent.ShowPostponeInformationDialog
-            }
-
             is ClickDialog -> {
                 CreateLessonActionEvent.HideDialog
+            }
+            is AdditionalInfo -> {
+                when(val additionalInfoIntent = this.additionalInfoIntent){
+                    is AdditionalInfoIntent.ClickLessonDay -> {
+                        CreateLessonActionEvent.ToggleLessonDay(additionalInfoIntent.lessonDay)
+                    }
+                    is AdditionalInfoIntent.ClickLessonDuration -> {
+                        CreateLessonActionEvent.UpdateLessonDuration(additionalInfoIntent.lessonDuration)
+                    }
+                    is AdditionalInfoIntent.ClickLessonNumberOfPostpone -> {
+                        CreateLessonActionEvent.UpdateLessonNumberOfPostpone(additionalInfoIntent.lessonNumberOfPostpone)
+                    }
+                    is AdditionalInfoIntent.ClickLessonSubject -> {
+                        CreateLessonActionEvent.UpdateLessonSubject(additionalInfoIntent.lessonSubject)
+                    }
+                    is AdditionalInfoIntent.ClickLessonDate -> {
+                        CreateLessonActionEvent.UpdateLessonStartDate(additionalInfoIntent.lessonStartDateTime)
+                    }
+                    is AdditionalInfoIntent.ClickPostponeInformationIcon -> {
+                        CreateLessonActionEvent.ShowPostponeInformationDialog
+                    }
+
+                    is AdditionalInfoIntent.InputLessonNumberOfProgress -> {
+                        CreateLessonActionEvent.UpdateLessonNumberOfProgress(additionalInfoIntent.lessonNumberOfProgress)
+                    }
+                }
             }
         }
     }

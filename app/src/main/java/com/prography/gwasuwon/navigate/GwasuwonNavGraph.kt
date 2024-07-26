@@ -2,7 +2,6 @@ package com.prography.gwasuwon.navigate
 
 import GwasuwonPath
 import NavigationActions
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -20,10 +19,12 @@ import com.prography.domain.account.model.AccountRole
 import com.prography.domain.account.model.AccountStatus
 import com.prography.gwasuwon.AppContainer
 import com.prography.lesson.CreateLessonViewModel
+import com.prography.lesson.ExtensionLessonViewModel
 import com.prography.lesson.LessonDetailViewModel
 import com.prography.lesson.LessonInfoDetailViewModel
 import com.prography.lesson.LessonsViewModel
 import com.prography.lesson.SuccessCreateLessonViewModel
+import com.prography.lesson.compose.ExtensionLessonRoute
 import com.prography.lesson.compose.LessonDetailRoute
 import com.prography.lesson.compose.LessonInfoDetailRoute
 import com.prography.lesson.compose.LessonsRoute
@@ -184,7 +185,16 @@ fun GwasuwonNavGraph(
         with(GwasuwonPath.ExtensionLessonPath()) {
             composable(getDestination(), arguments) {
                 val lessonId = it.arguments?.getLong(GwasuwonPath.ExtensionLessonPath.ArgumentName.LESSON_ID.name) ?: 0L
-                Text(text = "hi")
+                ExtensionLessonRoute(
+                    viewModel = viewModel(
+                        factory = ExtensionLessonViewModel.provideFactory(
+                            lessonId = lessonId,
+                            navigateFlow = AppContainer.navigateEventFlow,
+                            updateLessonUseCase = AppContainer.updateLessonUseCase,
+                            commonLessonEvent = AppContainer.commonLessonEvent
+                        )
+                    )
+                )
             }
         }
         with(GwasuwonPath.InviteStudentQrPath()) {

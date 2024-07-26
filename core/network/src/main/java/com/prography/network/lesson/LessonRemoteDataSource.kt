@@ -55,7 +55,8 @@ class LessonRemoteDataSource(
                 sessionDuration = LessonDuration.valueOf(result.sessionDuration),
                 numberOfSessions = result.numberOfSessions,
                 rescheduleCount = result.rescheduleCount,
-                startDate = result.startDate
+                startDate = result.startDate,
+                available = true
             )
         )
     }
@@ -92,7 +93,8 @@ class LessonRemoteDataSource(
                 sessionDuration = LessonDuration.valueOf(result.sessionDuration),
                 numberOfSessions = result.numberOfSessions,
                 rescheduleCount = result.rescheduleCount,
-                startDate = result.startDate
+                startDate = result.startDate,
+                available = result.schedules.any { it.status == LessonScheduleStatus.SCHEDULED.name }
             )
         )
     }
@@ -110,16 +112,18 @@ class LessonRemoteDataSource(
                 sessionDuration = LessonDuration.valueOf(result.sessionDuration),
                 numberOfSessions = result.numberOfSessions,
                 rescheduleCount = result.rescheduleCount,
-                startDate = result.startDate
+                startDate = result.startDate,
+                available = true
             )
         )
     }
+
     override fun deleteLesson(lessonId: Long): Flow<Unit> = flow {
         httpClient.requestDeleteLesson(lessonId)
         emit(Unit)
     }
 
-    override fun updateForceAttendanceLesson(scheduleId: Long): Flow<Long>  = flow {
+    override fun updateForceAttendanceLesson(scheduleId: Long): Flow<Long> = flow {
         httpClient.requestForceAttendanceLesson(scheduleId)
         emit(scheduleId)
     }
