@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.transform
+import kotlin.math.min
 
 /**
  * Created by MyeongKi.
@@ -157,7 +158,7 @@ class CreateLessonUiMachine(
         .filterIsInstance<CreateLessonActionEvent.UpdateLessonNumberOfProgress>()
         .map {
             machineInternalState.copy(
-                lessonNumberOfProgress = it.lessonNumberOfProgress
+                lessonNumberOfProgress = min(it.lessonNumberOfProgress, MAX_PROGRESS)
             )
         }
     private val updateLessonNumberOfPostponeFlow = actionFlow
@@ -214,5 +215,9 @@ class CreateLessonUiMachine(
             hideDialogFlow,
             showPostponeInformationDialogFlow
         )
+    }
+
+    companion object {
+        const val MAX_PROGRESS = 100
     }
 }

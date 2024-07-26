@@ -25,7 +25,7 @@ data class CreateLessonMachineState(
     val isLoading: Boolean = false,
     val dialog: CreateLessonDialog = CreateLessonDialog.None
 ) : MachineInternalState<CreateLessonUiState> {
-    fun availableDefaultInfo() = studentName.isNotEmpty() && schoolYear.isNotEmpty()
+    fun availableDefaultInfo() = studentName.isNotEmpty() && schoolYear.isNotEmpty() && memo.isNotEmpty()
     fun availableAdditionalInfo() = lessonSubject != null
             && lessonDuration != null
             && lessonDay.isNotEmpty()
