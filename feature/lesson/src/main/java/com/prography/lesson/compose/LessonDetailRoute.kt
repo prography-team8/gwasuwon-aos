@@ -64,7 +64,7 @@ fun LessonDetailRoute(
         viewModel.machine.intentInvoker,
         viewModel.machine.eventInvoker
     )
-    if(uiState.isLoading){
+    if (uiState.isLoading) {
         LoadingTransparentScreen()
     }
 }
@@ -155,7 +155,8 @@ private fun LessonDetailScreen(
             focusDate = uiState.focusDate,
             isTeacher = isTeacher,
             intent = intent,
-            hasStudent = uiState.hasStudent
+            hasStudent = uiState.hasStudent,
+            available = uiState.available,
         )
     }
 }
@@ -205,6 +206,7 @@ private fun LessonDateInfoRoute(
     focusDate: Long,
     isTeacher: Boolean,
     hasStudent: Boolean,
+    available: Boolean,
     intent: (LessonDetailIntent) -> Unit
 ) {
     when (itemState) {
@@ -214,6 +216,7 @@ private fun LessonDateInfoRoute(
                 focusDate = focusDate,
                 isTeacher = isTeacher,
                 hasStudent = hasStudent,
+                available = available,
                 onClickRecognizeQr = {
                     intent(LessonDetailIntent.ClickRecognizeQr)
                 },
@@ -229,6 +232,7 @@ private fun LessonDateInfoRoute(
                 focusDate = focusDate,
                 isTeacher = isTeacher,
                 hasStudent = hasStudent,
+                available = available,
                 onClickLessonCertification = {
                     intent(LessonDetailIntent.ClickLessonCertificationQr)
                 },
@@ -247,6 +251,7 @@ private fun LessonDateInfoRoute(
                 focusDate = focusDate,
                 isTeacher = isTeacher,
                 hasStudent = hasStudent,
+                available = available,
                 onClickCheckByAttendance = {
                     intent(LessonDetailIntent.ClickCheckByAttendance)
                 },
@@ -265,6 +270,7 @@ private fun LessonDateInfoRoute(
                 focusDate = focusDate,
                 isTeacher = isTeacher,
                 hasStudent = hasStudent,
+                available = available,
                 onClickRecognizeQr = {
                     intent(LessonDetailIntent.ClickRecognizeQr)
                 },
@@ -282,6 +288,7 @@ private fun NoLessonItem(
     focusDate: Long,
     isTeacher: Boolean,
     hasStudent: Boolean,
+    available: Boolean,
     onClickRecognizeQr: () -> Unit,
     onClickInviteStudent: () -> Unit
 
@@ -293,19 +300,21 @@ private fun NoLessonItem(
             descRes = R.string.no_lesson_desc
         )
         Spacer(modifier = Modifier.weight(1f))
-        if (isTeacher.not()) {
-            CommonButton(
-                textResId = R.string.qr_recognition,
-                isAvailable = true,
-                onClickNext = onClickRecognizeQr
-            )
-        } else {
-            if (hasStudent.not()) {
+        if (available) {
+            if (isTeacher.not()) {
                 CommonButton(
-                    textResId = R.string.invite_student_qr,
+                    textResId = R.string.qr_recognition,
                     isAvailable = true,
-                    onClickNext = onClickInviteStudent
+                    onClickNext = onClickRecognizeQr
                 )
+            } else {
+                if (hasStudent.not()) {
+                    CommonButton(
+                        textResId = R.string.invite_student_qr,
+                        isAvailable = true,
+                        onClickNext = onClickInviteStudent
+                    )
+                }
             }
         }
     }
@@ -317,6 +326,7 @@ private fun ScheduleLessonItem(
     focusDate: Long,
     isTeacher: Boolean,
     hasStudent: Boolean,
+    available: Boolean,
     onClickLessonCertification: () -> Unit,
     onClickRecognizeQr: () -> Unit,
     onClickInviteStudent: () -> Unit
@@ -329,27 +339,29 @@ private fun ScheduleLessonItem(
             descRes = R.string.schedule_lesson_desc
         )
         Spacer(modifier = Modifier.weight(1f))
-        if (isTeacher) {
-            if (focusDate == DateUtils.getCurrentLocalDate().toKrTime()) {
+        if (available) {
+            if (isTeacher) {
+                if (focusDate == DateUtils.getCurrentLocalDate().toKrTime()) {
+                    CommonButton(
+                        textResId = R.string.lesson_certification_qr,
+                        isAvailable = true,
+                        onClickNext = onClickLessonCertification
+                    )
+                } else if (hasStudent.not()) {
+                    CommonButton(
+                        textResId = R.string.invite_student_qr,
+                        isAvailable = true,
+                        onClickNext = onClickInviteStudent
+                    )
+                }
+
+            } else {
                 CommonButton(
-                    textResId = R.string.lesson_certification_qr,
+                    textResId = R.string.qr_recognition,
                     isAvailable = true,
-                    onClickNext = onClickLessonCertification
-                )
-            } else if (hasStudent.not()) {
-                CommonButton(
-                    textResId = R.string.invite_student_qr,
-                    isAvailable = true,
-                    onClickNext = onClickInviteStudent
+                    onClickNext = onClickRecognizeQr
                 )
             }
-
-        } else {
-            CommonButton(
-                textResId = R.string.qr_recognition,
-                isAvailable = true,
-                onClickNext = onClickRecognizeQr
-            )
         }
     }
 }
@@ -360,6 +372,7 @@ private fun AbsentLessonItem(
     focusDate: Long,
     isTeacher: Boolean,
     hasStudent: Boolean,
+    available: Boolean,
     onClickCheckByAttendance: () -> Unit,
     onClickRecognizeQr: () -> Unit,
     onClickInviteStudent: () -> Unit
@@ -373,27 +386,29 @@ private fun AbsentLessonItem(
             desc = stringResource(id = R.string.absent_lesson_desc)
         )
         Spacer(modifier = Modifier.weight(1f))
-        if (isTeacher) {
-            if (hasStudent) {
-                CommonButton(
-                    textResId = R.string.check_by_attendance,
-                    isAvailable = true,
-                    onClickNext = onClickCheckByAttendance
-                )
+        if (available) {
+            if (isTeacher) {
+                if (hasStudent) {
+                    CommonButton(
+                        textResId = R.string.check_by_attendance,
+                        isAvailable = true,
+                        onClickNext = onClickCheckByAttendance
+                    )
+                } else {
+                    CommonButton(
+                        textResId = R.string.invite_student_qr,
+                        isAvailable = true,
+                        onClickNext = onClickInviteStudent
+                    )
+                }
+
             } else {
                 CommonButton(
-                    textResId = R.string.invite_student_qr,
+                    textResId = R.string.qr_recognition,
                     isAvailable = true,
-                    onClickNext = onClickInviteStudent
+                    onClickNext = onClickRecognizeQr
                 )
             }
-
-        } else {
-            CommonButton(
-                textResId = R.string.qr_recognition,
-                isAvailable = true,
-                onClickNext = onClickRecognizeQr
-            )
         }
     }
 }
@@ -404,6 +419,7 @@ private fun CompletedLessonItem(
     focusDate: Long,
     isTeacher: Boolean,
     hasStudent: Boolean,
+    available: Boolean,
     onClickRecognizeQr: () -> Unit,
     onClickInviteStudent: () -> Unit
 

@@ -1,7 +1,6 @@
 package com.prography.lesson
 
 import NavigationEvent
-import com.prography.domain.lesson.model.Lesson
 import com.prography.domain.lesson.model.LessonCard
 import com.prography.usm.holder.UiStateMachine
 import kotlinx.coroutines.CoroutineScope
@@ -26,12 +25,18 @@ class LessonItemUiMachine(
     override var machineInternalState: LessonItemMachineState = LessonItemMachineState(lesson = lesson)
 
     private val navigateLessonDetailFlow = actionFlow
-        .filterIsInstance<LessonItemActionEvent.NavigateManagingLesson>()
+        .filterIsInstance<LessonItemActionEvent.NavigateLessonDetail>()
+        .onEach {
+            navigateFlow.emit(NavigationEvent.NavigateLessonDetailRoute(lessonId = machineInternalState.lesson.id))
+        }
+    private val navigateExtensionRequiredFlow = actionFlow
+        .filterIsInstance<LessonItemActionEvent.NavigateExtensionRequired>()
         .onEach {
             navigateFlow.emit(NavigationEvent.NavigateLessonDetailRoute(lessonId = machineInternalState.lesson.id))
         }
     override val outerNotifyScenarioActionFlow = merge(
-        navigateLessonDetailFlow
+        navigateLessonDetailFlow,
+        navigateExtensionRequiredFlow
     )
 
     init {
