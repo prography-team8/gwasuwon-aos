@@ -106,7 +106,9 @@ private fun LessonsBody(
         }
     }
 
-    if (lessonItemPagingData.itemCount == 0) {
+    if(lessonItemPagingData.loadState.refresh is LoadState.Loading){
+        LoadingTransparentScreen()
+    } else if (lessonItemPagingData.itemCount == 0) {
         LessonsEmpty(intent)
     } else {
         HasLessons(
@@ -184,11 +186,6 @@ private fun HasLessons(
             HasCreateLessonButton {
                 intent(LessonsIntent.ClickCreateLesson)
             }
-        }
-    }
-    pagingItems.run {
-        if(loadState.refresh is LoadState.Loading){
-            LoadingTransparentScreen()
         }
     }
 }
