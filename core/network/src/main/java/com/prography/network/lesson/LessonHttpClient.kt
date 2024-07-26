@@ -13,6 +13,7 @@ import com.prography.network.lesson.response.LessonCardsResponse
 import com.prography.network.lesson.response.LessonContractResponse
 import com.prography.network.lesson.response.LessonDetailResponse
 import com.prography.network.setJsonBody
+import com.prography.utils.network.NetworkHelper
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.delete
@@ -23,12 +24,17 @@ import io.ktor.client.request.put
 /**
  * Created by MyeongKi.
  */
-class LessonHttpClient(private val httpClient: () -> HttpClient) {
+class LessonHttpClient(
+    private val httpClient: () -> HttpClient,
+    private val networkHelper: NetworkHelper
+) {
     suspend fun requestLessonCards(): LessonCardsResponse {
+        networkHelper.checkNetworkAvailable()
         return httpClient().get("$GWASUWON_HOST/api/v1/classes").body()
     }
 
     suspend fun requestCreateLesson(requestOption: CreateLessonRequestOption): CreateLessonResponse {
+        networkHelper.checkNetworkAvailable()
         return httpClient().post("$GWASUWON_HOST/api/v1/classes") {
             setJsonBody(
                 CreateLessonRequestBody(
@@ -47,6 +53,7 @@ class LessonHttpClient(private val httpClient: () -> HttpClient) {
     }
 
     suspend fun requestUpdateLesson(requestOption: UpdateLessonRequestOption): CreateLessonResponse {
+        networkHelper.checkNetworkAvailable()
         return httpClient().put("$GWASUWON_HOST/api/v1/classes/${requestOption.lessonId}") {
             setJsonBody(
                 CreateLessonRequestBody(
@@ -65,14 +72,17 @@ class LessonHttpClient(private val httpClient: () -> HttpClient) {
     }
 
     suspend fun requestDeleteLesson(lessonId: Long): String {
+        networkHelper.checkNetworkAvailable()
         return httpClient().delete("$GWASUWON_HOST/api/v1/classes/${lessonId}").body()
     }
 
     suspend fun requestLessonDetail(lessonId: Long): LessonDetailResponse {
+        networkHelper.checkNetworkAvailable()
         return httpClient().get("$GWASUWON_HOST/api/v1/classes/$lessonId").body()
     }
 
     suspend fun requestJoinLesson(lessonId: Long): JoinLessonResponse {
+        networkHelper.checkNetworkAvailable()
         return httpClient().post("$GWASUWON_HOST/api/v1/classes/join") {
             setJsonBody(
                 JoinLessonRequestBody(
@@ -84,10 +94,12 @@ class LessonHttpClient(private val httpClient: () -> HttpClient) {
 
 
     suspend fun requestLessonContract(lessonId: Long): LessonContractResponse {
+        networkHelper.checkNetworkAvailable()
         return httpClient().get("$GWASUWON_HOST/api/v1/classes/$lessonId/contract").body()
     }
 
     suspend fun requestAttendanceLesson(lessonId: Long): String {
+        networkHelper.checkNetworkAvailable()
         return httpClient().post("$GWASUWON_HOST/api/v1/schedules/attendance") {
             setJsonBody(
                 AttendanceLessonRequestBody(
@@ -98,6 +110,7 @@ class LessonHttpClient(private val httpClient: () -> HttpClient) {
     }
 
     suspend fun requestForceAttendanceLesson(scheduleId: Long): String {
+        networkHelper.checkNetworkAvailable()
         return httpClient().post("$GWASUWON_HOST/api/v1/schedules/attendance/force") {
             setJsonBody(
                 ForceAttendanceLessonRequestBody(
