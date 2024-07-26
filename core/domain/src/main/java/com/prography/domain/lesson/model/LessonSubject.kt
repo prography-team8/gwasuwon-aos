@@ -8,6 +8,6 @@ enum class LessonSubject(val index:Int) {
     ENGLISH(2),
     KOREAN(3),
     SCIENCE(4),
-    SOCIETY(5),
-    OTHERS(6);
+    SOCIAL(5),
+    ;
 }
