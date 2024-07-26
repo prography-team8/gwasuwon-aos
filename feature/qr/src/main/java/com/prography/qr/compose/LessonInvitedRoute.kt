@@ -17,6 +17,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.prography.qr.LessonInvitedDialog
 import com.prography.qr.LessonInvitedIntent
 import com.prography.qr.LessonInvitedUiState
 import com.prography.qr.LessonInvitedViewModel
@@ -25,6 +26,7 @@ import com.prography.ui.R
 import com.prography.ui.component.CommonButton
 import com.prography.ui.component.CommonToolbar
 import com.prography.ui.component.GwasuwonConfigurationManager
+import com.prography.ui.component.JoinErrorDialog
 import com.prography.ui.component.LoadingTransparentScreen
 import com.prography.ui.configuration.toColor
 
@@ -69,7 +71,18 @@ private fun LessonInvitedScreen(
             intent(LessonInvitedIntent.ClickQrRecognition)
         }
     }
-    if(uiState.isLoading){
+    when (uiState.dialog) {
+        is LessonInvitedDialog.JoinLessonErrorDialog -> {
+            JoinErrorDialog(onClickConfirm = {
+                intent(LessonInvitedIntent.ClickDialog)
+            }, onClickBackground = {
+                intent(LessonInvitedIntent.ClickDialog)
+            })
+        }
+
+        is LessonInvitedDialog.None -> Unit
+    }
+    if (uiState.isLoading) {
         LoadingTransparentScreen()
     }
 }

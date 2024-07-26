@@ -9,6 +9,7 @@ import com.prography.usm.action.Intent
 sealed interface LessonInvitedIntent : Intent<LessonInvitedActionEvent> {
     data object ClickQrRecognition : LessonInvitedIntent
     data object ClickNavigateCalendar : LessonInvitedIntent
+    data object ClickDialog : LessonInvitedIntent
 
     override fun toActionEvent(): LessonInvitedActionEvent {
         return when (this) {
@@ -19,6 +20,9 @@ sealed interface LessonInvitedIntent : Intent<LessonInvitedActionEvent> {
             is ClickNavigateCalendar -> {
                 LessonInvitedActionEvent.NavigateLessonDetail
             }
+            is ClickDialog -> {
+                LessonInvitedActionEvent.HideDialog
+            }
         }
     }
 }
@@ -27,4 +31,5 @@ sealed interface LessonInvitedActionEvent : ActionEvent {
     data object StartQrRecognition : LessonInvitedActionEvent
     data object NavigateLessonDetail : LessonInvitedActionEvent
     data class ParticipateLesson(val lessonId: Long) : LessonInvitedActionEvent
+    data object HideDialog : LessonInvitedActionEvent
 }

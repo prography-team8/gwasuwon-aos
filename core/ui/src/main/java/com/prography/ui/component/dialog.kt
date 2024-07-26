@@ -337,7 +337,33 @@ fun UnknownErrorDialog(
         onClickBackground = onClickBackground
     )
 }
+@Composable
+fun CertificateLessonErrorDialog(
+    onClickConfirm: () -> Unit,
+    onClickBackground: () -> Unit
+) {
+    ErrorDialog(
+        titleResId = R.string.certificate_lesson_error_title,
+        contentResId = R.string.certificate_lesson_error_desc,
+        positiveResId = R.string.common_confirm,
+        onClickPositive = onClickConfirm,
+        onClickBackground = onClickBackground
+    )
+}
 
+@Composable
+fun JoinErrorDialog(
+    onClickConfirm: () -> Unit,
+    onClickBackground: () -> Unit
+) {
+    ErrorDialog(
+        titleResId = R.string.join_lesson_error_title,
+        contentResId = R.string.join_lesson_error_desc,
+        positiveResId = R.string.common_confirm,
+        onClickPositive = onClickConfirm,
+        onClickBackground = onClickBackground
+    )
+}
 sealed interface CommonDialogState {
     data object NetworkError : CommonDialogState
     data object UnknownError : CommonDialogState
