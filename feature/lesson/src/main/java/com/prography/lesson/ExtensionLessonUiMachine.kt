@@ -49,7 +49,15 @@ class ExtensionLessonUiMachine(
         .map {
             when (it) {
                 is Result.Error -> {
-                    machineInternalState.copy(isLoading = false)
+                    val dialog = if (it.exception is NetworkUnavailableException) {
+                        CommonDialogState.NetworkError
+                    } else {
+                        CommonDialogState.UnknownError
+                    }
+                    machineInternalState.copy(
+                        isLoading = false,
+                        dialog = ExtensionLessonDialog.CreateLessonCommonDialog(dialog)
+                    )
                 }
 
                 is Result.Loading -> {

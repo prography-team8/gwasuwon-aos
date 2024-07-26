@@ -93,7 +93,15 @@ class LessonDetailUiMachine(
         .map { result ->
             when (result) {
                 is Result.Error -> {
-                    machineInternalState.copy(isLoading = false)
+                    val dialog = if (result.exception is NetworkUnavailableException) {
+                        CommonDialogState.NetworkError
+                    } else {
+                        CommonDialogState.UnknownError
+                    }
+                    machineInternalState.copy(
+                        isLoading = false,
+                        dialog = LessonDetailDialog.LessonDetailCommonDialog(dialog)
+                    )
                 }
 
                 is Result.Loading -> {
