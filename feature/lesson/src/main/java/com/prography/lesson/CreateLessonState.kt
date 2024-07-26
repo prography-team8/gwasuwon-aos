@@ -24,9 +24,7 @@ data class CreateLessonMachineState(
     val lessonNumberOfPostpone: Int? = null,
     val lessonStartDateTime: Long? = null,
     val isLoading: Boolean = false,
-    val dialog: CreateLessonDialog = CreateLessonDialog.CreateLessonCommonDialog(
-        CommonDialogState.None
-    )
+    val dialog: CreateLessonDialog = CreateLessonDialog.None
 ) : MachineInternalState<CreateLessonUiState> {
     fun availableDefaultInfo() = studentName.isNotEmpty() && schoolYear.isNotEmpty() && memo.isNotEmpty()
     fun availableAdditionalInfo() = lessonSubject != null
@@ -87,9 +85,7 @@ sealed interface CreateLessonUiState : UiState {
         val additionalInfo: AdditionalInfo,
         val availableNextBtn: Boolean,
         val isLoading: Boolean = false,
-        val dialog: CreateLessonDialog = CreateLessonDialog.CreateLessonCommonDialog(
-            CommonDialogState.None
-        )
+        val dialog: CreateLessonDialog = CreateLessonDialog.None
     ) : CreateLessonUiState
 }
 
@@ -110,6 +106,7 @@ enum class CreateLessonScreenType(val page: Int) {
 }
 
 sealed interface CreateLessonDialog {
+    data object None : CreateLessonDialog
     data class CreateLessonCommonDialog(
         val state: CommonDialogState
     ) : CreateLessonDialog

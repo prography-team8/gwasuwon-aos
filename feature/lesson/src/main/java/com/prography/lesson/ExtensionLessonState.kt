@@ -24,9 +24,7 @@ data class ExtensionLessonMachineState(
     val lessonStartDateTime: Long? = null,
     val lessonNewStartDateTime: Long? = null,
     val isLoading: Boolean = false,
-    val dialog: ExtensionLessonDialog = ExtensionLessonDialog.CreateLessonCommonDialog(
-        CommonDialogState.None
-    )
+    val dialog: ExtensionLessonDialog = ExtensionLessonDialog.None
 ) : MachineInternalState<ExtensionLessonUiState> {
     fun availableExtensionLesson() = lessonSubject != null
             && lessonDuration != null
@@ -58,12 +56,11 @@ data class ExtensionLessonUiState(
     val additionalInfo: AdditionalInfo,
     val availableExtensionBtn: Boolean,
     val isLoading: Boolean = false,
-    val dialog: ExtensionLessonDialog = ExtensionLessonDialog.CreateLessonCommonDialog(
-        CommonDialogState.None
-    )
+    val dialog: ExtensionLessonDialog = ExtensionLessonDialog.None
 ) : UiState
 
 sealed interface ExtensionLessonDialog {
+    data object None: ExtensionLessonDialog
     data class CreateLessonCommonDialog(
         val state: CommonDialogState
     ) : ExtensionLessonDialog

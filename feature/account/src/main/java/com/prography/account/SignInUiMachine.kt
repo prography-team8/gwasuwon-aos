@@ -35,7 +35,7 @@ class SignInUiMachine(
 ) {
     override var machineInternalState: SignInMachineState = SignInMachineState(
         isLoading = false,
-        dialog = SignInDialog.SignInCommonDialog(CommonDialogState.None)
+        dialog = SignInDialog.None
     )
 
     private val requestSignInFlow = actionFlow
@@ -97,9 +97,7 @@ class SignInUiMachine(
         .filterIsInstance<SignInActionEvent.HideDialog>()
         .map {
             machineInternalState.copy(
-                dialog = SignInDialog.SignInCommonDialog(
-                    CommonDialogState.None
-                )
+                dialog = SignInDialog.None
             )
         }
     private val navigateLessonRouteFlow = actionFlow

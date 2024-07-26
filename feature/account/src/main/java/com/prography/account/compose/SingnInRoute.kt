@@ -45,10 +45,14 @@ fun SignInRoute(
     val uiState = viewModel.machine.uiState.collectAsState().value
     val intentInvoker = viewModel.machine.intentInvoker
     SignInScreen(intentInvoker)
-    if (uiState.dialog is SignInDialog.SignInCommonDialog) {
-        CommonDialogRoute(dialog = uiState.dialog.state) {
-            intentInvoker(SignInIntent.SignInCommonDialogIntent(it))
+    when (uiState.dialog) {
+        is SignInDialog.SignInCommonDialog -> {
+            CommonDialogRoute(dialog = uiState.dialog.state) {
+                intentInvoker(SignInIntent.SignInCommonDialogIntent(it))
+            }
         }
+
+        is SignInDialog.None -> Unit
     }
     if (uiState.isLoading) {
         LoadingTransparentScreen()

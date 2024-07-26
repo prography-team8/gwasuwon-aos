@@ -191,9 +191,7 @@ class CreateLessonUiMachine(
         .filterIsInstance<CreateLessonActionEvent.HideDialog>()
         .map {
             machineInternalState.copy(
-                dialog = CreateLessonDialog.CreateLessonCommonDialog(
-                    CommonDialogState.None
-                )
+                dialog = CreateLessonDialog.None
             )
         }
 

@@ -95,6 +95,7 @@ internal fun ExtensionLessonScreen(
                 intent(it.toExtensionLessonIntent())
             }
         }
+        is ExtensionLessonDialog.None -> Unit
     }
     if (uiState.isLoading) {
         LoadingTransparentScreen()

@@ -14,9 +14,7 @@ data class SignUpMachineState(
     val isGwasuwonServiceAgreement: Boolean,
     val roleType: AccountRole? = null,
     val isLoading: Boolean = false,
-    val dialog: SignUpDialog = SignUpDialog.SignUpCommonDialog(
-        CommonDialogState.None
-    )
+    val dialog: SignUpDialog = SignUpDialog.None
 ) : MachineInternalState<SignUpUiState> {
     override fun toUiState(): SignUpUiState {
         return when (signUpScreenType) {
@@ -77,6 +75,7 @@ enum class SignUpScreenType(val page: Int) {
 }
 
 sealed interface SignUpDialog {
+    data object None : SignUpDialog
     data class SignUpCommonDialog(
         val state: CommonDialogState
     ) : SignUpDialog

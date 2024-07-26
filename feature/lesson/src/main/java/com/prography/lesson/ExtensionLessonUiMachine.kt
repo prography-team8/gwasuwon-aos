@@ -191,9 +191,7 @@ class ExtensionLessonUiMachine(
         .filterIsInstance<ExtensionLessonActionEvent.HideDialog>()
         .map {
             machineInternalState.copy(
-                dialog = ExtensionLessonDialog.CreateLessonCommonDialog(
-                    CommonDialogState.None
-                )
+                dialog = ExtensionLessonDialog.None
             )
         }
 

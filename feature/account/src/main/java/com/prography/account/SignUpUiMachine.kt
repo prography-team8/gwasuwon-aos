@@ -69,7 +69,7 @@ class SignUpUiMachine(
         .filterIsInstance<SignUpActionEvent.HideDialog>()
         .map {
             machineInternalState.copy(
-                dialog = SignUpDialog.SignUpCommonDialog(CommonDialogState.None)
+                dialog = SignUpDialog.None
             )
         }
     private val selectTeacherFlow = actionFlow

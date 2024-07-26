@@ -97,6 +97,7 @@ internal fun AdditionalInfoScreen(
                 intent(it.toCreateIntent())
             }
         }
+        is CreateLessonDialog.None -> Unit
     }
     if (uiState.isLoading) {
         LoadingTransparentScreen()

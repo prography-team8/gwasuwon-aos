@@ -290,10 +290,14 @@ private fun SignUpSelectRoleScreen(
             intent(SignUpIntent.ClickStudent)
         }
     }
-    if (uiState.dialog is SignUpDialog.SignUpCommonDialog) {
-        CommonDialogRoute(dialog = uiState.dialog.state) {
-            intent(SignUpIntent.SignUpCommonDialogIntent(it))
+    when (uiState.dialog) {
+        is SignUpDialog.SignUpCommonDialog -> {
+            CommonDialogRoute(dialog = uiState.dialog.state) {
+                intent(SignUpIntent.SignUpCommonDialogIntent(it))
+            }
         }
+
+        is SignUpDialog.None -> Unit
     }
     if (uiState.isLoading) {
         LoadingTransparentScreen()

@@ -26,6 +26,7 @@ data class SignInUiState(
 ) : UiState
 
 sealed interface SignInDialog {
+    data object None : SignInDialog
     data class SignInCommonDialog(
         val state: CommonDialogState
     ) : SignInDialog

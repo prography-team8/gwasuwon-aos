@@ -339,7 +339,6 @@ fun UnknownErrorDialog(
 }
 
 sealed interface CommonDialogState {
-    data object None : CommonDialogState
     data object NetworkError : CommonDialogState
     data object UnknownError : CommonDialogState
 }
@@ -355,8 +354,6 @@ fun CommonDialogRoute(
     intent:(CommonDialogIntent)->Unit
 ) {
     when (dialog) {
-        is CommonDialogState.None -> {
-        }
         is CommonDialogState.NetworkError -> {
             NetworkErrorDialog(
                 onClickConfirm = {
