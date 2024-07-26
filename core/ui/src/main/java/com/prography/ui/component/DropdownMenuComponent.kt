@@ -78,7 +78,11 @@ fun DropdownMenuComponent(
                 rowWidth = coordinates.size.width
             },
         expanded = expanded,
-        onExpandedChange = { expanded = !expanded }
+        onExpandedChange = {
+            if(available){
+                expanded = !expanded
+            }
+        }
     ) {
         val conner = dimensionResource(id = R.dimen.common_btn_conner)
         Row(
