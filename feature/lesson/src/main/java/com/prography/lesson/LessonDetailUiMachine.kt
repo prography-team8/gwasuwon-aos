@@ -11,9 +11,9 @@ import com.prography.domain.lesson.usecase.LoadLessonSchedulesUseCase
 import com.prography.domain.lesson.usecase.UpdateAttendanceLessonUseCase
 import com.prography.domain.lesson.usecase.UpdateForceAttendanceLessonUseCase
 import com.prography.domain.qr.CommonQrEvent
+import com.prography.domain.qr.model.AttendanceClassData
 import com.prography.domain.qr.model.GwasuwonQr
 import com.prography.domain.qr.model.GwasuwonQrType
-import com.prography.domain.qr.model.AttendanceClassData
 import com.prography.ui.component.CommonDialogState
 import com.prography.usm.holder.UiStateMachine
 import com.prography.usm.result.Result
@@ -126,7 +126,7 @@ class LessonDetailUiMachine(
                             .filter { it.status == LessonScheduleStatus.CANCELED }
                             .map { LessonAbsentDate(date = it.date, it.id) }
                     ).also {
-                        result.data.second?.let{
+                        result.data.second?.let {
                             eventInvoker(it)
                         }
                     }
@@ -198,7 +198,8 @@ class LessonDetailUiMachine(
                     navigateFlow.emit(NavigationEvent.PopBack)
                     machineInternalState
                 }
-                is Result.Error->{
+
+                is Result.Error -> {
                     val dialog = if (it.exception is NetworkUnavailableException) {
                         CommonDialogState.NetworkError
                     } else {
@@ -209,6 +210,7 @@ class LessonDetailUiMachine(
                         dialog = LessonDetailDialog.LessonDetailCommonDialog(dialog)
                     )
                 }
+
                 is Result.Loading -> {
                     machineInternalState.copy(
                         isLoading = true
@@ -353,9 +355,10 @@ private fun MutableSharedFlow<CommonQrEvent>.toLessonDetailAction(): Flow<Lesson
                         LessonDetailActionEvent.UpdateAttendanceLesson(lessonId)
 
                     }
+                } else {
+                    null
                 }
             }
-            null
         }
 
         else -> null
