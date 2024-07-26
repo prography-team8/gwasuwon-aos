@@ -3,6 +3,7 @@ package com.prography.lesson
 import com.prography.domain.lesson.model.LessonDay
 import com.prography.domain.lesson.model.LessonDuration
 import com.prography.domain.lesson.model.LessonSubject
+import com.prography.ui.component.CommonDialogIntent
 import com.prography.usm.action.ActionEvent
 import com.prography.usm.action.Intent
 
@@ -13,7 +14,11 @@ sealed interface ExtensionLessonIntent : Intent<ExtensionLessonActionEvent> {
     data object ClickExtensionLesson : ExtensionLessonIntent
     data object ClickBack : ExtensionLessonIntent
     data class AdditionalInfo(val additionalInfoIntent: AdditionalInfoIntent) : ExtensionLessonIntent
-    data object ClickDialog : ExtensionLessonIntent
+    data class ExtensionLessonDialogIntent(val intent: CommonDialogIntent) : ExtensionLessonIntent
+
+    fun CommonDialogIntent.toExtensionLessonIntent(): ExtensionLessonDialogIntent {
+        return ExtensionLessonDialogIntent(this)
+    }
 
     override fun toActionEvent(): ExtensionLessonActionEvent {
         return when (this) {
@@ -25,7 +30,7 @@ sealed interface ExtensionLessonIntent : Intent<ExtensionLessonActionEvent> {
                 ExtensionLessonActionEvent.PopBack
             }
 
-            is ClickDialog -> {
+            is ExtensionLessonDialogIntent -> {
                 ExtensionLessonActionEvent.HideDialog
             }
 

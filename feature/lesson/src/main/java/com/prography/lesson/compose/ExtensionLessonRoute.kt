@@ -9,14 +9,19 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
+import com.prography.lesson.CreateLessonDialog
+import com.prography.lesson.CreateLessonIntent.ClickBack.toCreateIntent
 import com.prography.lesson.ExtensionLessonDialog
 import com.prography.lesson.ExtensionLessonIntent
+import com.prography.lesson.ExtensionLessonIntent.ClickBack.toExtensionLessonIntent
 import com.prography.lesson.ExtensionLessonUiState
 import com.prography.lesson.ExtensionLessonViewModel
 import com.prography.lesson.compose.create.screen.AdditionalInfoList
 import com.prography.ui.R
 import com.prography.ui.component.CommonButton
 import com.prography.ui.component.CommonDialog
+import com.prography.ui.component.CommonDialogIntent
+import com.prography.ui.component.CommonDialogRoute
 import com.prography.ui.component.CommonToolbar
 import com.prography.ui.component.LoadingTransparentScreen
 
@@ -71,18 +76,25 @@ internal fun ExtensionLessonScreen(
             intent(ExtensionLessonIntent.AdditionalInfo(it))
         }
     }
-    if (uiState.dialog == ExtensionLessonDialog.PostponeInformation) {
-        CommonDialog(
-            titleResId = R.string.lesson_postpone_title,
-            contentResId = R.string.lesson_postpone_content,
-            positiveResId = R.string.common_confirm,
-            onClickPositive = {
-                intent(ExtensionLessonIntent.ClickDialog)
-            },
-            onClickBackground = {
-                intent(ExtensionLessonIntent.ClickDialog)
+    when(uiState.dialog){
+        is ExtensionLessonDialog.PostponeInformation -> {
+            CommonDialog(
+                titleResId = R.string.lesson_postpone_title,
+                contentResId = R.string.lesson_postpone_content,
+                positiveResId = R.string.common_confirm,
+                onClickPositive = {
+                    intent(CommonDialogIntent.ClickConfirm.toExtensionLessonIntent())
+                },
+                onClickBackground = {
+                    intent(CommonDialogIntent.ClickBackground.toExtensionLessonIntent())
+                }
+            )
+        }
+        is ExtensionLessonDialog.CreateLessonCommonDialog->{
+            CommonDialogRoute(dialog = uiState.dialog.state) {
+                intent(it.toExtensionLessonIntent())
             }
-        )
+        }
     }
     if (uiState.isLoading) {
         LoadingTransparentScreen()
