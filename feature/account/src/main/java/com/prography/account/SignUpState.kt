@@ -55,7 +55,7 @@ sealed interface SignUpUiState : UiState {
     ) : SignUpUiState
 
     data class SelectRole(
-        val roleType: AccountRole? = null,
+        val roleType: AccountRole?,
         val isLoading: Boolean,
         val dialog: SignUpDialog
     ) : SignUpUiState

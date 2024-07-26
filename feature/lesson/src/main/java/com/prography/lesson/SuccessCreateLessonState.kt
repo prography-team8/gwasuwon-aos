@@ -18,8 +18,8 @@ data class SuccessCreateLessonMachineState(
 }
 
 data class SuccessCreateLessonUiState(
-    val isLoading: Boolean = false,
-    val dialog: SuccessCreateLessonDialog = SuccessCreateLessonDialog.None
+    val isLoading: Boolean,
+    val dialog: SuccessCreateLessonDialog
 ) : UiState
 
 sealed interface SuccessCreateLessonDialog {

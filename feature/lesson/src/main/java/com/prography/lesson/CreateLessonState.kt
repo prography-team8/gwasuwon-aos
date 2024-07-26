@@ -84,8 +84,8 @@ sealed interface CreateLessonUiState : UiState {
     data class CreateAdditionalInfo(
         val additionalInfo: AdditionalInfo,
         val availableNextBtn: Boolean,
-        val isLoading: Boolean = false,
-        val dialog: CreateLessonDialog = CreateLessonDialog.None
+        val isLoading: Boolean,
+        val dialog: CreateLessonDialog
     ) : CreateLessonUiState
 }
 

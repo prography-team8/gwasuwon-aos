@@ -18,6 +18,6 @@ data class LessonContractQrMachineState(
 
 @Immutable
 data class LessonContractQrUiState(
-    val qr: Bitmap? = null,
-    val isLoading: Boolean = false,
+    val qr: Bitmap?,
+    val isLoading: Boolean,
 ) : UiState

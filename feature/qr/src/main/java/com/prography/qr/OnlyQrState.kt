@@ -15,5 +15,5 @@ data class OnlyQrMachineState(
 }
 @Immutable
 data class OnlyQrUiState(
-    val qr: Bitmap? = null
+    val qr: Bitmap?
 ) : UiState

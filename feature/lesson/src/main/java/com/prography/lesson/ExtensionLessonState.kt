@@ -55,8 +55,8 @@ data class ExtensionLessonMachineState(
 data class ExtensionLessonUiState(
     val additionalInfo: AdditionalInfo,
     val availableExtensionBtn: Boolean,
-    val isLoading: Boolean = false,
-    val dialog: ExtensionLessonDialog = ExtensionLessonDialog.None
+    val isLoading: Boolean,
+    val dialog: ExtensionLessonDialog
 ) : UiState
 
 sealed interface ExtensionLessonDialog {
