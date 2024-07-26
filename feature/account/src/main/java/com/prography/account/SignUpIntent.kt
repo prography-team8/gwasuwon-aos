@@ -1,5 +1,6 @@
 package com.prography.account
 
+import com.prography.ui.component.CommonDialogIntent
 import com.prography.usm.action.ActionEvent
 import com.prography.usm.action.Intent
 
@@ -16,6 +17,7 @@ sealed interface SignUpIntent : Intent<SignUpActionEvent> {
     data object ClickStudent : SignUpIntent
     data object ClickNextButton : SignUpIntent
     data object ClickStartLesson : SignUpIntent
+    data class SignUpCommonDialogIntent(val intent: CommonDialogIntent) : SignUpIntent
 
     override fun toActionEvent(): SignUpActionEvent {
         return when (this) {
@@ -51,8 +53,21 @@ sealed interface SignUpIntent : Intent<SignUpActionEvent> {
                 SignUpActionEvent.GoToNextSignUpPage
             }
 
-            is ClickStartLesson->{
+            is ClickStartLesson -> {
                 SignUpActionEvent.NavigateHome
+            }
+
+            is SignUpCommonDialogIntent -> {
+                val commonDialogIntent = this.intent
+                when (commonDialogIntent) {
+                    is CommonDialogIntent.ClickConfirm -> {
+                        SignUpActionEvent.HideDialog
+                    }
+
+                    is CommonDialogIntent.ClickBackground -> {
+                        SignUpActionEvent.HideDialog
+                    }
+                }
             }
         }
     }
@@ -68,4 +83,5 @@ sealed interface SignUpActionEvent : ActionEvent {
     data object NavigateHome : SignUpActionEvent
     data object RequestSignUp : SignUpActionEvent
     data class ShowAgreementPage(val url: String) : SignUpActionEvent
+    data object HideDialog : SignUpActionEvent
 }
