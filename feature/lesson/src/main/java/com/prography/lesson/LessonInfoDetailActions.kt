@@ -3,6 +3,7 @@ package com.prography.lesson
 import com.prography.domain.lesson.model.LessonDay
 import com.prography.domain.lesson.model.LessonDuration
 import com.prography.domain.lesson.model.LessonSubject
+import com.prography.ui.component.CommonDialogIntent
 import com.prography.usm.action.ActionEvent
 import com.prography.usm.action.Intent
 
@@ -17,6 +18,7 @@ sealed interface LessonInfoDetailIntent : Intent<LessonInfoDetailActionEvent> {
     data class ClickLessonDay(val lessonDay: LessonDay) : LessonInfoDetailIntent
     data class ClickLessonDate(val lessonStartDateTime: Long) : LessonInfoDetailIntent
     data class ClickLessonNumberOfPostpone(val lessonNumberOfPostpone: Int) : LessonInfoDetailIntent
+    data class LessonInfoDetailCommonDialogIntent(val intent: CommonDialogIntent) : LessonInfoDetailIntent
 
     override fun toActionEvent(): LessonInfoDetailActionEvent {
         return when (this) {
@@ -45,6 +47,9 @@ sealed interface LessonInfoDetailIntent : Intent<LessonInfoDetailActionEvent> {
             }
             is ClickLessonNumberOfPostpone->{
                 LessonInfoDetailActionEvent.UpdateLessonNumberOfPostpone(lessonNumberOfPostpone)
+            }
+            is LessonInfoDetailCommonDialogIntent -> {
+                LessonInfoDetailActionEvent.HideDialog
             }
         }
     }
@@ -84,4 +89,5 @@ sealed interface LessonInfoDetailActionEvent : ActionEvent {
         val lessonNumberOfPostpone: Int
     ) : LessonInfoDetailActionEvent
 
+    data object HideDialog : LessonInfoDetailActionEvent
 }
