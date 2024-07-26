@@ -6,9 +6,11 @@ import com.prography.domain.lesson.request.CreateLessonRequestOption
 import com.prography.domain.lesson.request.UpdateLessonRequestOption
 import com.prography.domain.lesson.usecase.LoadLessonInfoDetailUseCase
 import com.prography.domain.lesson.usecase.UpdateLessonUseCase
+import com.prography.ui.component.CommonDialogState
 import com.prography.usm.holder.UiStateMachine
 import com.prography.usm.result.Result
 import com.prography.usm.result.asResult
+import com.prography.utils.network.NetworkUnavailableException
 import kotlinx.collections.immutable.toImmutableSet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -45,7 +47,15 @@ class LessonInfoDetailUiMachine(
         .map {
             when (it) {
                 is Result.Error -> {
-                    machineInternalState.copy(isLoading = false)
+                    val dialog = if (it.exception is NetworkUnavailableException) {
+                        CommonDialogState.NetworkError
+                    } else {
+                        CommonDialogState.UnknownError
+                    }
+                    machineInternalState.copy(
+                        isLoading = false,
+                        dialog = LessonInfoDetailDialog.LessonInfoDetailCommonDialog(dialog)
+                    )
                 }
 
                 is Result.Loading -> {
@@ -92,7 +102,15 @@ class LessonInfoDetailUiMachine(
         .map {
             when (it) {
                 is Result.Error -> {
-                    machineInternalState.copy(isLoading = false)
+                    val dialog = if (it.exception is NetworkUnavailableException) {
+                        CommonDialogState.NetworkError
+                    } else {
+                        CommonDialogState.UnknownError
+                    }
+                    machineInternalState.copy(
+                        isLoading = false,
+                        dialog = LessonInfoDetailDialog.LessonInfoDetailCommonDialog(dialog)
+                    )
                 }
 
                 is Result.Loading -> {
@@ -171,7 +189,13 @@ class LessonInfoDetailUiMachine(
                 lessonNumberOfPostpone = it.lessonNumberOfPostpone
             )
         }
-
+    private val hideDialogFlow = actionFlow
+        .filterIsInstance<LessonInfoDetailActionEvent.HideDialog>()
+        .map {
+            machineInternalState.copy(
+                dialog = LessonInfoDetailDialog.None
+            )
+        }
     private val updateLessonStartDateFlow = actionFlow
         .filterIsInstance<LessonInfoDetailActionEvent.UpdateLessonStartDate>()
         .map {
@@ -199,7 +223,8 @@ class LessonInfoDetailUiMachine(
             toggleLessonDayFlow,
             updateLessonNumberOfProgressFlow,
             updateLessonNumberOfPostponeFlow,
-            updateLessonStartDateFlow
+            updateLessonStartDateFlow,
+            hideDialogFlow
         )
     }
 }

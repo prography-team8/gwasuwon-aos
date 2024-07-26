@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
  * Created by MyeongKi.
  */
 object RootSocialLoginManager {
-    fun intialManager(application: Application, socialLoginEventFlow: MutableSharedFlow<SocialLoginEvent>) {
+    fun intManager(application: Application, socialLoginEventFlow: MutableSharedFlow<SocialLoginEvent>) {
         KakaoLoginManager.intialManager(application, socialLoginEventFlow)
     }
 

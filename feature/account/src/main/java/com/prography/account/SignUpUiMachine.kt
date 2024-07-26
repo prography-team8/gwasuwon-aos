@@ -4,9 +4,11 @@ import NavigationEvent
 import com.prography.domain.account.model.AccountRole
 import com.prography.domain.account.request.SignUpRequestOption
 import com.prography.domain.account.usecase.SignUpUseCase
+import com.prography.ui.component.CommonDialogState
 import com.prography.usm.holder.UiStateMachine
 import com.prography.usm.result.Result
 import com.prography.usm.result.asResult
+import com.prography.utils.network.NetworkUnavailableException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -63,6 +65,13 @@ class SignUpUiMachine(
                 signUpScreenType = machineInternalState.signUpScreenType.next() ?: machineInternalState.signUpScreenType,
             )
         }
+    private val hideDialogFlow = actionFlow
+        .filterIsInstance<SignUpActionEvent.HideDialog>()
+        .map {
+            machineInternalState.copy(
+                dialog = SignUpDialog.None
+            )
+        }
     private val selectTeacherFlow = actionFlow
         .filterIsInstance<SignUpActionEvent.SelectTeacher>()
         .map {
@@ -100,8 +109,15 @@ class SignUpUiMachine(
         .map {
             when (it) {
                 is Result.Error -> {
-                    //TODO dialog error
-                    machineInternalState.copy(isLoading = false)
+                    val dialog = if (it.exception is NetworkUnavailableException) {
+                        CommonDialogState.NetworkError
+                    } else {
+                        CommonDialogState.UnknownError
+                    }
+                    machineInternalState.copy(
+                        isLoading = false,
+                        dialog = SignUpDialog.SignUpCommonDialog(dialog)
+                    )
                 }
 
                 is Result.Loading -> {
@@ -149,7 +165,8 @@ class SignUpUiMachine(
             goToNextSignUpPageFlow,
             selectStudentFlow,
             selectTeacherFlow,
-            requestSignUpFlow
+            requestSignUpFlow,
+            hideDialogFlow
         )
     }
 }

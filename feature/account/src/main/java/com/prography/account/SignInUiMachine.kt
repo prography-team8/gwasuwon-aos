@@ -5,9 +5,11 @@ import com.prography.domain.account.SocialLoginEvent
 import com.prography.domain.account.model.AccountStatus
 import com.prography.domain.account.request.SignInRequestOption
 import com.prography.domain.account.usecase.SignInUseCase
+import com.prography.ui.component.CommonDialogState
 import com.prography.usm.holder.UiStateMachine
 import com.prography.usm.result.Result
 import com.prography.usm.result.asResult
+import com.prography.utils.network.NetworkUnavailableException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -31,9 +33,9 @@ class SignInUiMachine(
     coroutineScope,
     merge(socialLoginFlow.toSignUpAction())
 ) {
-
     override var machineInternalState: SignInMachineState = SignInMachineState(
-        isLoading = false
+        isLoading = false,
+        dialog = SignInDialog.None
     )
 
     private val requestSignInFlow = actionFlow
@@ -47,18 +49,12 @@ class SignInUiMachine(
         }
         .onEach {
             when (it) {
-                is Result.Error -> {
-                    val exception = it.exception
-                    //TODO dialog error
-                }
-
                 is Result.Success -> {
                     if (it.data.status == AccountStatus.ACTIVE) {
                         eventInvoker(SignInActionEvent.NavigateLessonRoute)
                     } else {
                         eventInvoker(SignInActionEvent.NavigateSignUpRoute)
                     }
-
                 }
 
                 else -> Unit
@@ -67,7 +63,15 @@ class SignInUiMachine(
         .map {
             when (it) {
                 is Result.Error -> {
-                    machineInternalState.copy(isLoading = false)
+                    val dialog = if (it.exception is NetworkUnavailableException) {
+                        CommonDialogState.NetworkError
+                    } else {
+                        CommonDialogState.UnknownError
+                    }
+                    machineInternalState.copy(
+                        isLoading = false,
+                        dialog = SignInDialog.SignInCommonDialog(dialog)
+                    )
                 }
 
                 is Result.Loading -> {
@@ -83,7 +87,18 @@ class SignInUiMachine(
     private val showFailSocialLoginFailFlow = actionFlow
         .filterIsInstance<SignInActionEvent.ShowFailSocialLoginFail>()
         .map {
-            machineInternalState
+            machineInternalState.copy(
+                dialog = SignInDialog.SignInCommonDialog(
+                    CommonDialogState.UnknownError
+                )
+            )
+        }
+    private val hideDialogFlow = actionFlow
+        .filterIsInstance<SignInActionEvent.HideDialog>()
+        .map {
+            machineInternalState.copy(
+                dialog = SignInDialog.None
+            )
         }
     private val navigateLessonRouteFlow = actionFlow
         .filterIsInstance<SignInActionEvent.NavigateLessonRoute>()
@@ -113,7 +128,8 @@ class SignInUiMachine(
     override fun mergeStateChangeScenarioActionsFlow(): Flow<SignInMachineState> {
         return merge(
             requestSignInFlow,
-            showFailSocialLoginFailFlow
+            showFailSocialLoginFailFlow,
+            hideDialogFlow
         )
     }
 }

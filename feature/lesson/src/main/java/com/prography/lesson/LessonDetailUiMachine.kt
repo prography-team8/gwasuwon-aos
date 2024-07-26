@@ -14,10 +14,12 @@ import com.prography.domain.qr.CommonQrEvent
 import com.prography.domain.qr.model.GwasuwonQr
 import com.prography.domain.qr.model.GwasuwonQrType
 import com.prography.domain.qr.model.LessonCertificationData
+import com.prography.ui.component.CommonDialogState
 import com.prography.usm.holder.UiStateMachine
 import com.prography.usm.result.Result
 import com.prography.usm.result.asResult
 import com.prography.utils.date.DateUtils
+import com.prography.utils.network.NetworkUnavailableException
 import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -91,7 +93,15 @@ class LessonDetailUiMachine(
         .map { result ->
             when (result) {
                 is Result.Error -> {
-                    machineInternalState.copy(isLoading = false)
+                    val dialog = if (result.exception is NetworkUnavailableException) {
+                        CommonDialogState.NetworkError
+                    } else {
+                        CommonDialogState.UnknownError
+                    }
+                    machineInternalState.copy(
+                        isLoading = false,
+                        dialog = LessonDetailDialog.LessonDetailCommonDialog(dialog)
+                    )
                 }
 
                 is Result.Loading -> {
@@ -146,7 +156,15 @@ class LessonDetailUiMachine(
         .map {
             when (it) {
                 is Result.Error -> {
-                    machineInternalState.copy(isLoading = false)
+                    val dialog = if (it.exception is NetworkUnavailableException) {
+                        CommonDialogState.NetworkError
+                    } else {
+                        CommonDialogState.UnknownError
+                    }
+                    machineInternalState.copy(
+                        isLoading = false,
+                        dialog = LessonDetailDialog.LessonDetailCommonDialog(dialog)
+                    )
                 }
 
                 is Result.Loading -> {
@@ -173,14 +191,29 @@ class LessonDetailUiMachine(
         .transform {
             emitAll(deleteLessonUseCase(lessonId).asResult())
         }
-        .onEach {
+        .map {
             when (it) {
                 is Result.Success -> {
                     commonLessonEvent.emit(CommonLessonEvent.NotifyDeleteLesson(lessonId))
                     navigateFlow.emit(NavigationEvent.PopBack)
+                    machineInternalState
                 }
-
-                else -> Unit
+                is Result.Error->{
+                    val dialog = if (it.exception is NetworkUnavailableException) {
+                        CommonDialogState.NetworkError
+                    } else {
+                        CommonDialogState.UnknownError
+                    }
+                    machineInternalState.copy(
+                        isLoading = false,
+                        dialog = LessonDetailDialog.LessonDetailCommonDialog(dialog)
+                    )
+                }
+                is Result.Loading -> {
+                    machineInternalState.copy(
+                        isLoading = true
+                    )
+                }
             }
         }
 
@@ -241,7 +274,7 @@ class LessonDetailUiMachine(
             if (it.qrLessonId == lessonId) {
                 emitAll(updateAttendanceLessonUseCase(it.qrLessonId).asResult())
             } else {
-                //show error dialog invliad lesson id
+                emit(Result.Error(IllegalArgumentException("Invalid lessonId")))
             }
         }
         .onEach {
@@ -259,7 +292,8 @@ class LessonDetailUiMachine(
 
                 is Result.Error -> {
                     machineInternalState.copy(
-                        isLoading = false
+                        isLoading = false,
+                        dialog = LessonDetailDialog.CertificateLessonErrorDialog
                     )
                 }
 
@@ -281,7 +315,6 @@ class LessonDetailUiMachine(
         popBackFlow,
         navigateLessonCertificationQrFlow,
         navigateLessonInfoDetailFlow,
-        deleteLessonFlow,
         updateLessonDeducted,
         recognizeQrFlow,
         navigateInviteStudentQrFlow
@@ -300,7 +333,8 @@ class LessonDetailUiMachine(
             showDeleteLessonDialogFlow,
             hideNotifyLessonDeductedDialog,
             showNotifyLessonDeductedDialogFlow,
-            updateAttendanceLessonFlow
+            updateAttendanceLessonFlow,
+            deleteLessonFlow
         )
     }
 }

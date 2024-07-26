@@ -3,6 +3,7 @@ package com.prography.lesson
 import com.prography.domain.lesson.model.LessonDay
 import com.prography.domain.lesson.model.LessonDuration
 import com.prography.domain.lesson.model.LessonSubject
+import com.prography.ui.component.CommonDialogState
 import com.prography.usm.state.MachineInternalState
 import com.prography.usm.state.UiState
 import kotlinx.collections.immutable.ImmutableSet
@@ -83,8 +84,8 @@ sealed interface CreateLessonUiState : UiState {
     data class CreateAdditionalInfo(
         val additionalInfo: AdditionalInfo,
         val availableNextBtn: Boolean,
-        val isLoading: Boolean = false,
-        val dialog: CreateLessonDialog = CreateLessonDialog.None
+        val isLoading: Boolean,
+        val dialog: CreateLessonDialog
     ) : CreateLessonUiState
 }
 
@@ -106,5 +107,8 @@ enum class CreateLessonScreenType(val page: Int) {
 
 sealed interface CreateLessonDialog {
     data object None : CreateLessonDialog
+    data class CreateLessonCommonDialog(
+        val state: CommonDialogState
+    ) : CreateLessonDialog
     data object PostponeInformation : CreateLessonDialog
 }

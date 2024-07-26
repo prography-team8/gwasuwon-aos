@@ -4,6 +4,7 @@ import com.prography.domain.lesson.model.Lesson
 import com.prography.domain.lesson.model.LessonDay
 import com.prography.domain.lesson.model.LessonDuration
 import com.prography.domain.lesson.model.LessonSubject
+import com.prography.ui.component.CommonDialogState
 import com.prography.usm.state.MachineInternalState
 import com.prography.usm.state.UiState
 import kotlinx.collections.immutable.ImmutableSet
@@ -24,6 +25,7 @@ data class LessonInfoDetailMachineState(
     val lessonNumberOfPostpone: Int? = originalLessonInfo?.rescheduleCount,
     val lessonStartDateTime: Long? = originalLessonInfo?.startDate,
     val isLoading: Boolean = false,
+    val dialog: LessonInfoDetailDialog = LessonInfoDetailDialog.None
 ) : MachineInternalState<LessonInfoDetailUiState> {
     private fun isDiffFromOriginal(): Boolean {
         return studentName != originalLessonInfo?.studentName
@@ -58,12 +60,14 @@ data class LessonInfoDetailMachineState(
             lessonNumberOfPostpone = lessonNumberOfPostpone,
             available = originalLessonInfo?.available ?: true,
             lessonStartDateTime = lessonStartDateTime,
+            dialog = dialog,
+            isLoading = isLoading
         )
     }
 }
 
 data class LessonInfoDetailUiState(
-    val isVisibleUpdateBtn: Boolean = false,
+    val isVisibleUpdateBtn: Boolean,
     val studentName: String,
     val schoolYear: String,
     val lessonSubject: LessonSubject?,
@@ -73,5 +77,13 @@ data class LessonInfoDetailUiState(
     val lessonNumberOfPostpone: Int?,
     val lessonStartDateTime: Long?,
     val available: Boolean,
-    val isLoading: Boolean = false
+    val isLoading: Boolean,
+    val dialog: LessonInfoDetailDialog
 ) : UiState
+
+sealed interface LessonInfoDetailDialog {
+    data object None : LessonInfoDetailDialog
+    data class LessonInfoDetailCommonDialog(
+        val state: CommonDialogState
+    ) : LessonInfoDetailDialog
+}

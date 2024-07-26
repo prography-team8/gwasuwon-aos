@@ -2,10 +2,12 @@ package com.prography.lesson
 
 import NavigationEvent
 import com.prography.domain.lesson.usecase.LoadLessonContractUrlUseCase
+import com.prography.ui.component.CommonDialogState
 import com.prography.usm.holder.UiStateMachine
 import com.prography.usm.result.Result
 import com.prography.usm.result.asResult
 import com.prography.utils.clipboar.ClipboardHelper
+import com.prography.utils.network.NetworkUnavailableException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -53,8 +55,14 @@ class SuccessCreateLessonUiMachine(
                 }
 
                 is Result.Error -> {
+                    val dialog = if (it.exception is NetworkUnavailableException) {
+                        CommonDialogState.NetworkError
+                    } else {
+                        CommonDialogState.UnknownError
+                    }
                     machineInternalState.copy(
-                        isLoading = false
+                        isLoading = false,
+                        dialog = SuccessCreateLessonDialog.SuccessCreateLessonCommonDialog(dialog)
                     )
                 }
             }
@@ -72,9 +80,17 @@ class SuccessCreateLessonUiMachine(
             clipboardHelper.copyToClipboard(machineInternalState.contractUrl)
         }
         .map {
-            machineInternalState.copy(
-                dialog = SuccessCreateLessonDialog.SuccessCopy
-            )
+            if(machineInternalState.contractUrl.isNotEmpty()){
+                machineInternalState.copy(
+                    dialog = SuccessCreateLessonDialog.SuccessCopy
+                )
+            }else{
+                machineInternalState.copy(
+                    dialog = SuccessCreateLessonDialog.SuccessCreateLessonCommonDialog(
+                        CommonDialogState.UnknownError
+                    )
+                )
+            }
         }
     private val navigateLessonDetailFlow = actionFlow
         .filterIsInstance<SuccessCreateLessonActionEvent.NavigateLessonDetail>()

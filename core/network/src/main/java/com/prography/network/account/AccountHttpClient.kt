@@ -8,6 +8,7 @@ import com.prography.network.account.body.SignUpRequestBody
 import com.prography.network.account.response.SignInResponse
 import com.prography.network.account.response.SignUpResponse
 import com.prography.network.setJsonBody
+import com.prography.utils.network.NetworkHelper
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.post
@@ -15,8 +16,12 @@ import io.ktor.client.request.post
 /**
  * Created by MyeongKi.
  */
-class AccountHttpClient(private val httpClient: () -> HttpClient) {
+class AccountHttpClient(
+    private val httpClient: () -> HttpClient,
+    private val networkHelper: NetworkHelper
+) {
     suspend fun requestSignIn(requestOption: SignInRequestOption): SignInResponse {
+        networkHelper.checkNetworkAvailable()
         return httpClient().post("$GWASUWON_HOST/api/v1/auth/login/${requestOption.type.name.lowercase()}") {
             setJsonBody(
                 SignInRequestBody(accessToken = requestOption.accessKey)
@@ -25,6 +30,7 @@ class AccountHttpClient(private val httpClient: () -> HttpClient) {
     }
 
     suspend fun requestSignUp(requestOption: SignUpRequestOption): SignUpResponse {
+        networkHelper.checkNetworkAvailable()
         return httpClient().post("$GWASUWON_HOST/api/v1/users/activation") {
             setJsonBody(
                 SignUpRequestBody(

@@ -1,6 +1,7 @@
 package com.prography.account
 
 import com.prography.domain.account.model.AccountRole
+import com.prography.ui.component.CommonDialogState
 import com.prography.usm.state.MachineInternalState
 import com.prography.usm.state.UiState
 
@@ -12,7 +13,8 @@ data class SignUpMachineState(
     val isPersonalInformationAgreement: Boolean,
     val isGwasuwonServiceAgreement: Boolean,
     val roleType: AccountRole? = null,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val dialog: SignUpDialog = SignUpDialog.None
 ) : MachineInternalState<SignUpUiState> {
     override fun toUiState(): SignUpUiState {
         return when (signUpScreenType) {
@@ -26,7 +28,11 @@ data class SignUpMachineState(
             }
 
             SignUpScreenType.SELECT_ROLE -> {
-                SignUpUiState.SelectRole(roleType = roleType, isLoading = isLoading)
+                SignUpUiState.SelectRole(
+                    roleType = roleType,
+                    isLoading = isLoading,
+                    dialog = dialog
+                )
             }
 
             SignUpScreenType.COMPLETE -> {
@@ -49,8 +55,9 @@ sealed interface SignUpUiState : UiState {
     ) : SignUpUiState
 
     data class SelectRole(
-        val roleType: AccountRole? = null,
-        val isLoading: Boolean
+        val roleType: AccountRole?,
+        val isLoading: Boolean,
+        val dialog: SignUpDialog
     ) : SignUpUiState
 
     data object Complete : SignUpUiState
@@ -65,4 +72,11 @@ enum class SignUpScreenType(val page: Int) {
     fun next(): SignUpScreenType? {
         return entries.find { (this.page + 1) == it.page }
     }
+}
+
+sealed interface SignUpDialog {
+    data object None : SignUpDialog
+    data class SignUpCommonDialog(
+        val state: CommonDialogState
+    ) : SignUpDialog
 }

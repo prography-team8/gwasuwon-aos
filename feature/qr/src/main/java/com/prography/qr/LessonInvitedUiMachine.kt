@@ -56,7 +56,8 @@ class LessonInvitedUiMachine(
             when (it) {
                 is Result.Error -> {
                     machineInternalState.copy(
-                        isLoading = false
+                        isLoading = false,
+                        dialog = LessonInvitedDialog.JoinLessonErrorDialog
                     )
                 }
 
@@ -89,7 +90,13 @@ class LessonInvitedUiMachine(
                 navigateFlow.emit(NavigationEvent.NavigateLessonDetailRoute(it))
             }
         }
-
+    private val hideDialogFlow = actionFlow
+        .filterIsInstance<LessonInvitedActionEvent.HideDialog>()
+        .map {
+            machineInternalState.copy(
+                dialog = LessonInvitedDialog.None
+            )
+        }
     override val outerNotifyScenarioActionFlow = merge(
         startQrRecognitionFlow,
         navigateLessonDetailFlow
@@ -100,7 +107,7 @@ class LessonInvitedUiMachine(
     }
 
     override fun mergeStateChangeScenarioActionsFlow(): Flow<LessonInvitedMachineState> {
-        return merge(participateLessonFlow)
+        return merge(participateLessonFlow, hideDialogFlow)
     }
 }
 

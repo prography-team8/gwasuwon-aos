@@ -30,12 +30,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.prography.account.SignUpDialog
 import com.prography.account.SignUpIntent
 import com.prography.account.SignUpUiState
 import com.prography.account.SignUpViewModel
 import com.prography.ui.GwasuwonTypography
 import com.prography.ui.R
 import com.prography.ui.component.CommonButton
+import com.prography.ui.component.CommonDialogRoute
 import com.prography.ui.component.GwasuwonConfigurationManager
 import com.prography.ui.component.LoadingTransparentScreen
 import com.prography.ui.component.SpaceHeight
@@ -287,6 +289,15 @@ private fun SignUpSelectRoleScreen(
         ) {
             intent(SignUpIntent.ClickStudent)
         }
+    }
+    when (uiState.dialog) {
+        is SignUpDialog.SignUpCommonDialog -> {
+            CommonDialogRoute(dialog = uiState.dialog.state) {
+                intent(SignUpIntent.SignUpCommonDialogIntent(it))
+            }
+        }
+
+        is SignUpDialog.None -> Unit
     }
     if (uiState.isLoading) {
         LoadingTransparentScreen()

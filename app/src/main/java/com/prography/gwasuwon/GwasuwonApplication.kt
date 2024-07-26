@@ -14,7 +14,7 @@ class GwasuwonApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        RootSocialLoginManager.intialManager(this, AppContainer.socialLoginEventFlow)
+        RootSocialLoginManager.intManager(this, AppContainer.socialLoginEventFlow)
     }
 
     companion object {

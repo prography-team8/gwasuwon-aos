@@ -33,6 +33,7 @@ import com.prography.network.account.AccountRemoteDataSource
 import com.prography.network.lesson.LessonHttpClient
 import com.prography.network.lesson.LessonRemoteDataSource
 import com.prography.utils.clipboar.ClipboardHelperImpl
+import com.prography.utils.network.NetworkHelperImpl
 import com.prography.utils.security.GwasuwonAccessTokenHelper
 import com.prography.utils.security.GwasuwonRefreshTokenHelper
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -63,6 +64,9 @@ object AppContainer {
     val accountPreference by lazy {
         AccountPreferenceImpl(GwasuwonApplication.currentApplication)
     }
+    private val networkHelper by lazy {
+        NetworkHelperImpl(GwasuwonApplication.currentApplication)
+    }
     val accountInfoManager: AccountInfoManager by lazy {
         AccountInfoManagerImpl.apply {
             init(
@@ -84,9 +88,10 @@ object AppContainer {
         AccountRepositoryImpl(
             remoteDataSource = AccountRemoteDataSource(
                 httpClient = AccountHttpClient(
-                    httpClient = { gwasuwonHttpClient }
+                    httpClient = { gwasuwonHttpClient },
+                    networkHelper = networkHelper
                 ),
-                accountInfoManager = accountInfoManager
+                accountInfoManager = accountInfoManager,
             )
         )
     }
@@ -94,7 +99,8 @@ object AppContainer {
     private val lessonRepository = LessonRepositoryImpl(
         LessonRemoteDataSource(
             httpClient = LessonHttpClient(
-                httpClient = { gwasuwonHttpClient }
+                httpClient = { gwasuwonHttpClient },
+                networkHelper = networkHelper
             )
         )
     )

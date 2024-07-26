@@ -3,6 +3,7 @@ package com.prography.lesson
 import com.prography.domain.lesson.model.LessonDay
 import com.prography.domain.lesson.model.LessonDuration
 import com.prography.domain.lesson.model.LessonSubject
+import com.prography.ui.component.CommonDialogState
 import com.prography.usm.state.MachineInternalState
 import com.prography.usm.state.UiState
 import kotlinx.collections.immutable.ImmutableSet
@@ -54,11 +55,14 @@ data class ExtensionLessonMachineState(
 data class ExtensionLessonUiState(
     val additionalInfo: AdditionalInfo,
     val availableExtensionBtn: Boolean,
-    val isLoading: Boolean = false,
-    val dialog: ExtensionLessonDialog = ExtensionLessonDialog.None
+    val isLoading: Boolean,
+    val dialog: ExtensionLessonDialog
 ) : UiState
 
 sealed interface ExtensionLessonDialog {
-    data object None : ExtensionLessonDialog
+    data object None: ExtensionLessonDialog
+    data class CreateLessonCommonDialog(
+        val state: CommonDialogState
+    ) : ExtensionLessonDialog
     data object PostponeInformation : ExtensionLessonDialog
 }

@@ -1,5 +1,6 @@
 package com.prography.lesson
 
+import com.prography.ui.component.CommonDialogIntent
 import com.prography.usm.action.ActionEvent
 import com.prography.usm.action.Intent
 
@@ -15,10 +16,12 @@ sealed interface LessonDetailIntent : Intent<LessonDetailActionEvent> {
     data object ClickInviteStudent : LessonDetailIntent
     data object ClickLessonInfoDetail : LessonDetailIntent
     data object ClickDeleteLesson : LessonDetailIntent
+    data object ClickDialogConfirm : LessonDetailIntent
     data object ClickDialogCancel : LessonDetailIntent
     data object ClickDeleteDialogConfirm : LessonDetailIntent
     data object ClickDialogBackground : LessonDetailIntent
     data object ClickNotifyLessonDeductedDialog : LessonDetailIntent
+    data class LessonDetailCommonDialogIntent(val intent: CommonDialogIntent) : LessonDetailIntent
 
     override fun toActionEvent(): LessonDetailActionEvent {
         return when (this) {
@@ -50,7 +53,10 @@ sealed interface LessonDetailIntent : Intent<LessonDetailActionEvent> {
                 LessonDetailActionEvent.DeleteLesson
             }
 
-            is ClickDialogCancel, is ClickDialogBackground -> {
+            is ClickDialogConfirm,
+            is LessonDetailCommonDialogIntent,
+            is ClickDialogCancel,
+            is ClickDialogBackground -> {
                 LessonDetailActionEvent.HideDialog
             }
 
@@ -68,6 +74,8 @@ sealed interface LessonDetailIntent : Intent<LessonDetailActionEvent> {
         }
     }
 }
+
+fun CommonDialogIntent.toLessonDetailIntent() = LessonDetailIntent.LessonDetailCommonDialogIntent(this)
 
 sealed interface LessonDetailActionEvent : ActionEvent {
     data class Refresh(val nextEvent: LessonDetailActionEvent? = null) : LessonDetailActionEvent

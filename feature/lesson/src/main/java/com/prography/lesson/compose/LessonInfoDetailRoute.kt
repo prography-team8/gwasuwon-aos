@@ -17,6 +17,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.prography.domain.lesson.model.LessonDuration
 import com.prography.domain.lesson.model.LessonSubject
 import com.prography.lesson.LessonInfoDetailActionEvent
+import com.prography.lesson.LessonInfoDetailDialog
 import com.prography.lesson.LessonInfoDetailIntent
 import com.prography.lesson.LessonInfoDetailUiState
 import com.prography.lesson.LessonInfoDetailViewModel
@@ -27,6 +28,7 @@ import com.prography.lesson.utils.getLessonDurationStringRes
 import com.prography.lesson.utils.getLessonSubjectStringRes
 import com.prography.ui.GwasuwonTypography
 import com.prography.ui.R
+import com.prography.ui.component.CommonDialogRoute
 import com.prography.ui.component.CommonToolbar
 import com.prography.ui.component.DatePickerButton
 import com.prography.ui.component.DropdownMenuComponent
@@ -49,6 +51,15 @@ fun LessonInfoDetailRoute(
         event = viewModel.machine.eventInvoker,
         intent = viewModel.machine.intentInvoker
     )
+    when (uiState.dialog) {
+        is LessonInfoDetailDialog.LessonInfoDetailCommonDialog -> {
+            CommonDialogRoute(dialog = uiState.dialog.state) {
+                viewModel.machine.intentInvoker(LessonInfoDetailIntent.LessonInfoDetailCommonDialogIntent(it))
+            }
+        }
+
+        is LessonInfoDetailDialog.None -> Unit
+    }
     if (uiState.isLoading) {
         LoadingTransparentScreen()
     }

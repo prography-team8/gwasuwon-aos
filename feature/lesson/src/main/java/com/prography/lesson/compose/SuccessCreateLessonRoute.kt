@@ -24,11 +24,13 @@ import androidx.compose.ui.unit.dp
 import com.prography.lesson.SuccessCreateLessonDialog
 import com.prography.lesson.SuccessCreateLessonIntent
 import com.prography.lesson.SuccessCreateLessonViewModel
+import com.prography.lesson.toLessonDetailIntent
 import com.prography.ui.GwasuwonTypography
 import com.prography.ui.R
 import com.prography.ui.component.CommonBorderButton
 import com.prography.ui.component.CommonButton
 import com.prography.ui.component.CommonDialog
+import com.prography.ui.component.CommonDialogRoute
 import com.prography.ui.component.GwasuwonConfigurationManager
 import com.prography.ui.component.SpaceHeight
 import com.prography.ui.configuration.toColor
@@ -69,7 +71,11 @@ private fun SuccessCreateLessonDialog(
                 }
             )
         }
-
+        is SuccessCreateLessonDialog.SuccessCreateLessonCommonDialog->{
+            CommonDialogRoute(dialog = dialog.state) {
+                intent(SuccessCreateLessonIntent.LessonsCommonDialogIntent(it))
+            }
+        }
         else -> Unit
     }
 }
