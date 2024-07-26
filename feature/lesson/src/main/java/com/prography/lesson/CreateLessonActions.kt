@@ -26,9 +26,6 @@ sealed interface CreateLessonIntent : Intent<CreateLessonActionEvent> {
     data object ClickBack : CreateLessonIntent
     data class AdditionalInfo(val additionalInfoIntent: AdditionalInfoIntent) : CreateLessonIntent
     data class CreateLessonDialogIntent(val intent: CommonDialogIntent) : CreateLessonIntent
-    fun CommonDialogIntent.toCreateIntent(): CreateLessonIntent {
-        return CreateLessonDialogIntent(this)
-    }
 
     override fun toActionEvent(): CreateLessonActionEvent {
         return when (this) {
@@ -81,6 +78,9 @@ sealed interface CreateLessonIntent : Intent<CreateLessonActionEvent> {
             }
         }
     }
+}
+fun CommonDialogIntent.toCreateIntent(): CreateLessonIntent {
+    return CreateLessonIntent.CreateLessonDialogIntent(this)
 }
 
 sealed interface CreateLessonActionEvent : ActionEvent {

@@ -1,5 +1,6 @@
 package com.prography.lesson
 
+import com.prography.ui.component.CommonDialogState
 import com.prography.usm.state.MachineInternalState
 import com.prography.usm.state.UiState
 import com.prography.utils.date.toKrMonthDateTime
@@ -80,7 +81,7 @@ sealed interface LessonDateInfoUiState {
 
 sealed interface LessonDetailDialog {
     data object None : LessonDetailDialog
-
+    data class LessonDetailCommonDialog(val state: CommonDialogState) : LessonDetailDialog
     data object DeleteLesson : LessonDetailDialog
     data object NotifyLessonDeducted : LessonDetailDialog
 }

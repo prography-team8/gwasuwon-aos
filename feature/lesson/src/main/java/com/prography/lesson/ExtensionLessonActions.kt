@@ -16,10 +16,6 @@ sealed interface ExtensionLessonIntent : Intent<ExtensionLessonActionEvent> {
     data class AdditionalInfo(val additionalInfoIntent: AdditionalInfoIntent) : ExtensionLessonIntent
     data class ExtensionLessonDialogIntent(val intent: CommonDialogIntent) : ExtensionLessonIntent
 
-    fun CommonDialogIntent.toExtensionLessonIntent(): ExtensionLessonDialogIntent {
-        return ExtensionLessonDialogIntent(this)
-    }
-
     override fun toActionEvent(): ExtensionLessonActionEvent {
         return when (this) {
             is ClickExtensionLesson -> {
@@ -69,6 +65,9 @@ sealed interface ExtensionLessonIntent : Intent<ExtensionLessonActionEvent> {
     }
 }
 
+fun CommonDialogIntent.toExtensionLessonIntent(): ExtensionLessonIntent.ExtensionLessonDialogIntent {
+    return ExtensionLessonIntent.ExtensionLessonDialogIntent(this)
+}
 sealed interface ExtensionLessonActionEvent : ActionEvent {
     data object PopBack : ExtensionLessonActionEvent
     data object ExtensionLesson : ExtensionLessonActionEvent

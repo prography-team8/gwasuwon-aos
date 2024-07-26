@@ -24,9 +24,11 @@ import com.prography.lesson.LessonDetailDialog
 import com.prography.lesson.LessonDetailIntent
 import com.prography.lesson.LessonDetailUiState
 import com.prography.lesson.LessonDetailViewModel
+import com.prography.lesson.toLessonDetailIntent
 import com.prography.ui.GwasuwonTypography
 import com.prography.ui.R
 import com.prography.ui.component.CommonButton
+import com.prography.ui.component.CommonDialogRoute
 import com.prography.ui.component.CommonToolbar
 import com.prography.ui.component.DropdownMoreComponent
 import com.prography.ui.component.ErrorDialog
@@ -112,7 +114,11 @@ private fun LessonDetailDialogRoute(
                 }
             )
         }
-
+        is LessonDetailDialog.LessonDetailCommonDialog->{
+            CommonDialogRoute(dialog = dialogState.state) {
+                intent(it.toLessonDetailIntent())
+            }
+        }
         else -> Unit
     }
 }

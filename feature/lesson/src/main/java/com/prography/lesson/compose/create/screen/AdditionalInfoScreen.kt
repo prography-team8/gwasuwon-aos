@@ -25,9 +25,9 @@ import androidx.compose.ui.res.stringResource
 import com.prography.domain.lesson.model.LessonDay
 import com.prography.lesson.CreateLessonDialog
 import com.prography.lesson.CreateLessonIntent
-import com.prography.lesson.CreateLessonIntent.ClickBack.toCreateIntent
 import com.prography.lesson.CreateLessonUiState
 import com.prography.lesson.compose.create.CreateLessonHeader
+import com.prography.lesson.toCreateIntent
 import com.prography.lesson.utils.getLessonDayStringRes
 import com.prography.ui.GwasuwonTypography
 import com.prography.ui.R
