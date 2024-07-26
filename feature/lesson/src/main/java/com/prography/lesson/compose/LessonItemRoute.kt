@@ -107,7 +107,7 @@ private fun LessonItemScreen(
                 Spacer(modifier = Modifier.weight(1f))
                 if (available.not()) {
                     LessonExtensionRequiredButton {
-
+                        intent(LessonItemIntent.ClickExtensionRequired)
                     }
                 }
             }

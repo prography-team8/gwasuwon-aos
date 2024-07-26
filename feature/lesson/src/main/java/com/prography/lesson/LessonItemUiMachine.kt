@@ -30,9 +30,9 @@ class LessonItemUiMachine(
             navigateFlow.emit(NavigationEvent.NavigateLessonDetailRoute(lessonId = machineInternalState.lesson.id))
         }
     private val navigateExtensionRequiredFlow = actionFlow
-        .filterIsInstance<LessonItemActionEvent.NavigateExtensionRequired>()
+        .filterIsInstance<LessonItemActionEvent.NavigateExtensionLesson>()
         .onEach {
-            navigateFlow.emit(NavigationEvent.NavigateLessonDetailRoute(lessonId = machineInternalState.lesson.id))
+            navigateFlow.emit(NavigationEvent.NavigateExtensionLessonRoute(lessonId = machineInternalState.lesson.id))
         }
     override val outerNotifyScenarioActionFlow = merge(
         navigateLessonDetailFlow,

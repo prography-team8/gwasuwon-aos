@@ -17,7 +17,7 @@ sealed interface LessonItemIntent : Intent<LessonItemActionEvent> {
             }
 
             is ClickExtensionRequired -> {
-                LessonItemActionEvent.NavigateExtensionRequired
+                LessonItemActionEvent.NavigateExtensionLesson
             }
         }
     }
@@ -25,5 +25,5 @@ sealed interface LessonItemIntent : Intent<LessonItemActionEvent> {
 
 sealed interface LessonItemActionEvent : ActionEvent {
     data object NavigateLessonDetail : LessonItemActionEvent
-    data object NavigateExtensionRequired : LessonItemActionEvent
+    data object NavigateExtensionLesson : LessonItemActionEvent
 }

@@ -2,6 +2,7 @@ package com.prography.gwasuwon.navigate
 
 import GwasuwonPath
 import NavigationActions
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -180,7 +181,12 @@ fun GwasuwonNavGraph(
                 )
             }
         }
-
+        with(GwasuwonPath.ExtensionLessonPath()) {
+            composable(getDestination(), arguments) {
+                val lessonId = it.arguments?.getLong(GwasuwonPath.ExtensionLessonPath.ArgumentName.LESSON_ID.name) ?: 0L
+                Text(text = "hi")
+            }
+        }
         with(GwasuwonPath.InviteStudentQrPath()) {
             composable(getDestination(), arguments) {
                 val lessonId = it.arguments?.getLong(GwasuwonPath.InviteStudentQrPath.ArgumentName.LESSON_ID.name) ?: 0L

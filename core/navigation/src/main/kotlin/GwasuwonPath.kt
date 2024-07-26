@@ -67,8 +67,22 @@ sealed interface GwasuwonPath {
             LESSON_ID,
             ;
         }
-
     }
+    data class ExtensionLessonPath(
+        private val lessonId: Long = -1
+    ) : GwasuwonPath {
+        override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.EXTENSION_LESSON
+        override val arguments: List<NamedNavArgument> = listOf(
+            navArgument(ArgumentName.LESSON_ID.name) { defaultValue = lessonId },
+        )
+
+        enum class ArgumentName {
+            LESSON_ID,
+            ;
+        }
+    }
+
+
     data class SuccessCreateLessonPath(
         private val lessonId: Long = -1
     ) : GwasuwonPath {
