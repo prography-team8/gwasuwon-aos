@@ -83,7 +83,7 @@ private fun LessonItemScreen(
                 Text(
                     modifier = Modifier
                         .wrapContentSize(),
-                    text = "${uiState.lesson.schoolYear}/${stringResource(id = uiState.lesson.lessonSubject.getLessonSubjectStringRes())}",
+                    text = "${uiState.lesson.grade}/${stringResource(id = uiState.lesson.subject.getLessonSubjectStringRes())}",
                     color = GwasuwonConfigurationManager.colors.labelNormal.toColor(),
                     style = GwasuwonTypography.Caption1Regular.textStyle
                 )
@@ -98,18 +98,18 @@ private fun LessonItemScreen(
                 ) {
                     LessonPointInfoItem(
                         pointColor = colorResource(id = R.color.green_50),
-                        info = uiState.lesson.lessonDay.getLessonDayStringRes().map { stringResource(id = it) }.joinToString(separator = ",")
+                        info = uiState.lesson.classDays.getLessonDayStringRes().map { stringResource(id = it) }.joinToString(separator = ",")
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     LessonPointInfoItem(
                         pointColor = colorResource(id = R.color.orange_50),
-                        info = stringResource(id = uiState.lesson.lessonDuration.getLessonDurationStringRes())
+                        info = stringResource(id = uiState.lesson.sessionDuration.getLessonDurationStringRes())
                     )
                 }
                 Text(
                     modifier = Modifier
                         .wrapContentSize(),
-                    text = "${uiState.lesson.lessonAttendanceDates.size}/${uiState.lesson.lessonNumberOfProgress}",
+                    text = "${uiState.lesson.numberOfSessionsCompleted}/${uiState.lesson.numberOfSessions}",
                     color = GwasuwonConfigurationManager.colors.labelNormal.toColor(),
                     style = GwasuwonTypography.Label2Regular.textStyle
                 )

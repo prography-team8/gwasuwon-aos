@@ -128,7 +128,7 @@ fun GwasuwonNavGraph(
                         factory = LessonInvitedViewModel.provideFactory(
                             navigateFlow = AppContainer.navigateEventFlow,
                             commonQrFlow = AppContainer.qrEventFlow,
-                            participateLessonUseCase = AppContainer.participateLessonUseCase,
+                            joinLessonUseCase = AppContainer.joinLessonUseCase,
                             accountPreference = AppContainer.accountPreference
                         )
                     )
@@ -173,7 +173,7 @@ fun GwasuwonNavGraph(
                             lessonId = lessonId,
                             navigateFlow = AppContainer.navigateEventFlow,
                             commonLessonEvent = AppContainer.commonLessonEvent,
-                            loadLessonUseCase = AppContainer.loadLessonUseCase,
+                            loadLessonInfoDetailUseCase = AppContainer.loadLessonInfoDetailUseCase,
                             updateLessonUseCase = AppContainer.updateLessonUseCase
                         )
                     )
@@ -234,8 +234,7 @@ fun GwasuwonNavGraph(
                             commonQrFlow = AppContainer.qrEventFlow,
                             navigateFlow = AppContainer.navigateEventFlow,
                             commonLessonEvent = AppContainer.commonLessonEvent,
-                            loadLessonUseCase = AppContainer.loadLessonUseCase,
-                            loadLessonDatesUseCase = AppContainer.loadLessonDatesUseCase,
+                            loadLessonSchedulesUseCase = AppContainer.loadLessonSchedulesUseCase,
                             deleteLessonUseCase = AppContainer.deleteLessonUseCase,
                             checkLessonByAttendanceUseCase = AppContainer.checkLessonByAttendanceUseCase,
                             isShowingNotifyLessonDeductedDialogUseCase = AppContainer.isShowingNotifyLessonDeductedDialogUseCase,

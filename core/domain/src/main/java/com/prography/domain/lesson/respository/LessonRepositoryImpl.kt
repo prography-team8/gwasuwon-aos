@@ -3,18 +3,17 @@ package com.prography.domain.lesson.respository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.map
 import com.prography.domain.lesson.LessonDataSource
 import com.prography.domain.lesson.LoadLessonComposePagingSource
 import com.prography.domain.lesson.PAGE_SIZE
 import com.prography.domain.lesson.model.Lesson
+import com.prography.domain.lesson.model.LessonCard
+import com.prography.domain.lesson.model.LessonSchedules
 import com.prography.domain.lesson.request.CheckLessonByAttendanceRequestOption
 import com.prography.domain.lesson.request.CreateLessonRequestOption
 import com.prography.domain.lesson.request.UpdateLessonRequestOption
-import com.prography.utils.date.toKtsTimeMillis
 import com.prography.utils.date.toUtcTimeMillis
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 /**
  * Created by MyeongKi.
@@ -26,48 +25,29 @@ class LessonRepositoryImpl(
         return remoteSource.loadLessonContractUrl(lessonId)
     }
 
-    override fun loadLessons(): Flow<PagingData<Lesson>> {
+    override fun loadLessonCards(): Flow<PagingData<LessonCard>> {
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),
             pagingSourceFactory = {
                 LoadLessonComposePagingSource(remoteSource)
             }
         ).flow
-            .map { pagingData ->
-                pagingData.map {
-                    it.copy(
-                        lessonStartDateTime = it.lessonStartDateTime.toKtsTimeMillis(),
-                        lessonAttendanceDates = it.lessonAttendanceDates.map { date ->
-                            date.toKtsTimeMillis()
-                        },
-                        lessonAbsentDates = it.lessonAbsentDates.map { date ->
-                            date.toKtsTimeMillis()
-                        }
-                    )
-                }
-            }
     }
 
     override fun createLesson(requestOption: CreateLessonRequestOption): Flow<Lesson> {
         return remoteSource.createLesson(
             requestOption.copy(
-                lessonStartDateTime = requestOption.lessonStartDateTime.toUtcTimeMillis(),
+                startDate = requestOption.startDate.toUtcTimeMillis(),
             )
         )
     }
 
-    override fun loadLesson(lessonId: Long): Flow<Lesson> {
-        return remoteSource.loadLesson(lessonId).map {
-            it.copy(
-                lessonStartDateTime = it.lessonStartDateTime.toKtsTimeMillis(),
-                lessonAttendanceDates = it.lessonAttendanceDates.map { date ->
-                    date.toKtsTimeMillis()
-                },
-                lessonAbsentDates = it.lessonAbsentDates.map { date ->
-                    date.toKtsTimeMillis()
-                }
-            )
-        }
+    override fun loadLessonSchedules(lessonId: Long): Flow<LessonSchedules> {
+        return remoteSource.loadLessonSchedules(lessonId)
+    }
+
+    override fun loadLessonInfoDetail(lessonId: Long): Flow<Lesson> {
+        return remoteSource.loadLessonInfoDetail(lessonId)
     }
 
     override fun updateLesson(requestOption: UpdateLessonRequestOption): Flow<Lesson> {
@@ -82,7 +62,7 @@ class LessonRepositoryImpl(
         return remoteSource.deleteLesson(lessonId)
     }
 
-    override fun checkLessonByAttendance(requestOption: CheckLessonByAttendanceRequestOption): Flow<Lesson> {
+    override fun checkLessonByAttendance(requestOption: CheckLessonByAttendanceRequestOption): Flow<LessonSchedules> {
         return remoteSource.checkLessonByAttendance(
             requestOption.copy(
                 lessonAbsentDate = requestOption.lessonAbsentDate.toUtcTimeMillis(),
@@ -90,8 +70,8 @@ class LessonRepositoryImpl(
         )
     }
 
-    override fun participateLesson(lessonId: Long): Flow<Lesson> {
-        return remoteSource.participateLesson(lessonId)
+    override fun joinLesson(lessonId: Long): Flow<Long> {
+        return remoteSource.joinLesson(lessonId)
     }
 
     override fun certificateLesson(lessonId: Long): Flow<Lesson> {

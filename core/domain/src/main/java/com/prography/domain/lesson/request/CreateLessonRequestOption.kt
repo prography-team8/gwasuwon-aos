@@ -9,12 +9,12 @@ import com.prography.domain.lesson.model.LessonSubject
  */
 data class CreateLessonRequestOption(
     val studentName: String,
-    val schoolYear: String,
+    val grade: String,
     val memo: String,
-    val lessonSubject: LessonSubject,
-    val lessonDay: List<LessonDay>,
-    val lessonDuration: LessonDuration,
-    val lessonNumberOfProgress: Int,
-    val lessonNumberOfPostpone: Int,
-    val lessonStartDateTime: Long,
+    val subject: LessonSubject,
+    val lessonDays: List<LessonDay>,
+    val sessionDuration: LessonDuration,
+    val numberOfSessions: Int,
+    val rescheduleCount: Int,
+    val startDate: Long,
 )

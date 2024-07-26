@@ -258,7 +258,6 @@ private fun LessonDateInfoRoute(
         is LessonDateInfoUiState.CompletedLesson -> {
             CompletedLessonItem(
                 modifier = modifier,
-                itemState = itemState,
                 focusDate = focusDate,
                 isTeacher = isTeacher,
                 hasStudent = hasStudent,
@@ -398,7 +397,6 @@ private fun AbsentLessonItem(
 @Composable
 private fun CompletedLessonItem(
     modifier: Modifier,
-    itemState: LessonDateInfoUiState.CompletedLesson,
     focusDate: Long,
     isTeacher: Boolean,
     hasStudent: Boolean,
@@ -410,11 +408,7 @@ private fun CompletedLessonItem(
     Column(modifier = modifier) {
         LessonItem(
             title = dateString,
-            desc = stringResource(
-                id = R.string.completed_lesson_desc,
-                itemState.lessonIndex + 1,
-                itemState.lessonNumberOfProgress,
-            )
+            descRes = R.string.complete_lesson_desc
         )
         Spacer(modifier = Modifier.weight(1f))
         if (isTeacher.not()) {

@@ -169,7 +169,7 @@ private fun HasLessons(
             .padding(top = 24.dp)
     ) {
         items(pagingItems.itemCount, key = { index ->
-            pagingItems[index]?.uiState?.value?.lesson?.lessonId ?: -1
+            pagingItems[index]?.uiState?.value?.lesson?.id ?: -1
         }) { index ->
             pagingItems[index]?.let {
                 LessonItemRoute(

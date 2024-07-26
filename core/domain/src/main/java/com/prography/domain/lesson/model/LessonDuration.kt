@@ -4,11 +4,10 @@ package com.prography.domain.lesson.model
  * Created by MyeongKi.
  */
 enum class LessonDuration {
-    ONE_HOUR,
-    ONE_AND_HALF_HOUR,
-    TWO_HOUR,
-    TWO_AND_HALF_HOUR,
-    THREE_HOUR,
-    THREE_HOUR_MORE,
+    PT1H,
+    PT1H30M,
+    PT2H,
+    PT2H30M,
+    PT3H,
     ;
 }

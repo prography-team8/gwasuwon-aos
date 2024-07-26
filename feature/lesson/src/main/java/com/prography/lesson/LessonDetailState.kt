@@ -12,7 +12,6 @@ import kotlinx.collections.immutable.toImmutableSet
  */
 data class LessonDetailMachineState(
     val studentName: String = "",
-    val lessonNumberOfProgress: Int = 0,
     val lessonNumberOfPostpone: Int = 0,
     val focusDate: Long = -1,
     val lessonDates: ImmutableSet<Long> = persistentSetOf(),
@@ -31,8 +30,7 @@ data class LessonDetailMachineState(
         } else if (lessonAbsentDatesKr.contains(focusDateKr)) {
             LessonDateInfoUiState.AbsentLesson
         } else if (lessonAttendanceDatesKr.contains(focusDateKr)) {
-            val lessonIndex = lessonAttendanceDatesKr.indexOf(focusDateKr)
-            LessonDateInfoUiState.CompletedLesson(lessonNumberOfProgress, lessonIndex)
+            LessonDateInfoUiState.CompletedLesson
         } else {
             LessonDateInfoUiState.ScheduleLesson
         }
@@ -69,10 +67,7 @@ sealed interface LessonDateInfoUiState {
 
     data object AbsentLesson : LessonDateInfoUiState
 
-    data class CompletedLesson(
-        val lessonNumberOfProgress: Int,
-        val lessonIndex: Int
-    ) : LessonDateInfoUiState
+    data object CompletedLesson : LessonDateInfoUiState
 }
 
 sealed interface LessonDetailDialog {

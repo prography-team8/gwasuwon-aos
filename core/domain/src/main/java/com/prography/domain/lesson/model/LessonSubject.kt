@@ -4,7 +4,7 @@ package com.prography.domain.lesson.model
  * Created by MyeongKi.
  */
 enum class LessonSubject(val index:Int) {
-    MATH(1),
+    MATHEMATICS(1),
     ENGLISH(2),
     KOREAN(3),
     SCIENCE(4),

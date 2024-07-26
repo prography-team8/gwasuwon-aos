@@ -10,8 +10,7 @@ import com.prography.domain.lesson.CommonLessonEvent
 import com.prography.domain.lesson.usecase.CertificateLessonUseCase
 import com.prography.domain.lesson.usecase.CheckLessonByAttendanceUseCase
 import com.prography.domain.lesson.usecase.DeleteLessonUseCase
-import com.prography.domain.lesson.usecase.LoadLessonDatesUseCase
-import com.prography.domain.lesson.usecase.LoadLessonUseCase
+import com.prography.domain.lesson.usecase.LoadLessonSchedulesUseCase
 import com.prography.domain.qr.CommonQrEvent
 import kotlinx.coroutines.flow.MutableSharedFlow
 
@@ -24,8 +23,7 @@ class LessonDetailViewModel(
     navigateFlow: MutableSharedFlow<NavigationEvent>,
     commonLessonEvent: MutableSharedFlow<CommonLessonEvent>,
     commonQrFlow: MutableSharedFlow<CommonQrEvent>,
-    loadLessonUseCase: LoadLessonUseCase,
-    loadLessonDatesUseCase: LoadLessonDatesUseCase,
+    loadLessonSchedulesUseCase: LoadLessonSchedulesUseCase,
     deleteLessonUseCase: DeleteLessonUseCase,
     checkLessonByAttendanceUseCase: CheckLessonByAttendanceUseCase,
     isShowingNotifyLessonDeductedDialogUseCase: IsShowingNotifyLessonDeductedDialogUseCase,
@@ -39,8 +37,7 @@ class LessonDetailViewModel(
         navigateFlow = navigateFlow,
         commonQrFlow = commonQrFlow,
         commonLessonEvent = commonLessonEvent,
-        loadLessonUseCase = loadLessonUseCase,
-        loadLessonDatesUseCase = loadLessonDatesUseCase,
+        loadLessonSchedulesUseCase = loadLessonSchedulesUseCase,
         deleteLessonUseCase = deleteLessonUseCase,
         checkLessonByAttendanceUseCase = checkLessonByAttendanceUseCase,
         isShowingNotifyLessonDeductedDialogUseCase = isShowingNotifyLessonDeductedDialogUseCase,
@@ -55,8 +52,7 @@ class LessonDetailViewModel(
             navigateFlow: MutableSharedFlow<NavigationEvent>,
             commonQrFlow: MutableSharedFlow<CommonQrEvent>,
             commonLessonEvent: MutableSharedFlow<CommonLessonEvent>,
-            loadLessonUseCase: LoadLessonUseCase,
-            loadLessonDatesUseCase: LoadLessonDatesUseCase,
+            loadLessonSchedulesUseCase: LoadLessonSchedulesUseCase,
             deleteLessonUseCase: DeleteLessonUseCase,
             checkLessonByAttendanceUseCase: CheckLessonByAttendanceUseCase,
             isShowingNotifyLessonDeductedDialogUseCase: IsShowingNotifyLessonDeductedDialogUseCase,
@@ -71,8 +67,7 @@ class LessonDetailViewModel(
                     navigateFlow,
                     commonLessonEvent,
                     commonQrFlow,
-                    loadLessonUseCase,
-                    loadLessonDatesUseCase,
+                    loadLessonSchedulesUseCase,
                     deleteLessonUseCase,
                     checkLessonByAttendanceUseCase,
                     isShowingNotifyLessonDeductedDialogUseCase,

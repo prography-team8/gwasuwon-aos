@@ -18,19 +18,20 @@ import com.prography.domain.lesson.usecase.CertificateLessonUseCase
 import com.prography.domain.lesson.usecase.CheckLessonByAttendanceUseCase
 import com.prography.domain.lesson.usecase.CreateLessonUseCase
 import com.prography.domain.lesson.usecase.DeleteLessonUseCase
+import com.prography.domain.lesson.usecase.JoinLessonUseCase
 import com.prography.domain.lesson.usecase.LoadLessonContractUrlUseCase
-import com.prography.domain.lesson.usecase.LoadLessonDatesUseCase
-import com.prography.domain.lesson.usecase.LoadLessonUseCase
+import com.prography.domain.lesson.usecase.LoadLessonInfoDetailUseCase
+import com.prography.domain.lesson.usecase.LoadLessonSchedulesUseCase
 import com.prography.domain.lesson.usecase.LoadLessonsUseCase
-import com.prography.domain.lesson.usecase.ParticipateLessonUseCase
 import com.prography.domain.lesson.usecase.UpdateLessonUseCase
 import com.prography.domain.preference.AccountPreferenceImpl
 import com.prography.domain.preference.ThemePreferenceImpl
 import com.prography.domain.qr.CommonQrEvent
-import com.prography.lesson.fake.FakeLessonsDataSource
 import com.prography.network.HttpClientFactory
 import com.prography.network.account.AccountHttpClient
 import com.prography.network.account.AccountRemoteDataSource
+import com.prography.network.lesson.LessonHttpClient
+import com.prography.network.lesson.LessonRemoteDataSource
 import com.prography.utils.clipboar.ClipboardHelperImpl
 import com.prography.utils.security.GwasuwonAccessTokenHelper
 import com.prography.utils.security.GwasuwonRefreshTokenHelper
@@ -91,7 +92,11 @@ object AppContainer {
     }
 
     private val lessonRepository = LessonRepositoryImpl(
-        FakeLessonsDataSource()
+        LessonRemoteDataSource(
+            httpClient = LessonHttpClient(
+                httpClient = { gwasuwonHttpClient }
+            )
+        )
     )
 
     val themePreference by lazy {
@@ -126,16 +131,20 @@ object AppContainer {
         )
     }
 
-    val loadLessonUseCase by lazy {
-        LoadLessonUseCase(
+    val loadLessonSchedulesUseCase by lazy {
+        LoadLessonSchedulesUseCase(
             lessonRepository
         )
     }
-    val loadLessonDatesUseCase by lazy {
-        LoadLessonDatesUseCase()
-    }
+
     val updateLessonUseCase by lazy {
         UpdateLessonUseCase(
+            lessonRepository
+        )
+    }
+
+    val loadLessonInfoDetailUseCase by lazy {
+        LoadLessonInfoDetailUseCase(
             lessonRepository
         )
     }
@@ -166,8 +175,8 @@ object AppContainer {
             dialogDataSource
         )
     }
-    val participateLessonUseCase by lazy {
-        ParticipateLessonUseCase(
+    val joinLessonUseCase by lazy {
+        JoinLessonUseCase(
             lessonRepository
         )
     }

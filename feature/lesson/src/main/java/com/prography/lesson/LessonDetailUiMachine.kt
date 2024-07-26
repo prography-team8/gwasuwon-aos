@@ -5,12 +5,12 @@ import com.prography.domain.dialog.model.LessonDeductedDialogMeta
 import com.prography.domain.dialog.usecase.IsShowingNotifyLessonDeductedDialogUseCase
 import com.prography.domain.dialog.usecase.UpdateShownNotifyLessonDeductedDialogUseCase
 import com.prography.domain.lesson.CommonLessonEvent
+import com.prography.domain.lesson.model.LessonScheduleStatus
 import com.prography.domain.lesson.request.CheckLessonByAttendanceRequestOption
 import com.prography.domain.lesson.usecase.CertificateLessonUseCase
 import com.prography.domain.lesson.usecase.CheckLessonByAttendanceUseCase
 import com.prography.domain.lesson.usecase.DeleteLessonUseCase
-import com.prography.domain.lesson.usecase.LoadLessonDatesUseCase
-import com.prography.domain.lesson.usecase.LoadLessonUseCase
+import com.prography.domain.lesson.usecase.LoadLessonSchedulesUseCase
 import com.prography.domain.qr.CommonQrEvent
 import com.prography.domain.qr.model.GwasuwonQr
 import com.prography.domain.qr.model.GwasuwonQrType
@@ -46,8 +46,7 @@ class LessonDetailUiMachine(
     navigateFlow: MutableSharedFlow<NavigationEvent>,
     commonQrFlow: MutableSharedFlow<CommonQrEvent>,
     commonLessonEvent: MutableSharedFlow<CommonLessonEvent>,
-    loadLessonUseCase: LoadLessonUseCase,
-    loadLessonDatesUseCase: LoadLessonDatesUseCase,
+    loadLessonSchedulesUseCase: LoadLessonSchedulesUseCase,
     deleteLessonUseCase: DeleteLessonUseCase,
     checkLessonByAttendanceUseCase: CheckLessonByAttendanceUseCase,
     isShowingNotifyLessonDeductedDialogUseCase: IsShowingNotifyLessonDeductedDialogUseCase,
@@ -76,23 +75,20 @@ class LessonDetailUiMachine(
     private val refreshFlow = actionFlow
         .filterIsInstance<LessonDetailActionEvent.Refresh>()
         .transform {
-            emitAll(loadLessonUseCase(lessonId).flatMapConcat { lesson ->
-                loadLessonDatesUseCase(lesson).map {
-                    Pair(lesson, it)
-                }.flatMapConcat { lessonAndDates ->
-                    isShowingNotifyLessonDeductedDialogUseCase(lessonId, max(lesson.lessonAbsentDates.size - lesson.lessonNumberOfPostpone, 0))
-                        .onEach { isShowingNotifyLessonDeductedDialog ->
-                            if (isShowingNotifyLessonDeductedDialog) {
-                                eventInvoker(LessonDetailActionEvent.ShowNotifyLessonDeductedDialog)
-                            }
-                        }.map {
-                            lessonAndDates
+            emitAll(loadLessonSchedulesUseCase(lessonId).flatMapConcat { lessonSchedule ->
+                val lessonAbsentDatesSize = lessonSchedule.schedules.filter { it.status == LessonScheduleStatus.CANCELED }.size
+                isShowingNotifyLessonDeductedDialogUseCase(lessonId, max(lessonAbsentDatesSize - lessonSchedule.rescheduleCount, 0))
+                    .onEach { isShowingNotifyLessonDeductedDialog ->
+                        if (isShowingNotifyLessonDeductedDialog) {
+                            eventInvoker(LessonDetailActionEvent.ShowNotifyLessonDeductedDialog)
                         }
-                }
+                    }.map {
+                        lessonSchedule
+                    }
             }.asResult())
         }
-        .map {
-            when (it) {
+        .map {result->
+            when (result) {
                 is Result.Error -> {
                     machineInternalState.copy(isLoading = false)
                 }
@@ -102,18 +98,22 @@ class LessonDetailUiMachine(
                 }
 
                 is Result.Success -> {
-                    val lesson = it.data.first
-                    val dates = it.data.second
                     LessonDetailMachineState(
                         isLoading = false,
-                        hasStudent = lesson.hasStudent,
-                        lessonDates = dates.toPersistentSet(),
-                        studentName = lesson.studentName,
-                        lessonNumberOfProgress = lesson.lessonNumberOfProgress,
-                        lessonNumberOfPostpone = lesson.lessonNumberOfPostpone,
+                        hasStudent = result.data.hasStudent,
+                        lessonDates = result.data.schedules
+                            .filter { it.status == LessonScheduleStatus.SCHEDULED }
+                            .map { it.date }
+                            .toPersistentSet(),
+                        studentName = result.data.studentName,
+                        lessonNumberOfPostpone = result.data.rescheduleCount,
                         focusDate = DateUtils.getCurrentDateTime(),
-                        lessonAttendanceDates = lesson.lessonAttendanceDates,
-                        lessonAbsentDates = lesson.lessonAbsentDates
+                        lessonAttendanceDates = result.data.schedules
+                            .filter { it.status == LessonScheduleStatus.COMPLETED }
+                            .map { it.date },
+                        lessonAbsentDates = result.data.schedules
+                            .filter { it.status == LessonScheduleStatus.CANCELED }
+                            .map { it.date }
                     )
                 }
             }
@@ -156,8 +156,12 @@ class LessonDetailUiMachine(
                 is Result.Success -> {
                     machineInternalState.copy(
                         isLoading = false,
-                        lessonAbsentDates = it.data.lessonAbsentDates,
-                        lessonAttendanceDates = it.data.lessonAttendanceDates
+                        lessonAbsentDates = it.data.schedules
+                            .filter { it.status == LessonScheduleStatus.CANCELED }
+                            .map { it.date },
+                        lessonAttendanceDates = it.data.schedules
+                            .filter { it.status == LessonScheduleStatus.COMPLETED }
+                            .map { it.date }
                     )
                 }
             }
