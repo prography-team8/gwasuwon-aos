@@ -2,6 +2,7 @@ package com.prography.account
 
 import NavigationEvent
 import com.prography.domain.account.SocialLoginEvent
+import com.prography.domain.account.model.AccountRole
 import com.prography.domain.account.model.AccountStatus
 import com.prography.domain.account.request.SignInRequestOption
 import com.prography.domain.account.usecase.SignInUseCase
@@ -51,7 +52,10 @@ class SignInUiMachine(
             when (it) {
                 is Result.Success -> {
                     if (it.data.status == AccountStatus.ACTIVE) {
-                        eventInvoker(SignInActionEvent.NavigateLessonRoute)
+                        if (it.data.role == AccountRole.STUDENT)
+                            eventInvoker(SignInActionEvent.NavigateLessonInvitedRoute)
+                        else
+                            eventInvoker(SignInActionEvent.NavigateLessonRoute)
                     } else {
                         eventInvoker(SignInActionEvent.NavigateSignUpRoute)
                     }
@@ -105,6 +109,11 @@ class SignInUiMachine(
         .onEach {
             navigateFlow.emit(NavigationEvent.NavigateLessonsRoute)
         }
+    private val navigateLessonInvitedRouteFlow = actionFlow
+        .filterIsInstance<SignInActionEvent.NavigateLessonInvitedRoute>()
+        .onEach {
+            navigateFlow.emit(NavigationEvent.NavigateLessonInvitedRoute)
+        }
     private val navigateSignUpRouteFlow = actionFlow
         .filterIsInstance<SignInActionEvent.NavigateSignUpRoute>()
         .onEach {
@@ -118,7 +127,8 @@ class SignInUiMachine(
     override val outerNotifyScenarioActionFlow = merge(
         navigateLessonRouteFlow,
         navigateSignUpRouteFlow,
-        requestSocialLoginAccessKeyFlow
+        requestSocialLoginAccessKeyFlow,
+        navigateLessonInvitedRouteFlow
     )
 
     init {

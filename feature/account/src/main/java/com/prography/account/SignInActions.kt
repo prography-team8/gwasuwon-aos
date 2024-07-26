@@ -37,6 +37,8 @@ sealed interface SignInIntent : Intent<SignInActionEvent> {
 sealed interface SignInActionEvent : ActionEvent {
     data class RequestSocialLoginAccessKey(val type: SocialLoginType) : SignInActionEvent
     data object NavigateLessonRoute : SignInActionEvent
+    data object NavigateLessonInvitedRoute : SignInActionEvent
+
     data object NavigateSignUpRoute : SignInActionEvent
     data class RequestSignIn(val type: SocialLoginType, val accessKey: String) : SignInActionEvent
     data class ShowFailSocialLoginFail(val type: SocialLoginType) : SignInActionEvent
