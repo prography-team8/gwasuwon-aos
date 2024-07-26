@@ -129,4 +129,9 @@
     <string name="unknown_error_title">알 수 없는 에러</string>
     <string name="unknown_error_desc">에러가 발생하였습니다. 다시 시도해주세요</string>
 
+    <string name="certificate_lesson_error_title">출석 체크 실패</string>
+    <string name="certificate_lesson_error_desc">출석 체크에 실패했습니다\nQR을 다시 인식해주세요</string>
+
+    <string name="join_lesson_error_title">초대받기 실패</string>
+    <string name="join_lesson_error_desc">QR 인식을 다시해주세요</string>
 </resources>
