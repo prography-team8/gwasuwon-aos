@@ -106,6 +106,80 @@ fun ErrorDialog(
     @StringRes titleResId: Int,
     @StringRes contentResId: Int,
     @StringRes positiveResId: Int,
+    onClickPositive: () -> Unit,
+    onClickBackground: () -> Unit
+) {
+    DimScreen(
+        modifier = Modifier
+            .pointerInput(onClickBackground) {
+                detectTapGestures(
+                    onTap = { onClickBackground() }
+                )
+            }
+    ) {
+        Surface(
+            modifier = Modifier
+                .pointerInput(Unit) { detectTapGestures() }
+                .padding(horizontal = 28.dp)
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            shape = RoundedCornerShape(16.dp),
+            color = GwasuwonConfigurationManager.colors.backgroundElevatedAlternative.toColor()
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(
+                        top = 24.dp,
+                        bottom = 16.dp,
+                        start = 16.dp,
+                        end = 16.dp
+                    )
+                    .wrapContentHeight()
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    modifier = Modifier
+                        .size(32.dp),
+                    painter = painterResource(id = R.drawable.icon_error),
+                    contentDescription = "error icon"
+                )
+                SpaceHeight(height = 16)
+                Text(
+                    text = stringResource(id = titleResId),
+                    style = GwasuwonTypography.Heading1Bold.textStyle,
+                    textAlign = TextAlign.Center,
+                    color = GwasuwonConfigurationManager.colors.labelStrong.toColor()
+                )
+                SpaceHeight(height = 8)
+                Text(
+                    text = stringResource(id = contentResId),
+                    style = GwasuwonTypography.Label1NormalRegular.textStyle,
+                    textAlign = TextAlign.Center,
+                    color = GwasuwonConfigurationManager.colors.labelNeutral.toColor()
+                )
+                SpaceHeight(height = 32)
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    DialogColorButton(
+                        modifier = Modifier.weight(1f),
+                        textRes = positiveResId,
+                        color = GwasuwonConfigurationManager.colors.statusNegative.toColor(),
+                        onClick = onClickPositive
+                    )
+                }
+            }
+        }
+    }
+    BackHandler {
+        onClickBackground()
+    }
+}
+
+@Composable
+fun ErrorDialog(
+    @StringRes titleResId: Int,
+    @StringRes contentResId: Int,
+    @StringRes positiveResId: Int,
     @StringRes negativeResId: Int,
     onClickPositive: () -> Unit,
     onClickNegative: () -> Unit,
@@ -236,3 +310,72 @@ private fun DialogColorButton(
     }
 }
 
+@Composable
+fun NetworkErrorDialog(
+    onClickConfirm: () -> Unit,
+    onClickBackground: () -> Unit
+) {
+    ErrorDialog(
+        titleResId = R.string.network_error_title,
+        contentResId = R.string.network_error_desc,
+        positiveResId = R.string.common_confirm,
+        onClickPositive = onClickConfirm,
+        onClickBackground = onClickBackground
+    )
+}
+
+@Composable
+fun UnknownErrorDialog(
+    onClickConfirm: () -> Unit,
+    onClickBackground: () -> Unit
+) {
+    ErrorDialog(
+        titleResId = R.string.unknown_error_title,
+        contentResId = R.string.unknown_error_desc,
+        positiveResId = R.string.common_confirm,
+        onClickPositive = onClickConfirm,
+        onClickBackground = onClickBackground
+    )
+}
+
+sealed interface CommonDialogState {
+    data object None : CommonDialogState
+    data object NetworkError : CommonDialogState
+    data object UnknownError : CommonDialogState
+}
+
+sealed interface CommonDialogIntent {
+    data object ClickConfirm : CommonDialogIntent
+    data object ClickBackground : CommonDialogIntent
+}
+
+@Composable
+fun CommonDialogRoute(
+    dialog: CommonDialogState,
+    intent:(CommonDialogIntent)->Unit
+) {
+    when (dialog) {
+        is CommonDialogState.None -> {
+        }
+        is CommonDialogState.NetworkError -> {
+            NetworkErrorDialog(
+                onClickConfirm = {
+                    intent(CommonDialogIntent.ClickConfirm)
+                },
+                onClickBackground = {
+                    intent(CommonDialogIntent.ClickBackground)
+                }
+            )
+        }
+        is CommonDialogState.UnknownError -> {
+            UnknownErrorDialog(
+                onClickConfirm = {
+                    intent(CommonDialogIntent.ClickConfirm)
+                },
+                onClickBackground = {
+                    intent(CommonDialogIntent.ClickBackground)
+                }
+            )
+        }
+    }
+}

@@ -31,10 +31,15 @@ internal object KakaoLoginManager {
             UserApiClient.instance.loginWithKakaoAccount(activity, callback = getKakaoLoginCallback(scope))
         }
     }
-    //카카오 실패한 경우에 다이얼로그 노출 필요
+
     private fun getKakaoLoginCallback(scope: CoroutineScope): (token: OAuthToken?, error: Throwable?) -> Unit = { token, error ->
         if (error != null) {
             Log.e(TAG, "로그인 실패", error)
+            scope.launch {
+                socialLoginEventFlow.emit(
+                    SocialLoginEvent.GetOnFailSocialLoginAccessKey(SocialLoginType.KAKAO)
+                )
+            }
         } else if (token != null) {
             Log.i(TAG, "로그인 성공 ${token.accessToken}")
             scope.launch {

@@ -124,4 +124,9 @@
     <string name="lesson_postpone_content">수업을 미룰 수 있는 횟수를 설정할 수 있습니다. 출석 미체크 시 횟수가 1회 차감되며 횟수가 0이 되면 수업이 연장되지 않고 종료됩니다</string>
     <string name="extension_required">연장 필요</string>
 
+    <string name="network_error_title">네트워크 에러</string>
+    <string name="network_error_desc">네트워크 연결 상태를 확인해주세요</string>
+    <string name="unknown_error_title">알 수 없는 에러</string>
+    <string name="unknown_error_desc">에러가 발생하였습니다. 다시 시도해주세요</string>
+
 </resources>

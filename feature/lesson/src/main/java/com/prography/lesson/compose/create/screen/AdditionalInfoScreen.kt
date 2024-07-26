@@ -23,7 +23,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.prography.domain.lesson.model.LessonDay
-import com.prography.lesson.CreateLessonActionEvent
 import com.prography.lesson.CreateLessonDialog
 import com.prography.lesson.CreateLessonIntent
 import com.prography.lesson.CreateLessonUiState
