@@ -1,12 +1,13 @@
 package com.prography.qr
 
 import NavigationEvent
+import android.util.Log
 import com.prography.domain.lesson.usecase.JoinLessonUseCase
 import com.prography.domain.preference.AccountPreference
 import com.prography.domain.qr.CommonQrEvent
 import com.prography.domain.qr.model.GwasuwonQr
 import com.prography.domain.qr.model.GwasuwonQrType
-import com.prography.domain.qr.model.InviteStudentData
+import com.prography.domain.qr.model.JoinClassData
 import com.prography.usm.holder.UiStateMachine
 import com.prography.usm.result.Result
 import com.prography.usm.result.asResult
@@ -120,14 +121,14 @@ private fun MutableSharedFlow<CommonQrEvent>.toLessonInvitedAction(): Flow<Lesso
                 null
             }
             jsonString?.let { gwasuwonQr ->
-                if (gwasuwonQr.type == GwasuwonQrType.INVITE_STUDENT) {
-                    (gwasuwonQr.data as? InviteStudentData)?.lessonId?.let { lessonId ->
+                if (gwasuwonQr.data.type == GwasuwonQrType.JOIN_CLASS) {
+                    (gwasuwonQr.data as? JoinClassData)?.classId?.let { lessonId ->
                         LessonInvitedActionEvent.ParticipateLesson(lessonId)
-
                     }
+                } else {
+                    null
                 }
             }
-            null
         }
 
         else -> null

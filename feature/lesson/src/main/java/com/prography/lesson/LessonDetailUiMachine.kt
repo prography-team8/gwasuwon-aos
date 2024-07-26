@@ -13,7 +13,7 @@ import com.prography.domain.lesson.usecase.UpdateForceAttendanceLessonUseCase
 import com.prography.domain.qr.CommonQrEvent
 import com.prography.domain.qr.model.GwasuwonQr
 import com.prography.domain.qr.model.GwasuwonQrType
-import com.prography.domain.qr.model.LessonCertificationData
+import com.prography.domain.qr.model.AttendanceClassData
 import com.prography.ui.component.CommonDialogState
 import com.prography.usm.holder.UiStateMachine
 import com.prography.usm.result.Result
@@ -348,8 +348,8 @@ private fun MutableSharedFlow<CommonQrEvent>.toLessonDetailAction(): Flow<Lesson
                 null
             }
             jsonString?.let { gwasuwonQr ->
-                if (gwasuwonQr.type == GwasuwonQrType.LESSON_CERTIFICATION) {
-                    (gwasuwonQr.data as? LessonCertificationData)?.lessonId?.let { lessonId ->
+                if (gwasuwonQr.data.type == GwasuwonQrType.ATTENDANCE_CLASS) {
+                    (gwasuwonQr.data as? AttendanceClassData)?.classId?.let { lessonId ->
                         LessonDetailActionEvent.UpdateAttendanceLesson(lessonId)
 
                     }
