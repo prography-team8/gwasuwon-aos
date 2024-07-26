@@ -1,5 +1,6 @@
 package com.prography.lesson
 
+import com.prography.ui.component.CommonDialogState
 import com.prography.usm.state.MachineInternalState
 import com.prography.usm.state.UiState
 
@@ -25,4 +26,7 @@ data class SuccessCreateLessonUiState(
 sealed interface SuccessCreateLessonDialog {
     data object None : SuccessCreateLessonDialog
     data object SuccessCopy : SuccessCreateLessonDialog
+    data class SuccessCreateLessonCommonDialog(
+        val state: CommonDialogState
+    ) : SuccessCreateLessonDialog
 }
