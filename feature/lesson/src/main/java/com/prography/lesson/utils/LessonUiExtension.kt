@@ -46,7 +46,6 @@ fun LessonSubject.getLessonSubjectStringRes(): Int {
         LessonSubject.ENGLISH -> R.string.lesson_subject_english
         LessonSubject.KOREAN -> R.string.lesson_subject_korean
         LessonSubject.SCIENCE -> R.string.lesson_subject_science
-        LessonSubject.SOCIETY -> R.string.lesson_subject_society
-        LessonSubject.OTHERS -> R.string.lesson_subject_others
+        LessonSubject.SOCIAL -> R.string.lesson_subject_society
     }
 }
