@@ -46,17 +46,19 @@ sealed interface GwasuwonPath {
         override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.LESSONS
         override val arguments: List<NamedNavArgument> = listOf()
     }
+
     data object LessonInvitedPath : GwasuwonPath {
         override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.LESSON_INVITED
         override val arguments: List<NamedNavArgument> = listOf()
     }
+
     data object CrateLessonPath : GwasuwonPath {
         override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.CREATE_LESSON
         override val arguments: List<NamedNavArgument> = listOf()
     }
 
     data class LessonDetailPath(
-        private val lessonId: Long = -1
+        private val lessonId: Long = INVALID_ID
     ) : GwasuwonPath {
         override val routeHost: GwasuwonRouteHost = GwasuwonRouteHost.LESSON_DETAIL
         override val arguments: List<NamedNavArgument> = listOf(
@@ -67,7 +69,12 @@ sealed interface GwasuwonPath {
             LESSON_ID,
             ;
         }
+
+        companion object {
+            const val INVALID_ID = -1L
+        }
     }
+
     data class ExtensionLessonPath(
         private val lessonId: Long = -1
     ) : GwasuwonPath {
@@ -96,6 +103,7 @@ sealed interface GwasuwonPath {
             ;
         }
     }
+
     data class LessonInfoDetailPath(
         private val lessonId: Long = -1
     ) : GwasuwonPath {
@@ -123,6 +131,7 @@ sealed interface GwasuwonPath {
             ;
         }
     }
+
     data class LessonCertificationQrPath(
         private val lessonId: Long = -1
     ) : GwasuwonPath {
@@ -136,6 +145,7 @@ sealed interface GwasuwonPath {
             ;
         }
     }
+
     data class LessonContractQrPath(
         private val lessonId: Long = -1
     ) : GwasuwonPath {
