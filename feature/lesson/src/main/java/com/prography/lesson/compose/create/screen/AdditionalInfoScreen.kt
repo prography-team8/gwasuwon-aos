@@ -140,7 +140,7 @@ internal fun AdditionalInfoScreen(
                 titleRes = R.string.lesson_progress_time,
                 hintRes = R.string.lesson_progress_time_hint,
                 inputText = uiState.lessonNumberOfProgress?.toString() ?: "",
-                keyboardType = KeyboardType.Number,
+                keyboardType = KeyboardType.Decimal,
                 onValueChange = {
                     event(
                         CreateLessonActionEvent.UpdateLessonNumberOfProgress(
