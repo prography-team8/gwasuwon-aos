@@ -34,11 +34,7 @@ class LessonRepositoryImpl(
     }
 
     override fun createLesson(requestOption: CreateLessonRequestOption): Flow<Lesson> {
-        return remoteSource.createLesson(
-            requestOption.copy(
-                startDate = requestOption.startDate.toUtcTimeMillis(),
-            )
-        )
+        return remoteSource.createLesson(requestOption)
     }
 
     override fun loadLessonSchedules(lessonId: Long): Flow<LessonSchedules> {
