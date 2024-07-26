@@ -42,7 +42,7 @@ data class ExtensionLessonMachineState(
                 lessonDay = lessonDay,
                 lessonNumberOfProgress = lessonNumberOfProgress,
                 lessonNumberOfPostpone = lessonNumberOfPostpone,
-                lessonStartDateTime = lessonStartDateTime,
+                lessonStartDateTime = lessonNewStartDateTime ?: lessonStartDateTime,
             ),
             dialog = dialog,
             isLoading = isLoading,
@@ -57,6 +57,7 @@ data class ExtensionLessonUiState(
     val isLoading: Boolean = false,
     val dialog: ExtensionLessonDialog = ExtensionLessonDialog.None
 ) : UiState
+
 sealed interface ExtensionLessonDialog {
     data object None : ExtensionLessonDialog
     data object PostponeInformation : ExtensionLessonDialog

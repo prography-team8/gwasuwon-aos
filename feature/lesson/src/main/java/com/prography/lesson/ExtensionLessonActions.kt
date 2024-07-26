@@ -67,7 +67,7 @@ sealed interface ExtensionLessonIntent : Intent<ExtensionLessonActionEvent> {
 sealed interface ExtensionLessonActionEvent : ActionEvent {
     data object PopBack : ExtensionLessonActionEvent
     data object ExtensionLesson : ExtensionLessonActionEvent
-
+    data object Refresh : ExtensionLessonActionEvent
     data class UpdateLessonSubject(
         val lessonSubject: LessonSubject
     ) : ExtensionLessonActionEvent

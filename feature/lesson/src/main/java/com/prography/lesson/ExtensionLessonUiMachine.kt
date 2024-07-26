@@ -4,6 +4,7 @@ import NavigationEvent
 import com.prography.domain.lesson.CommonLessonEvent
 import com.prography.domain.lesson.request.CreateLessonRequestOption
 import com.prography.domain.lesson.request.UpdateLessonRequestOption
+import com.prography.domain.lesson.usecase.LoadLessonInfoDetailUseCase
 import com.prography.domain.lesson.usecase.UpdateLessonUseCase
 import com.prography.usm.holder.UiStateMachine
 import com.prography.usm.result.Result
@@ -30,6 +31,7 @@ class ExtensionLessonUiMachine(
     navigateFlow: MutableSharedFlow<NavigationEvent>,
     commonLessonEvent: MutableSharedFlow<CommonLessonEvent>,
     updateLessonUseCase: UpdateLessonUseCase,
+    loadLessonInfoDetailUseCase: LoadLessonInfoDetailUseCase,
 ) : UiStateMachine<
         ExtensionLessonUiState,
         ExtensionLessonMachineState,
@@ -37,6 +39,37 @@ class ExtensionLessonUiMachine(
         ExtensionLessonIntent>(coroutineScope) {
     override var machineInternalState: ExtensionLessonMachineState = ExtensionLessonMachineState()
 
+    private val refreshFlow = actionFlow
+        .filterIsInstance<ExtensionLessonActionEvent.Refresh>()
+        .transform {
+            emitAll(loadLessonInfoDetailUseCase(lessonId).asResult())
+        }
+        .map {
+            when (it) {
+                is Result.Error -> {
+                    machineInternalState.copy(isLoading = false)
+                }
+
+                is Result.Loading -> {
+                    machineInternalState.copy(isLoading = true)
+                }
+
+                is Result.Success -> {
+                    machineInternalState.copy(
+                        isLoading = false,
+                        studentName = it.data.studentName,
+                        schoolYear = it.data.grade,
+                        memo = it.data.memo,
+                        lessonSubject = it.data.subject,
+                        lessonDay = it.data.classDays.toImmutableSet(),
+                        lessonDuration = it.data.sessionDuration,
+                        lessonNumberOfProgress = it.data.numberOfSessions,
+                        lessonStartDateTime = it.data.startDate,
+                        lessonNumberOfPostpone = it.data.rescheduleCount
+                    )
+                }
+            }
+        }
     private val popBackFlow = actionFlow
         .filterIsInstance<ExtensionLessonActionEvent.PopBack>()
         .onEach {
@@ -140,7 +173,7 @@ class ExtensionLessonUiMachine(
         .filterIsInstance<ExtensionLessonActionEvent.UpdateLessonStartDate>()
         .map {
             machineInternalState.copy(
-                lessonStartDateTime = it.lessonStartDateTime
+                lessonNewStartDateTime = it.lessonStartDateTime
             )
         }
 
@@ -165,10 +198,12 @@ class ExtensionLessonUiMachine(
 
     init {
         initMachine()
+        eventInvoker(ExtensionLessonActionEvent.Refresh)
     }
 
     override fun mergeStateChangeScenarioActionsFlow(): Flow<ExtensionLessonMachineState> {
         return merge(
+            refreshFlow,
             extensionLessonFlow,
             updateLessonSubjectFlow,
             updateLessonDurationFlow,

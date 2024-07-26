@@ -191,7 +191,8 @@ fun GwasuwonNavGraph(
                             lessonId = lessonId,
                             navigateFlow = AppContainer.navigateEventFlow,
                             updateLessonUseCase = AppContainer.updateLessonUseCase,
-                            commonLessonEvent = AppContainer.commonLessonEvent
+                            commonLessonEvent = AppContainer.commonLessonEvent,
+                            loadLessonInfoDetailUseCase = AppContainer.loadLessonInfoDetailUseCase
                         )
                     )
                 )
