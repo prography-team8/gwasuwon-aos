@@ -24,12 +24,17 @@ class RefreshDelegate(
 ) {
     suspend operator fun invoke(): BearerTokens? {
         val response: RefreshResponse? = try {
-            httpClient.post("$GWASUWON_HOST/api/v1/auth/token/refresh") {
+            val response:RefreshResponse = httpClient.post("$GWASUWON_HOST/api/v1/auth/token/refresh") {
                 headers { append(HttpHeaders.Authorization, "Bearer ${accountInfoManager.getAccountInfo()?.accessToken ?: ""}") }
                 setJsonBody(
-                    RefreshRequestBody(refreshToken = accountInfoManager.getAccountInfo()?.refreshToken ?: "")
+                    RefreshRequestBody(
+                        refreshToken = accountInfoManager.getAccountInfo()?.refreshToken ?: "",
+
+                        )
                 )
             }.body()
+            if(response.refreshToken.isEmpty() || response.accessToken.isEmpty()) throw Exception("refresh token error")
+            response
         } catch (e: Exception) {
             Log.e("RefreshDelegate", e.message ?: "refresh token error")
             accountInfoManager.clear()
