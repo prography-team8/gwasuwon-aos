@@ -16,6 +16,7 @@ sealed interface LessonDetailIntent : Intent<LessonDetailActionEvent> {
     data object ClickInviteStudent : LessonDetailIntent
     data object ClickLessonInfoDetail : LessonDetailIntent
     data object ClickDeleteLesson : LessonDetailIntent
+    data object ClickDialogConfirm : LessonDetailIntent
     data object ClickDialogCancel : LessonDetailIntent
     data object ClickDeleteDialogConfirm : LessonDetailIntent
     data object ClickDialogBackground : LessonDetailIntent
@@ -52,7 +53,10 @@ sealed interface LessonDetailIntent : Intent<LessonDetailActionEvent> {
                 LessonDetailActionEvent.DeleteLesson
             }
 
-            is LessonDetailCommonDialogIntent, is ClickDialogCancel, is ClickDialogBackground -> {
+            is ClickDialogConfirm,
+            is LessonDetailCommonDialogIntent,
+            is ClickDialogCancel,
+            is ClickDialogBackground -> {
                 LessonDetailActionEvent.HideDialog
             }
 
@@ -70,6 +74,7 @@ sealed interface LessonDetailIntent : Intent<LessonDetailActionEvent> {
         }
     }
 }
+
 fun CommonDialogIntent.toLessonDetailIntent() = LessonDetailIntent.LessonDetailCommonDialogIntent(this)
 
 sealed interface LessonDetailActionEvent : ActionEvent {

@@ -27,6 +27,7 @@ import com.prography.lesson.LessonDetailViewModel
 import com.prography.lesson.toLessonDetailIntent
 import com.prography.ui.GwasuwonTypography
 import com.prography.ui.R
+import com.prography.ui.component.CertificateLessonErrorDialog
 import com.prography.ui.component.CommonButton
 import com.prography.ui.component.CommonDialogRoute
 import com.prography.ui.component.CommonToolbar
@@ -114,11 +115,23 @@ private fun LessonDetailDialogRoute(
                 }
             )
         }
-        is LessonDetailDialog.LessonDetailCommonDialog->{
+
+        is LessonDetailDialog.LessonDetailCommonDialog -> {
             CommonDialogRoute(dialog = dialogState.state) {
                 intent(it.toLessonDetailIntent())
             }
         }
+
+        is LessonDetailDialog.CertificateLessonErrorDialog -> {
+            CertificateLessonErrorDialog(
+                onClickConfirm = {
+                    intent(LessonDetailIntent.ClickDialogConfirm)
+                },
+                onClickBackground = {
+                    intent(LessonDetailIntent.ClickDialogBackground)
+                })
+        }
+
         else -> Unit
     }
 }

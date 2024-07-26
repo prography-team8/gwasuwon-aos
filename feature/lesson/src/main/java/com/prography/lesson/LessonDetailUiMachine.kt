@@ -291,14 +291,9 @@ class LessonDetailUiMachine(
                 }
 
                 is Result.Error -> {
-                    val dialog = if (it.exception is NetworkUnavailableException) {
-                        CommonDialogState.NetworkError
-                    } else {
-                        CommonDialogState.UnknownError
-                    }
                     machineInternalState.copy(
                         isLoading = false,
-                        dialog = LessonDetailDialog.LessonDetailCommonDialog(dialog)
+                        dialog = LessonDetailDialog.CertificateLessonErrorDialog
                     )
                 }
 

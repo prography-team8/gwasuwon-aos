@@ -84,4 +84,5 @@ sealed interface LessonDetailDialog {
     data class LessonDetailCommonDialog(val state: CommonDialogState) : LessonDetailDialog
     data object DeleteLesson : LessonDetailDialog
     data object NotifyLessonDeducted : LessonDetailDialog
+    data object CertificateLessonErrorDialog : LessonDetailDialog
 }
