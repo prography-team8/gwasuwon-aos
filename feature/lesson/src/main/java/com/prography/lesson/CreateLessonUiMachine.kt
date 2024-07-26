@@ -4,9 +4,11 @@ import NavigationEvent
 import com.prography.domain.lesson.CommonLessonEvent
 import com.prography.domain.lesson.request.CreateLessonRequestOption
 import com.prography.domain.lesson.usecase.CreateLessonUseCase
+import com.prography.ui.component.CommonDialogState
 import com.prography.usm.holder.UiStateMachine
 import com.prography.usm.result.Result
 import com.prography.usm.result.asResult
+import com.prography.utils.network.NetworkUnavailableException
 import kotlinx.collections.immutable.toImmutableSet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -72,7 +74,15 @@ class CreateLessonUiMachine(
         .map {
             when (it) {
                 is Result.Error -> {
-                    machineInternalState.copy(isLoading = false)
+                    val dialog = if (it.exception is NetworkUnavailableException) {
+                        CommonDialogState.NetworkError
+                    } else {
+                        CommonDialogState.UnknownError
+                    }
+                    machineInternalState.copy(
+                        isLoading = false,
+                        dialog = CreateLessonDialog.CreateLessonCommonDialog(dialog)
+                    )
                 }
 
                 is Result.Loading -> {
@@ -181,7 +191,9 @@ class CreateLessonUiMachine(
         .filterIsInstance<CreateLessonActionEvent.HideDialog>()
         .map {
             machineInternalState.copy(
-                dialog = CreateLessonDialog.None
+                dialog = CreateLessonDialog.CreateLessonCommonDialog(
+                    CommonDialogState.None
+                )
             )
         }
 

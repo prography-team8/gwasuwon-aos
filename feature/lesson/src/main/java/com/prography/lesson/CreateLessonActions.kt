@@ -3,6 +3,7 @@ package com.prography.lesson
 import com.prography.domain.lesson.model.LessonDay
 import com.prography.domain.lesson.model.LessonDuration
 import com.prography.domain.lesson.model.LessonSubject
+import com.prography.ui.component.CommonDialogIntent
 import com.prography.usm.action.ActionEvent
 import com.prography.usm.action.Intent
 
@@ -24,7 +25,10 @@ sealed interface CreateLessonIntent : Intent<CreateLessonActionEvent> {
     data object ClickCreateLesson : CreateLessonIntent
     data object ClickBack : CreateLessonIntent
     data class AdditionalInfo(val additionalInfoIntent: AdditionalInfoIntent) : CreateLessonIntent
-    data object ClickDialog : CreateLessonIntent
+    data class CreateLessonDialogIntent(val intent: CommonDialogIntent) : CreateLessonIntent
+    fun CommonDialogIntent.toCreateIntent(): CreateLessonIntent {
+        return CreateLessonDialogIntent(this)
+    }
 
     override fun toActionEvent(): CreateLessonActionEvent {
         return when (this) {
@@ -39,26 +43,33 @@ sealed interface CreateLessonIntent : Intent<CreateLessonActionEvent> {
             is ClickBack -> {
                 CreateLessonActionEvent.PopBack
             }
-            is ClickDialog -> {
+
+            is CreateLessonDialogIntent -> {
                 CreateLessonActionEvent.HideDialog
             }
+
             is AdditionalInfo -> {
-                when(val additionalInfoIntent = this.additionalInfoIntent){
+                when (val additionalInfoIntent = this.additionalInfoIntent) {
                     is AdditionalInfoIntent.ClickLessonDay -> {
                         CreateLessonActionEvent.ToggleLessonDay(additionalInfoIntent.lessonDay)
                     }
+
                     is AdditionalInfoIntent.ClickLessonDuration -> {
                         CreateLessonActionEvent.UpdateLessonDuration(additionalInfoIntent.lessonDuration)
                     }
+
                     is AdditionalInfoIntent.ClickLessonNumberOfPostpone -> {
                         CreateLessonActionEvent.UpdateLessonNumberOfPostpone(additionalInfoIntent.lessonNumberOfPostpone)
                     }
+
                     is AdditionalInfoIntent.ClickLessonSubject -> {
                         CreateLessonActionEvent.UpdateLessonSubject(additionalInfoIntent.lessonSubject)
                     }
+
                     is AdditionalInfoIntent.ClickLessonDate -> {
                         CreateLessonActionEvent.UpdateLessonStartDate(additionalInfoIntent.lessonStartDateTime)
                     }
+
                     is AdditionalInfoIntent.ClickPostponeInformationIcon -> {
                         CreateLessonActionEvent.ShowPostponeInformationDialog
                     }

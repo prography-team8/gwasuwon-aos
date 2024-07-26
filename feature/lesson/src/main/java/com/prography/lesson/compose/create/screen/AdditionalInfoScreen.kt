@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import com.prography.domain.lesson.model.LessonDay
 import com.prography.lesson.CreateLessonDialog
 import com.prography.lesson.CreateLessonIntent
+import com.prography.lesson.CreateLessonIntent.ClickBack.toCreateIntent
 import com.prography.lesson.CreateLessonUiState
 import com.prography.lesson.compose.create.CreateLessonHeader
 import com.prography.lesson.utils.getLessonDayStringRes
@@ -32,6 +33,8 @@ import com.prography.ui.GwasuwonTypography
 import com.prography.ui.R
 import com.prography.ui.component.CommonButton
 import com.prography.ui.component.CommonDialog
+import com.prography.ui.component.CommonDialogIntent
+import com.prography.ui.component.CommonDialogRoute
 import com.prography.ui.component.DropdownMenuComponent
 import com.prography.ui.component.GwasuwonConfigurationManager
 import com.prography.ui.component.LoadingTransparentScreen
@@ -75,18 +78,25 @@ internal fun AdditionalInfoScreen(
             intent(CreateLessonIntent.AdditionalInfo(it))
         }
     }
-    if (uiState.dialog == CreateLessonDialog.PostponeInformation) {
-        CommonDialog(
-            titleResId = R.string.lesson_postpone_title,
-            contentResId = R.string.lesson_postpone_content,
-            positiveResId = R.string.common_confirm,
-            onClickPositive = {
-                intent(CreateLessonIntent.ClickDialog)
-            },
-            onClickBackground = {
-                intent(CreateLessonIntent.ClickDialog)
+    when(uiState.dialog){
+        is CreateLessonDialog.PostponeInformation -> {
+            CommonDialog(
+                titleResId = R.string.lesson_postpone_title,
+                contentResId = R.string.lesson_postpone_content,
+                positiveResId = R.string.common_confirm,
+                onClickPositive = {
+                    intent(CommonDialogIntent.ClickConfirm.toCreateIntent())
+                },
+                onClickBackground = {
+                    intent(CommonDialogIntent.ClickBackground.toCreateIntent())
+                }
+            )
+        }
+        is CreateLessonDialog.CreateLessonCommonDialog->{
+            CommonDialogRoute(dialog = uiState.dialog.state) {
+                intent(it.toCreateIntent())
             }
-        )
+        }
     }
     if (uiState.isLoading) {
         LoadingTransparentScreen()

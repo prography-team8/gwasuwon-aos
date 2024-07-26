@@ -3,6 +3,7 @@ package com.prography.lesson
 import com.prography.domain.lesson.model.LessonDay
 import com.prography.domain.lesson.model.LessonDuration
 import com.prography.domain.lesson.model.LessonSubject
+import com.prography.ui.component.CommonDialogState
 import com.prography.usm.state.MachineInternalState
 import com.prography.usm.state.UiState
 import kotlinx.collections.immutable.ImmutableSet
@@ -23,7 +24,9 @@ data class CreateLessonMachineState(
     val lessonNumberOfPostpone: Int? = null,
     val lessonStartDateTime: Long? = null,
     val isLoading: Boolean = false,
-    val dialog: CreateLessonDialog = CreateLessonDialog.None
+    val dialog: CreateLessonDialog = CreateLessonDialog.CreateLessonCommonDialog(
+        CommonDialogState.None
+    )
 ) : MachineInternalState<CreateLessonUiState> {
     fun availableDefaultInfo() = studentName.isNotEmpty() && schoolYear.isNotEmpty() && memo.isNotEmpty()
     fun availableAdditionalInfo() = lessonSubject != null
@@ -84,7 +87,9 @@ sealed interface CreateLessonUiState : UiState {
         val additionalInfo: AdditionalInfo,
         val availableNextBtn: Boolean,
         val isLoading: Boolean = false,
-        val dialog: CreateLessonDialog = CreateLessonDialog.None
+        val dialog: CreateLessonDialog = CreateLessonDialog.CreateLessonCommonDialog(
+            CommonDialogState.None
+        )
     ) : CreateLessonUiState
 }
 
@@ -105,6 +110,8 @@ enum class CreateLessonScreenType(val page: Int) {
 }
 
 sealed interface CreateLessonDialog {
-    data object None : CreateLessonDialog
+    data class CreateLessonCommonDialog(
+        val state: CommonDialogState
+    ) : CreateLessonDialog
     data object PostponeInformation : CreateLessonDialog
 }
