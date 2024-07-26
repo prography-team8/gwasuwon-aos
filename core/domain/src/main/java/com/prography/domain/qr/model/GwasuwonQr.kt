@@ -9,7 +9,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class GwasuwonQr(
     val version: Int = GWASUWON_QR_VERSION,
-    val type: GwasuwonQrType,
     @Serializable(with = GwasuwonQrDataSerializer::class)
     val data: GwasuwonQrData,
     val createAt: Long,

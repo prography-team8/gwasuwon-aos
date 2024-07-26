@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.prography.domain.qr.CommonQrEvent
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -32,6 +33,7 @@ class ShowQrScannerSubscriber(
         )
         intentResult.contents?.let {
             activity.lifecycleScope.launch {
+                delay(500)
                 qrEventFlow.emit(CommonQrEvent.GetOnSuccessQr(it))
             }
         }

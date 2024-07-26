@@ -12,26 +12,32 @@ import kotlinx.serialization.json.jsonPrimitive
  */
 @Serializable
 enum class GwasuwonQrType {
-    INVITE_STUDENT,
-    LESSON_CERTIFICATION,
+    JOIN_CLASS,
+    ATTENDANCE_CLASS,
 }
-interface GwasuwonQrData
+
+interface GwasuwonQrData {
+    val type: GwasuwonQrType
+}
+
 @Serializable
-data class InviteStudentData(
-    val lessonId: Long
+data class JoinClassData(
+    override val type: GwasuwonQrType,
+    val classId: Long
 ) : GwasuwonQrData
 
 @Serializable
-data class LessonCertificationData(
-    val lessonId: Long
+data class AttendanceClassData(
+    override val type: GwasuwonQrType,
+    val classId: Long
 ) : GwasuwonQrData
 
 
 object GwasuwonQrDataSerializer : JsonContentPolymorphicSerializer<GwasuwonQrData>(GwasuwonQrData::class) {
     override fun selectDeserializer(element: JsonElement): KSerializer<out GwasuwonQrData> {
         return when (val type = element.jsonObject["type"]?.jsonPrimitive?.content) {
-            GwasuwonQrType.INVITE_STUDENT.name -> InviteStudentData.serializer()
-            GwasuwonQrType.LESSON_CERTIFICATION.name -> LessonCertificationData.serializer()
+            GwasuwonQrType.JOIN_CLASS.name -> JoinClassData.serializer()
+            GwasuwonQrType.ATTENDANCE_CLASS.name -> AttendanceClassData.serializer()
             else -> throw IllegalArgumentException("Unknown type: $type")
         }
     }
