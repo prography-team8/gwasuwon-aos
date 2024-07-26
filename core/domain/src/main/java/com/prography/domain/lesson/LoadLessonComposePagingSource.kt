@@ -2,8 +2,7 @@ package com.prography.domain.lesson
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.prography.domain.lesson.model.Lesson
-import com.prography.domain.lesson.request.LoadLessonsRequestOption
+import com.prography.domain.lesson.model.LessonCard
 import kotlinx.coroutines.flow.last
 
 /**
@@ -11,24 +10,18 @@ import kotlinx.coroutines.flow.last
  */
 class LoadLessonComposePagingSource(
     private val remoteDataSource: LessonDataSource
-):PagingSource<Int, Lesson>() {
-    override fun getRefreshKey(state: PagingState<Int, Lesson>): Int {
+):PagingSource<Int, LessonCard>() {
+    override fun getRefreshKey(state: PagingState<Int, LessonCard>): Int {
         return START_PAGE
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Lesson> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LessonCard> {
         try {
-            val currentPage = params.key ?: START_PAGE
-            val result = remoteDataSource.loadLessons(
-                requestOption = LoadLessonsRequestOption(
-                    page = currentPage,
-                    pageSize = PAGE_SIZE
-                )
-            ).last()
+            val result = remoteDataSource.loadLessonCards().last()
             return LoadResult.Page(
                 data = result,
-                prevKey = if (currentPage == START_PAGE) null else currentPage.dec(),
-                nextKey = currentPage.inc()
+                prevKey = null,
+                nextKey = null
             )
         } catch (e: Exception) {
             return LoadResult.Error(e)

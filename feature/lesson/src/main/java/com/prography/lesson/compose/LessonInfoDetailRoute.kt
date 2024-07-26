@@ -7,7 +7,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -32,6 +31,7 @@ import com.prography.ui.component.CommonToolbar
 import com.prography.ui.component.DatePickerButton
 import com.prography.ui.component.DropdownMenuComponent
 import com.prography.ui.component.GwasuwonConfigurationManager
+import com.prography.ui.component.LoadingTransparentScreen
 import com.prography.ui.component.SpaceHeight
 import com.prography.ui.configuration.toColor
 import kotlinx.collections.immutable.toPersistentList
@@ -43,12 +43,15 @@ import kotlinx.collections.immutable.toPersistentList
 fun LessonInfoDetailRoute(
     viewModel: LessonInfoDetailViewModel
 ) {
-    val uiState = viewModel.machine.uiState.collectAsState()
+    val uiState = viewModel.machine.uiState.collectAsState().value
     LessonInfoDetailScreen(
-        uiState = uiState.value,
+        uiState = uiState,
         event = viewModel.machine.eventInvoker,
         intent = viewModel.machine.intentInvoker
     )
+    if (uiState.isLoading) {
+        LoadingTransparentScreen()
+    }
 }
 
 @Composable

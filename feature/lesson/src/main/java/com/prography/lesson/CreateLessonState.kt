@@ -22,7 +22,6 @@ data class CreateLessonMachineState(
     val lessonNumberOfProgress: Int? = null,
     val lessonNumberOfPostpone: Int? = null,
     val lessonStartDateTime: Long? = null,
-    val lessonContractUrl: String = "",
     val isLoading: Boolean = false,
     val dialog: CreateLessonDialog = CreateLessonDialog.None
 ) : MachineInternalState<CreateLessonUiState> {
@@ -100,6 +99,6 @@ enum class CreateLessonScreenType(val page: Int) {
 }
 
 sealed interface CreateLessonDialog {
-    data object None:CreateLessonDialog
-    data object PostponeInformation:CreateLessonDialog
+    data object None : CreateLessonDialog
+    data object PostponeInformation : CreateLessonDialog
 }

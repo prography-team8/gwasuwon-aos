@@ -31,19 +31,18 @@ fun List<LessonDay>.getLessonDayStringRes(): List<Int> {
 @StringRes
 fun LessonDuration.getLessonDurationStringRes(): Int {
     return when (this) {
-        LessonDuration.ONE_HOUR -> R.string.lesson_duration_one_hour
-        LessonDuration.ONE_AND_HALF_HOUR -> R.string.lesson_duration_one_and_half_hour
-        LessonDuration.TWO_HOUR -> R.string.lesson_duration_two_hour
-        LessonDuration.TWO_AND_HALF_HOUR -> R.string.lesson_duration_two_and_half_hour
-        LessonDuration.THREE_HOUR -> R.string.lesson_duration_three_hour
-        LessonDuration.THREE_HOUR_MORE -> R.string.lesson_duration_three_hour_more
+        LessonDuration.PT1H -> R.string.lesson_duration_one_hour
+        LessonDuration.PT1H30M -> R.string.lesson_duration_one_and_half_hour
+        LessonDuration.PT2H -> R.string.lesson_duration_two_hour
+        LessonDuration.PT2H30M -> R.string.lesson_duration_two_and_half_hour
+        LessonDuration.PT3H -> R.string.lesson_duration_three_hour
     }
 }
 
 @StringRes
 fun LessonSubject.getLessonSubjectStringRes(): Int {
     return when (this) {
-        LessonSubject.MATH -> R.string.lesson_subject_math
+        LessonSubject.MATHEMATICS -> R.string.lesson_subject_math
         LessonSubject.ENGLISH -> R.string.lesson_subject_english
         LessonSubject.KOREAN -> R.string.lesson_subject_korean
         LessonSubject.SCIENCE -> R.string.lesson_subject_science

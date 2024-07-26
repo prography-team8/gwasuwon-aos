@@ -2,6 +2,7 @@ package com.prography.lesson
 
 import NavigationEvent
 import com.prography.domain.lesson.model.Lesson
+import com.prography.domain.lesson.model.LessonCard
 import com.prography.usm.holder.UiStateMachine
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +16,7 @@ import kotlinx.coroutines.flow.onEach
  * Created by MyeongKi.
  */
 class LessonItemUiMachine(
-    lesson: Lesson,
+    lesson: LessonCard,
     coroutineScope: CoroutineScope,
     navigateFlow: MutableSharedFlow<NavigationEvent>,
 ) : UiStateMachine<LessonItemUiState, LessonItemMachineState, LessonItemActionEvent, LessonItemIntent>(
@@ -27,7 +28,7 @@ class LessonItemUiMachine(
     private val navigateLessonDetailFlow = actionFlow
         .filterIsInstance<LessonItemActionEvent.NavigateManagingLesson>()
         .onEach {
-            navigateFlow.emit(NavigationEvent.NavigateLessonDetailRoute(lessonId = machineInternalState.lesson.lessonId))
+            navigateFlow.emit(NavigationEvent.NavigateLessonDetailRoute(lessonId = machineInternalState.lesson.id))
         }
     override val outerNotifyScenarioActionFlow = merge(
         navigateLessonDetailFlow

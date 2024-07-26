@@ -35,7 +35,7 @@ sealed interface LessonDetailIntent : Intent<LessonDetailActionEvent> {
             }
 
             is ClickCheckByAttendance -> {
-                LessonDetailActionEvent.CheckByAttendance
+                LessonDetailActionEvent.UpdateForceAttendanceLesson
             }
 
             is ClickLessonInfoDetail -> {
@@ -70,11 +70,11 @@ sealed interface LessonDetailIntent : Intent<LessonDetailActionEvent> {
 }
 
 sealed interface LessonDetailActionEvent : ActionEvent {
-    data object Refresh : LessonDetailActionEvent
+    data class Refresh(val nextEvent: LessonDetailActionEvent? = null) : LessonDetailActionEvent
     data object PopBack : LessonDetailActionEvent
     data object NavigateLessonCertificationQr : LessonDetailActionEvent
     data class FocusDate(val date: Long) : LessonDetailActionEvent
-    data object CheckByAttendance : LessonDetailActionEvent
+    data object UpdateForceAttendanceLesson : LessonDetailActionEvent
     data object NavigateLessonInfoDetail : LessonDetailActionEvent
     data object ShowDeleteLessonDialog : LessonDetailActionEvent
     data object ShowNotifyLessonDeductedDialog : LessonDetailActionEvent
@@ -83,6 +83,6 @@ sealed interface LessonDetailActionEvent : ActionEvent {
     data object HideNotifyLessonDeductedDialog : LessonDetailActionEvent
     data object RecognizeQr : LessonDetailActionEvent
     data object UpdateLessonDeducted : LessonDetailActionEvent
-    data class CertificateLesson(val qrLessonId: Long) : LessonDetailActionEvent
+    data class UpdateAttendanceLesson(val qrLessonId: Long) : LessonDetailActionEvent
     data object NavigateInviteStudentQr : LessonDetailActionEvent
 }

@@ -12,12 +12,11 @@ import kotlinx.collections.immutable.toImmutableSet
  */
 data class LessonDetailMachineState(
     val studentName: String = "",
-    val lessonNumberOfProgress: Int = 0,
     val lessonNumberOfPostpone: Int = 0,
     val focusDate: Long = -1,
     val lessonDates: ImmutableSet<Long> = persistentSetOf(),
     val lessonAttendanceDates: List<Long> = listOf(),
-    val lessonAbsentDates: List<Long> = listOf(),
+    val lessonAbsentDates: List<LessonAbsentDate> = listOf(),
     val isLoading: Boolean = false,
     val hasStudent: Boolean = false,
     val dialog: LessonDetailDialog = LessonDetailDialog.None
@@ -25,16 +24,16 @@ data class LessonDetailMachineState(
     override fun toUiState(): LessonDetailUiState {
         val focusDateKr = focusDate.toKrMonthDateTime()
         val lessonAttendanceDatesKr = lessonAttendanceDates.asSequence().map { it.toKrMonthDateTime() }.toImmutableSet()
-        val lessonAbsentDatesKr = lessonAbsentDates.asSequence().map { it.toKrMonthDateTime() }.toImmutableSet()
-        val lessonDateInfoUiState = if (lessonDates.contains(focusDateKr).not()) {
-            LessonDateInfoUiState.NoLesson
+        val lessonAbsentDatesKr = lessonAbsentDates.asSequence().map { it.date.toKrMonthDateTime() }.toImmutableSet()
+        val lessonDateInfoUiState = if (lessonDates.contains(focusDateKr)) {
+            LessonDateInfoUiState.ScheduleLesson
         } else if (lessonAbsentDatesKr.contains(focusDateKr)) {
             LessonDateInfoUiState.AbsentLesson
         } else if (lessonAttendanceDatesKr.contains(focusDateKr)) {
-            val lessonIndex = lessonAttendanceDatesKr.indexOf(focusDateKr)
-            LessonDateInfoUiState.CompletedLesson(lessonNumberOfProgress, lessonIndex)
+            LessonDateInfoUiState.CompletedLesson
         } else {
-            LessonDateInfoUiState.ScheduleLesson
+            LessonDateInfoUiState.NoLesson
+
         }
         return LessonDetailUiState(
             studentName = studentName,
@@ -49,6 +48,11 @@ data class LessonDetailMachineState(
         )
     }
 }
+
+data class LessonAbsentDate(
+    val date: Long,
+    val scheduleId: Long
+)
 
 data class LessonDetailUiState(
     val studentName: String,
@@ -69,10 +73,7 @@ sealed interface LessonDateInfoUiState {
 
     data object AbsentLesson : LessonDateInfoUiState
 
-    data class CompletedLesson(
-        val lessonNumberOfProgress: Int,
-        val lessonIndex: Int
-    ) : LessonDateInfoUiState
+    data object CompletedLesson : LessonDateInfoUiState
 }
 
 sealed interface LessonDetailDialog {

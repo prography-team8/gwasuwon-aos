@@ -25,6 +25,7 @@ import com.prography.ui.R
 import com.prography.ui.component.CommonButton
 import com.prography.ui.component.CommonToolbar
 import com.prography.ui.component.GwasuwonConfigurationManager
+import com.prography.ui.component.LoadingTransparentScreen
 import com.prography.ui.configuration.toColor
 
 /**
@@ -67,6 +68,9 @@ private fun LessonInvitedScreen(
         CommonButton(modifier = Modifier.align(Alignment.BottomCenter), textResId = R.string.qr_recognition, isAvailable = true) {
             intent(LessonInvitedIntent.ClickQrRecognition)
         }
+    }
+    if(uiState.isLoading){
+        LoadingTransparentScreen()
     }
 }
 

@@ -7,11 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.prography.domain.dialog.usecase.IsShowingNotifyLessonDeductedDialogUseCase
 import com.prography.domain.dialog.usecase.UpdateShownNotifyLessonDeductedDialogUseCase
 import com.prography.domain.lesson.CommonLessonEvent
-import com.prography.domain.lesson.usecase.CertificateLessonUseCase
-import com.prography.domain.lesson.usecase.CheckLessonByAttendanceUseCase
+import com.prography.domain.lesson.usecase.UpdateAttendanceLessonUseCase
+import com.prography.domain.lesson.usecase.UpdateForceAttendanceLessonUseCase
 import com.prography.domain.lesson.usecase.DeleteLessonUseCase
-import com.prography.domain.lesson.usecase.LoadLessonDatesUseCase
-import com.prography.domain.lesson.usecase.LoadLessonUseCase
+import com.prography.domain.lesson.usecase.LoadLessonSchedulesUseCase
 import com.prography.domain.qr.CommonQrEvent
 import kotlinx.coroutines.flow.MutableSharedFlow
 
@@ -24,13 +23,12 @@ class LessonDetailViewModel(
     navigateFlow: MutableSharedFlow<NavigationEvent>,
     commonLessonEvent: MutableSharedFlow<CommonLessonEvent>,
     commonQrFlow: MutableSharedFlow<CommonQrEvent>,
-    loadLessonUseCase: LoadLessonUseCase,
-    loadLessonDatesUseCase: LoadLessonDatesUseCase,
+    loadLessonSchedulesUseCase: LoadLessonSchedulesUseCase,
     deleteLessonUseCase: DeleteLessonUseCase,
-    checkLessonByAttendanceUseCase: CheckLessonByAttendanceUseCase,
+    updateForceAttendanceLessonUseCase: UpdateForceAttendanceLessonUseCase,
     isShowingNotifyLessonDeductedDialogUseCase: IsShowingNotifyLessonDeductedDialogUseCase,
     updateShownNotifyLessonDeductedDialogUseCase: UpdateShownNotifyLessonDeductedDialogUseCase,
-    certificateLessonUseCase: CertificateLessonUseCase
+    updateAttendanceLessonUseCase: UpdateAttendanceLessonUseCase
 ) : ViewModel() {
     val machine = LessonDetailUiMachine(
         lessonId = lessonId,
@@ -39,13 +37,12 @@ class LessonDetailViewModel(
         navigateFlow = navigateFlow,
         commonQrFlow = commonQrFlow,
         commonLessonEvent = commonLessonEvent,
-        loadLessonUseCase = loadLessonUseCase,
-        loadLessonDatesUseCase = loadLessonDatesUseCase,
+        loadLessonSchedulesUseCase = loadLessonSchedulesUseCase,
         deleteLessonUseCase = deleteLessonUseCase,
-        checkLessonByAttendanceUseCase = checkLessonByAttendanceUseCase,
+        updateForceAttendanceLessonUseCase = updateForceAttendanceLessonUseCase,
         isShowingNotifyLessonDeductedDialogUseCase = isShowingNotifyLessonDeductedDialogUseCase,
         updateShownNotifyLessonDeductedDialogUseCase = updateShownNotifyLessonDeductedDialogUseCase,
-        certificateLessonUseCase = certificateLessonUseCase
+        updateAttendanceLessonUseCase = updateAttendanceLessonUseCase
     )
 
     companion object {
@@ -55,13 +52,12 @@ class LessonDetailViewModel(
             navigateFlow: MutableSharedFlow<NavigationEvent>,
             commonQrFlow: MutableSharedFlow<CommonQrEvent>,
             commonLessonEvent: MutableSharedFlow<CommonLessonEvent>,
-            loadLessonUseCase: LoadLessonUseCase,
-            loadLessonDatesUseCase: LoadLessonDatesUseCase,
+            loadLessonSchedulesUseCase: LoadLessonSchedulesUseCase,
             deleteLessonUseCase: DeleteLessonUseCase,
-            checkLessonByAttendanceUseCase: CheckLessonByAttendanceUseCase,
+            updateForceAttendanceLessonUseCase: UpdateForceAttendanceLessonUseCase,
             isShowingNotifyLessonDeductedDialogUseCase: IsShowingNotifyLessonDeductedDialogUseCase,
             updateShownNotifyLessonDeductedDialogUseCase: UpdateShownNotifyLessonDeductedDialogUseCase,
-            certificateLessonUseCase: CertificateLessonUseCase
+            updateAttendanceLessonUseCase: UpdateAttendanceLessonUseCase
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -71,13 +67,12 @@ class LessonDetailViewModel(
                     navigateFlow,
                     commonLessonEvent,
                     commonQrFlow,
-                    loadLessonUseCase,
-                    loadLessonDatesUseCase,
+                    loadLessonSchedulesUseCase,
                     deleteLessonUseCase,
-                    checkLessonByAttendanceUseCase,
+                    updateForceAttendanceLessonUseCase,
                     isShowingNotifyLessonDeductedDialogUseCase,
                     updateShownNotifyLessonDeductedDialogUseCase,
-                    certificateLessonUseCase
+                    updateAttendanceLessonUseCase
                 ) as T
             }
         }

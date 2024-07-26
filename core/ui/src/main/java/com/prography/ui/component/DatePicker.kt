@@ -134,7 +134,7 @@ fun DatePickerButton(
                         .wrapContentSize(),
                     textResId = R.string.common_confirm
                 ) {
-                    val dateClicked = datePickerState.selectedDateMillis?.toKtsTimeMillis()?.toKtsTimeMillis()?.toKrMonthDateTime() ?: -1
+                    val dateClicked = datePickerState.selectedDateMillis?.toKtsTimeMillis()?.toKrMonthDateTime() ?: -1
                     if (dateClicked >= DateUtils.getCurrentDateTime().toKtsTimeMillis().toKrMonthDateTime()) {
                         onClickConfirm(dateClicked)
                     }

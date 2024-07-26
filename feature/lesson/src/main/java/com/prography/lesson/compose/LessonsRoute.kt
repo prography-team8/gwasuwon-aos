@@ -26,6 +26,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -38,6 +39,7 @@ import com.prography.ui.GwasuwonTypography
 import com.prography.ui.R
 import com.prography.ui.component.CommonToolbar
 import com.prography.ui.component.GwasuwonConfigurationManager
+import com.prography.ui.component.LoadingTransparentScreen
 import com.prography.ui.component.SpaceHeight
 import com.prography.ui.configuration.toColor
 import kotlinx.coroutines.delay
@@ -169,7 +171,7 @@ private fun HasLessons(
             .padding(top = 24.dp)
     ) {
         items(pagingItems.itemCount, key = { index ->
-            pagingItems[index]?.uiState?.value?.lesson?.lessonId ?: -1
+            pagingItems[index]?.uiState?.value?.lesson?.id ?: -1
         }) { index ->
             pagingItems[index]?.let {
                 LessonItemRoute(
@@ -182,6 +184,11 @@ private fun HasLessons(
             HasCreateLessonButton {
                 intent(LessonsIntent.ClickCreateLesson)
             }
+        }
+    }
+    pagingItems.run {
+        if(loadState.refresh is LoadState.Loading){
+            LoadingTransparentScreen()
         }
     }
 }

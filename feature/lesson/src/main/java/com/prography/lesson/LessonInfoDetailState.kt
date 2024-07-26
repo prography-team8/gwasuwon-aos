@@ -16,24 +16,24 @@ import kotlinx.collections.immutable.toImmutableSet
 data class LessonInfoDetailMachineState(
     val originalLessonInfo: Lesson? = null,
     val studentName: String = originalLessonInfo?.studentName ?: "",
-    val schoolYear: String = originalLessonInfo?.schoolYear ?: "",
-    val lessonSubject: LessonSubject? = originalLessonInfo?.lessonSubject,
-    val lessonDuration: LessonDuration? = originalLessonInfo?.lessonDuration,
-    val lessonDay: ImmutableSet<LessonDay> = originalLessonInfo?.lessonDay?.toImmutableSet() ?: persistentSetOf(),
-    val lessonNumberOfProgress: Int? = originalLessonInfo?.lessonNumberOfProgress,
-    val lessonNumberOfPostpone: Int? = originalLessonInfo?.lessonNumberOfPostpone,
-    val lessonStartDateTime: Long? = originalLessonInfo?.lessonStartDateTime,
+    val schoolYear: String = originalLessonInfo?.grade ?: "",
+    val lessonSubject: LessonSubject? = originalLessonInfo?.subject,
+    val lessonDuration: LessonDuration? = originalLessonInfo?.sessionDuration,
+    val lessonDay: ImmutableSet<LessonDay> = originalLessonInfo?.classDays?.toImmutableSet() ?: persistentSetOf(),
+    val lessonNumberOfProgress: Int? = originalLessonInfo?.numberOfSessions,
+    val lessonNumberOfPostpone: Int? = originalLessonInfo?.rescheduleCount,
+    val lessonStartDateTime: Long? = originalLessonInfo?.startDate,
     val isLoading: Boolean = false
 ) : MachineInternalState<LessonInfoDetailUiState> {
     private fun isDiffFromOriginal(): Boolean {
         return studentName != originalLessonInfo?.studentName
-                || schoolYear != originalLessonInfo.schoolYear
-                || lessonSubject != originalLessonInfo.lessonSubject
-                || lessonDuration != originalLessonInfo.lessonDuration
-                || lessonDay != originalLessonInfo.lessonDay.toImmutableSet()
-                || lessonNumberOfProgress != originalLessonInfo.lessonNumberOfProgress
-                || lessonNumberOfPostpone != originalLessonInfo.lessonNumberOfPostpone
-                || lessonStartDateTime != originalLessonInfo.lessonStartDateTime
+                || schoolYear != originalLessonInfo.grade
+                || lessonSubject != originalLessonInfo.subject
+                || lessonDuration != originalLessonInfo.sessionDuration
+                || lessonDay != originalLessonInfo.classDays.toImmutableSet()
+                || lessonNumberOfProgress != originalLessonInfo.numberOfSessions
+                || lessonNumberOfPostpone != originalLessonInfo.rescheduleCount
+                || lessonStartDateTime != originalLessonInfo.startDate
     }
 
     private fun isValidLesson(): Boolean {

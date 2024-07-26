@@ -56,14 +56,14 @@ class CreateLessonUiMachine(
                 createLessonUseCase(
                     CreateLessonRequestOption(
                         studentName = machineInternalState.studentName,
-                        schoolYear = machineInternalState.schoolYear,
+                        grade = machineInternalState.schoolYear,
                         memo = machineInternalState.memo,
-                        lessonSubject = machineInternalState.lessonSubject!!,
-                        lessonDay = machineInternalState.lessonDay.toList(),
-                        lessonDuration = machineInternalState.lessonDuration!!,
-                        lessonNumberOfProgress = machineInternalState.lessonNumberOfProgress!!,
-                        lessonStartDateTime = machineInternalState.lessonStartDateTime!!,
-                        lessonNumberOfPostpone = machineInternalState.lessonNumberOfPostpone!!
+                        subject = machineInternalState.lessonSubject!!,
+                        lessonDays = machineInternalState.lessonDay.toList(),
+                        sessionDuration = machineInternalState.lessonDuration!!,
+                        numberOfSessions = machineInternalState.lessonNumberOfProgress!!,
+                        startDate = machineInternalState.lessonStartDateTime!!,
+                        rescheduleCount = machineInternalState.lessonNumberOfPostpone!!
                     )
                 ).asResult()
             )
@@ -83,7 +83,6 @@ class CreateLessonUiMachine(
                     navigateFlow.emit(NavigationEvent.NavigateSuccessCreateLessonRoute(it.data.lessonId))
                     machineInternalState.copy(
                         isLoading = false,
-                        lessonContractUrl = it.data.lessonContractUrl
                     )
                 }
             }

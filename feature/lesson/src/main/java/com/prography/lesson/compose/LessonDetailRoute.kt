@@ -31,6 +31,7 @@ import com.prography.ui.component.CommonToolbar
 import com.prography.ui.component.DropdownMoreComponent
 import com.prography.ui.component.ErrorDialog
 import com.prography.ui.component.GwasuwonConfigurationManager
+import com.prography.ui.component.LoadingTransparentScreen
 import com.prography.ui.component.SpaceHeight
 import com.prography.ui.configuration.toColor
 import com.prography.utils.date.DateUtils
@@ -46,23 +47,26 @@ fun LessonDetailRoute(
     viewModel: LessonDetailViewModel,
     isTeacher: Boolean,
 ) {
-    val uiState = viewModel.machine.uiState.collectAsState()
+    val uiState = viewModel.machine.uiState.collectAsState().value
     /**
      * 캘린더는 매번 새로고침을 위하여 필요.
      */
     LaunchedEffect(true) {
-        viewModel.machine.eventInvoker(LessonDetailActionEvent.Refresh)
+        viewModel.machine.eventInvoker(LessonDetailActionEvent.Refresh())
     }
     LessonDetailScreen(
-        uiState = uiState.value,
+        uiState = uiState,
         isTeacher = isTeacher,
         intent = viewModel.machine.intentInvoker
     )
     LessonDetailDialogRoute(
-        uiState.value.dialog,
+        uiState.dialog,
         viewModel.machine.intentInvoker,
         viewModel.machine.eventInvoker
     )
+    if(uiState.isLoading){
+        LoadingTransparentScreen()
+    }
 }
 
 @Composable
@@ -258,7 +262,6 @@ private fun LessonDateInfoRoute(
         is LessonDateInfoUiState.CompletedLesson -> {
             CompletedLessonItem(
                 modifier = modifier,
-                itemState = itemState,
                 focusDate = focusDate,
                 isTeacher = isTeacher,
                 hasStudent = hasStudent,
@@ -398,7 +401,6 @@ private fun AbsentLessonItem(
 @Composable
 private fun CompletedLessonItem(
     modifier: Modifier,
-    itemState: LessonDateInfoUiState.CompletedLesson,
     focusDate: Long,
     isTeacher: Boolean,
     hasStudent: Boolean,
@@ -410,11 +412,7 @@ private fun CompletedLessonItem(
     Column(modifier = modifier) {
         LessonItem(
             title = dateString,
-            desc = stringResource(
-                id = R.string.completed_lesson_desc,
-                itemState.lessonIndex + 1,
-                itemState.lessonNumberOfProgress,
-            )
+            descRes = R.string.complete_lesson_desc
         )
         Spacer(modifier = Modifier.weight(1f))
         if (isTeacher.not()) {

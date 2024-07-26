@@ -5,7 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.prography.domain.lesson.CommonLessonEvent
-import com.prography.domain.lesson.usecase.LoadLessonUseCase
+import com.prography.domain.lesson.usecase.LoadLessonInfoDetailUseCase
+import com.prography.domain.lesson.usecase.LoadLessonSchedulesUseCase
 import com.prography.domain.lesson.usecase.UpdateLessonUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 
@@ -16,7 +17,7 @@ class LessonInfoDetailViewModel(
     lessonId: Long,
     navigateFlow: MutableSharedFlow<NavigationEvent>,
     commonLessonEvent: MutableSharedFlow<CommonLessonEvent>,
-    loadLessonUseCase: LoadLessonUseCase,
+    loadLessonInfoDetailUseCase: LoadLessonInfoDetailUseCase,
     updateLessonUseCase: UpdateLessonUseCase
 ) : ViewModel() {
     val machine = LessonInfoDetailUiMachine(
@@ -24,7 +25,7 @@ class LessonInfoDetailViewModel(
         commonLessonEvent = commonLessonEvent,
         coroutineScope = viewModelScope,
         navigateFlow = navigateFlow,
-        loadLessonUseCase = loadLessonUseCase,
+        loadLessonInfoDetailUseCase = loadLessonInfoDetailUseCase,
         updateLessonUseCase = updateLessonUseCase,
     )
 
@@ -33,7 +34,7 @@ class LessonInfoDetailViewModel(
             lessonId: Long,
             navigateFlow: MutableSharedFlow<NavigationEvent>,
             commonLessonEvent: MutableSharedFlow<CommonLessonEvent>,
-            loadLessonUseCase: LoadLessonUseCase,
+            loadLessonInfoDetailUseCase: LoadLessonInfoDetailUseCase,
             updateLessonUseCase: UpdateLessonUseCase
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
@@ -42,7 +43,7 @@ class LessonInfoDetailViewModel(
                     lessonId,
                     navigateFlow,
                     commonLessonEvent,
-                    loadLessonUseCase,
+                    loadLessonInfoDetailUseCase,
                     updateLessonUseCase
                 ) as T
             }

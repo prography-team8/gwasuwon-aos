@@ -10,12 +10,14 @@ import com.prography.usm.state.UiState
  */
 data class LessonContractQrMachineState(
     val qr: Bitmap? = null,
-    val url: String? = null
+    val url: String? = null,
+    val isLoading: Boolean = false,
 ) : MachineInternalState<LessonContractQrUiState> {
-    override fun toUiState(): LessonContractQrUiState = LessonContractQrUiState(qr)
+    override fun toUiState(): LessonContractQrUiState = LessonContractQrUiState(qr, isLoading)
 }
 
 @Immutable
 data class LessonContractQrUiState(
-    val qr: Bitmap? = null
+    val qr: Bitmap? = null,
+    val isLoading: Boolean = false,
 ) : UiState

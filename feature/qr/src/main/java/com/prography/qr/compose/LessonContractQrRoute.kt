@@ -17,7 +17,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.prography.qr.InviteStudentQrIntent
 import com.prography.qr.LessonContractQrActionEvent
 import com.prography.qr.LessonContractQrIntent
 import com.prography.qr.LessonContractQrUiState
@@ -28,6 +27,7 @@ import com.prography.ui.component.CommonBorderButton
 import com.prography.ui.component.CommonButton
 import com.prography.ui.component.CommonToolbar
 import com.prography.ui.component.GwasuwonConfigurationManager
+import com.prography.ui.component.LoadingTransparentScreen
 import com.prography.ui.component.SpaceHeight
 import com.prography.ui.configuration.toColor
 
@@ -46,6 +46,9 @@ fun LessonContractQrRoute(
         uiState = uiState.value,
         intent = viewModel.machine.intentInvoker,
     )
+    if (uiState.value.isLoading) {
+        LoadingTransparentScreen()
+    }
 }
 
 @Composable
