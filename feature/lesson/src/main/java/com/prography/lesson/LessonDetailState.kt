@@ -85,4 +85,5 @@ sealed interface LessonDetailDialog {
     data object DeleteLesson : LessonDetailDialog
     data object NotifyLessonDeducted : LessonDetailDialog
     data object CertificateLessonErrorDialog : LessonDetailDialog
+    data object NotifyInvaildLessonDialog : LessonDetailDialog
 }

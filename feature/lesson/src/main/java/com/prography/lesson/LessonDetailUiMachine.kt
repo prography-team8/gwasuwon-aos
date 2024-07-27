@@ -10,6 +10,7 @@ import com.prography.domain.lesson.usecase.DeleteLessonUseCase
 import com.prography.domain.lesson.usecase.LoadLessonSchedulesUseCase
 import com.prography.domain.lesson.usecase.UpdateAttendanceLessonUseCase
 import com.prography.domain.lesson.usecase.UpdateForceAttendanceLessonUseCase
+import com.prography.domain.preference.AccountPreference
 import com.prography.domain.qr.CommonQrEvent
 import com.prography.domain.qr.model.AttendanceClassData
 import com.prography.domain.qr.model.GwasuwonQr
@@ -46,6 +47,7 @@ class LessonDetailUiMachine(
     navigateFlow: MutableSharedFlow<NavigationEvent>,
     commonQrFlow: MutableSharedFlow<CommonQrEvent>,
     commonLessonEvent: MutableSharedFlow<CommonLessonEvent>,
+    accountPreference: AccountPreference,
     loadLessonSchedulesUseCase: LoadLessonSchedulesUseCase,
     deleteLessonUseCase: DeleteLessonUseCase,
     updateForceAttendanceLessonUseCase: UpdateForceAttendanceLessonUseCase,
@@ -94,13 +96,13 @@ class LessonDetailUiMachine(
             when (result) {
                 is Result.Error -> {
                     val dialog = if (result.exception is NetworkUnavailableException) {
-                        CommonDialogState.NetworkError
+                        LessonDetailDialog.LessonDetailCommonDialog(CommonDialogState.NetworkError)
                     } else {
-                        CommonDialogState.UnknownError
+                        LessonDetailDialog.NotifyInvaildLessonDialog
                     }
                     machineInternalState.copy(
                         isLoading = false,
-                        dialog = LessonDetailDialog.LessonDetailCommonDialog(dialog)
+                        dialog = dialog
                     )
                 }
 
@@ -269,7 +271,16 @@ class LessonDetailUiMachine(
         .onEach {
             commonQrFlow.emit(CommonQrEvent.RequestQrScan)
         }
-
+    private val clearInvalidLessonDetailScreenFlow = actionFlow
+        .filterIsInstance<LessonDetailActionEvent.ClearInvalidLessonDetailScreen>()
+        .onEach {
+            if (isTeacher) {
+                navigateFlow.emit(NavigationEvent.PopBack)
+            } else {
+                accountPreference.setInvitedLessonId(-1L)
+                navigateFlow.emit(NavigationEvent.NavigateLessonInvitedRoute)
+            }
+        }
     private val updateAttendanceLessonFlow = actionFlow
         .filterIsInstance<LessonDetailActionEvent.UpdateAttendanceLesson>()
         .transform {
@@ -319,7 +330,8 @@ class LessonDetailUiMachine(
         navigateLessonInfoDetailFlow,
         updateLessonDeducted,
         recognizeQrFlow,
-        navigateInviteStudentQrFlow
+        navigateInviteStudentQrFlow,
+        clearInvalidLessonDetailScreenFlow
     )
 
     init {

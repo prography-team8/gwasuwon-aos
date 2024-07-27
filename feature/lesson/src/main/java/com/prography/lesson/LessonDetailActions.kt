@@ -17,6 +17,9 @@ sealed interface LessonDetailIntent : Intent<LessonDetailActionEvent> {
     data object ClickLessonInfoDetail : LessonDetailIntent
     data object ClickDeleteLesson : LessonDetailIntent
     data object ClickDialogConfirm : LessonDetailIntent
+    data object ClickInavalidLessonDialogConfirm : LessonDetailIntent
+    data object ClickInavalidLessonDialogBackground : LessonDetailIntent
+
     data object ClickDialogCancel : LessonDetailIntent
     data object ClickDeleteDialogConfirm : LessonDetailIntent
     data object ClickDialogBackground : LessonDetailIntent
@@ -71,6 +74,10 @@ sealed interface LessonDetailIntent : Intent<LessonDetailActionEvent> {
             is ClickInviteStudent -> {
                 LessonDetailActionEvent.NavigateInviteStudentQr
             }
+
+            is ClickInavalidLessonDialogBackground, is ClickInavalidLessonDialogConfirm -> {
+                LessonDetailActionEvent.ClearInvalidLessonDetailScreen
+            }
         }
     }
 }
@@ -93,4 +100,5 @@ sealed interface LessonDetailActionEvent : ActionEvent {
     data object UpdateLessonDeducted : LessonDetailActionEvent
     data class UpdateAttendanceLesson(val qrLessonId: Long) : LessonDetailActionEvent
     data object NavigateInviteStudentQr : LessonDetailActionEvent
+    data object ClearInvalidLessonDetailScreen : LessonDetailActionEvent
 }

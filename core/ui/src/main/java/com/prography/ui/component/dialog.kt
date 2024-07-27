@@ -338,13 +338,13 @@ fun UnknownErrorDialog(
     )
 }
 @Composable
-fun CertificateLessonErrorDialog(
+fun NotifyInvaildLessonErrorDialog(
     onClickConfirm: () -> Unit,
     onClickBackground: () -> Unit
 ) {
     ErrorDialog(
-        titleResId = R.string.certificate_lesson_error_title,
-        contentResId = R.string.certificate_lesson_error_desc,
+        titleResId = R.string.invalid_lesson_title,
+        contentResId = R.string.invalid_lesson_desc,
         positiveResId = R.string.common_confirm,
         onClickPositive = onClickConfirm,
         onClickBackground = onClickBackground
@@ -359,6 +359,19 @@ fun JoinErrorDialog(
     ErrorDialog(
         titleResId = R.string.join_lesson_error_title,
         contentResId = R.string.join_lesson_error_desc,
+        positiveResId = R.string.common_confirm,
+        onClickPositive = onClickConfirm,
+        onClickBackground = onClickBackground
+    )
+}
+@Composable
+fun CertificateLessonErrorDialog(
+    onClickConfirm: () -> Unit,
+    onClickBackground: () -> Unit
+) {
+    ErrorDialog(
+        titleResId = R.string.certificate_lesson_error_title,
+        contentResId = R.string.certificate_lesson_error_desc,
         positiveResId = R.string.common_confirm,
         onClickPositive = onClickConfirm,
         onClickBackground = onClickBackground
