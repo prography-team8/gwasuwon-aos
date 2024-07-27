@@ -35,6 +35,7 @@ import com.prography.ui.component.DropdownMoreComponent
 import com.prography.ui.component.ErrorDialog
 import com.prography.ui.component.GwasuwonConfigurationManager
 import com.prography.ui.component.LoadingTransparentScreen
+import com.prography.ui.component.NotifyInvaildLessonErrorDialog
 import com.prography.ui.component.SpaceHeight
 import com.prography.ui.configuration.toColor
 import com.prography.utils.date.DateUtils
@@ -131,7 +132,16 @@ private fun LessonDetailDialogRoute(
                     intent(LessonDetailIntent.ClickDialogBackground)
                 })
         }
-
+        is LessonDetailDialog.NotifyInvaildLessonDialog -> {
+            NotifyInvaildLessonErrorDialog(
+                onClickConfirm = {
+                    intent(LessonDetailIntent.ClickInavalidLessonDialogConfirm)
+                },
+                onClickBackground = {
+                    intent(LessonDetailIntent.ClickInavalidLessonDialogBackground)
+                }
+            )
+        }
         else -> Unit
     }
 }

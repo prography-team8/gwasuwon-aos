@@ -261,7 +261,8 @@ fun GwasuwonNavGraph(
                             updateForceAttendanceLessonUseCase = AppContainer.updateForceAttendanceLessonUseCase,
                             isShowingNotifyLessonDeductedDialogUseCase = AppContainer.isShowingNotifyLessonDeductedDialogUseCase,
                             updateShownNotifyLessonDeductedDialogUseCase = AppContainer.updateShownNotifyLessonDeductedDialogUseCase,
-                            updateAttendanceLessonUseCase = AppContainer.updateAttendanceLessonUseCase
+                            updateAttendanceLessonUseCase = AppContainer.updateAttendanceLessonUseCase,
+                            accountPreference = AppContainer.accountPreference
                         )
                     ),
                     isTeacher = accountInfoManager.getAccountInfo()?.role == AccountRole.TEACHER

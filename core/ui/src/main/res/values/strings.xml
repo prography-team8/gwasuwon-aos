@@ -134,4 +134,8 @@
 
     <string name="join_lesson_error_title">초대받기 실패</string>
     <string name="join_lesson_error_desc">QR 인식을 다시해주세요</string>
+
+    <string name="invalid_lesson_title">수업 불러오기 실패</string>
+    <string name="invalid_lesson_desc">수업 불러오기에 실패했습니다\n다시 시도해주세요</string>
+
 </resources>

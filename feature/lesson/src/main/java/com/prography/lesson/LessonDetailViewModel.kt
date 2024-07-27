@@ -11,6 +11,7 @@ import com.prography.domain.lesson.usecase.UpdateAttendanceLessonUseCase
 import com.prography.domain.lesson.usecase.UpdateForceAttendanceLessonUseCase
 import com.prography.domain.lesson.usecase.DeleteLessonUseCase
 import com.prography.domain.lesson.usecase.LoadLessonSchedulesUseCase
+import com.prography.domain.preference.AccountPreference
 import com.prography.domain.qr.CommonQrEvent
 import kotlinx.coroutines.flow.MutableSharedFlow
 
@@ -28,7 +29,8 @@ class LessonDetailViewModel(
     updateForceAttendanceLessonUseCase: UpdateForceAttendanceLessonUseCase,
     isShowingNotifyLessonDeductedDialogUseCase: IsShowingNotifyLessonDeductedDialogUseCase,
     updateShownNotifyLessonDeductedDialogUseCase: UpdateShownNotifyLessonDeductedDialogUseCase,
-    updateAttendanceLessonUseCase: UpdateAttendanceLessonUseCase
+    updateAttendanceLessonUseCase: UpdateAttendanceLessonUseCase,
+    accountPreference: AccountPreference
 ) : ViewModel() {
     val machine = LessonDetailUiMachine(
         lessonId = lessonId,
@@ -42,7 +44,8 @@ class LessonDetailViewModel(
         updateForceAttendanceLessonUseCase = updateForceAttendanceLessonUseCase,
         isShowingNotifyLessonDeductedDialogUseCase = isShowingNotifyLessonDeductedDialogUseCase,
         updateShownNotifyLessonDeductedDialogUseCase = updateShownNotifyLessonDeductedDialogUseCase,
-        updateAttendanceLessonUseCase = updateAttendanceLessonUseCase
+        updateAttendanceLessonUseCase = updateAttendanceLessonUseCase,
+        accountPreference = accountPreference,
     )
 
     companion object {
@@ -57,7 +60,8 @@ class LessonDetailViewModel(
             updateForceAttendanceLessonUseCase: UpdateForceAttendanceLessonUseCase,
             isShowingNotifyLessonDeductedDialogUseCase: IsShowingNotifyLessonDeductedDialogUseCase,
             updateShownNotifyLessonDeductedDialogUseCase: UpdateShownNotifyLessonDeductedDialogUseCase,
-            updateAttendanceLessonUseCase: UpdateAttendanceLessonUseCase
+            updateAttendanceLessonUseCase: UpdateAttendanceLessonUseCase,
+            accountPreference: AccountPreference
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -72,7 +76,8 @@ class LessonDetailViewModel(
                     updateForceAttendanceLessonUseCase,
                     isShowingNotifyLessonDeductedDialogUseCase,
                     updateShownNotifyLessonDeductedDialogUseCase,
-                    updateAttendanceLessonUseCase
+                    updateAttendanceLessonUseCase,
+                    accountPreference
                 ) as T
             }
         }
